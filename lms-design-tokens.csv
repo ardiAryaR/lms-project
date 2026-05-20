@@ -1,0 +1,76 @@
+Kategori,Elemen,Nilai,Keterangan
+Tipografi,Page Heading (h2),text-4xl / 36px,"Judul halaman utama, font-serif, font-bold, text-primary"
+Tipografi,Form Heading (h2),text-5xl / 48px,"Halaman form besar (Tambah Materi), font-serif, font-bold"
+Tipografi,Section Title (h3),text-2xl / 24px,"Judul section dalam halaman, font-serif, font-bold"
+Tipografi,Card Title (h4),text-xl / 20px,"Judul card utama (kelas, form penilaian)"
+Tipografi,Card Subtitle (h4),text-2xl / 24px,"Judul nama kelas di card header, font-serif"
+Tipografi,Stat Number,text-4xl / 36px,"Angka besar di stat card dashboard (8, 42, 245)"
+Tipografi,Metric Number (kecil),text-2xl / 24px,Angka di stat mini card (stats row halaman kelas)
+Tipografi,Body / Nav Label,text-sm / 14px,"Teks navigasi sidebar, konten tabel, label form"
+Tipografi,Description / Meta,text-sm / 14px,"Deskripsi di bawah judul halaman, text-on-surface-variant"
+Tipografi,Label / Tag / Badge,text-xs / 12px,"Status badge, label tabel, uppercase tracking-wider"
+Tipografi,Caption / Footer,text-xs / 12px,"Teks footer, timestamp, meta-info secondary"
+Tipografi,Navbar Title,text-xl / 20px,"Judul halaman di top navbar, font-serif, font-bold"
+Ikon,Default Global,24px,Ukuran default jika tidak dioverride
+Ikon,Nav Sidebar,text-[22px],Ikon navigasi sidebar kiri (konsisten semua item)
+Ikon,Logo Sidebar,text-2xl / 24px,Ikon school di logo box sidebar
+Ikon,Stat Card Icon,24px (default),Ikon dalam p-3 box di stat card dashboard
+Ikon,Kelas Card Icon,text-3xl / 30px,Ikon besar di card header kelas (w-14 h-14 box)
+Ikon,Action Button Icon,text-base / 16px,Ikon di tombol Edit/Hapus/Monitoring kecil
+Ikon,CTA Button Icon,text-[20px],Ikon add/save di tombol primary (Kelas Baru dst.)
+Ikon,Empty State Icon,text-6xl / 60px,"Ikon placeholder halaman kosong, opacity-20"
+Ikon,Upload Zone Icon,text-4xl / 40px,Ikon cloud_upload di drop area materi
+Ikon,Inline / Metadata,14–16px,"Ikon jadwal, lokasi, breadcrumb (inline dengan teks)"
+Spacing,Page Padding,p-8 / 32px,Padding wrapper konten utama (div#main-content)
+Spacing,Section Gap,mb-8 / 32px,Jarak antar section dalam halaman
+Spacing,Card Padding (besar),p-8 / 32px,"Card form, penilaian, konten utama"
+Spacing,Card Padding (medium),p-6 / 24px,"Stat card dashboard, card kelas, card kuis"
+Spacing,Card Padding (kecil),p-5 / 20px,"Stat mini card, notifikasi, card kuis detail"
+Spacing,Table Cell Padding,p-4 / 16px,Semua sel tabel (th & td) — konsisten
+Spacing,Nav Item Padding,px-4 py-2.5 / 16px 10px,Setiap item navigasi sidebar
+Spacing,Nav Gap (antar item),gap-1.5 / 6px,Gap antar menu item navigasi sidebar
+Spacing,Card Grid Gap,gap-6 / 24px,"Grid kelas, materi, kuis cards"
+Spacing,Stat Card Grid Gap,gap-4 / 16px,Grid stat card (4 kolom)
+Spacing,Form Field Gap,space-y-6 / 24px,Jarak vertikal antar field dalam form
+Spacing,Header Padding,px-6 py-2 / 24px 8px,Padding top navbar
+Spacing,Logo Sidebar Padding,p-6 / 24px,Area logo di atas sidebar
+Border Radius,rounded-xl,12px,"Card utama, tabel, stat card — paling sering dipakai"
+Border Radius,rounded-2xl,16px,"Card kelas, card form besar"
+Border Radius,rounded-lg,8px,"Icon box, tombol kecil, input filter"
+Border Radius,rounded-full,9999px,"Badge status (Aktif/Selesai), avatar, progress dot"
+Border Radius,rounded,4px,"Nav item sidebar, tag pertemuan kecil"
+Dimensi,Sidebar (expanded),w-64 / 256px,Lebar sidebar saat terbuka
+Dimensi,Sidebar (collapsed),72px,Lebar sidebar saat diciutkan
+Dimensi,Toggle Button,28 × 28px,Tombol toggle sidebar bulat di tepi
+Dimensi,Logo Icon Box,w-10 h-10 / 40px,Kotak ikon sekolah di logo sidebar
+Dimensi,Stat Icon Box,p-3 / ~40px,Kotak ikon di stat card dashboard
+Dimensi,Mini Stat Icon,w-12 h-12 / 48px,"Icon box di stat mini card (kelas, nilai, kuis)"
+Dimensi,Kelas Card Icon Box,w-14 h-14 / 56px,Kotak ikon besar di header card kelas
+Dimensi,Avatar / Inisial,w-10 h-10 / 40px,Avatar guru di navbar dan form penilaian
+Dimensi,Notif Icon Circle,w-12 h-12 / 48px,Lingkaran ikon di item notifikasi
+Dimensi,Progress Bar Height,h-2 / 8px,Progress bar materi di card kelas
+Dimensi,Materi Card Image,h-36 / 144px,Tinggi area thumbnail/preview di card materi
+Dimensi,Decorative Circle,w-24 h-24 / 96px,Lingkaran dekoratif di stat card
+Dimensi,Submit Button,py-4 / full width,Tombol simpan di sidebar form
+Dimensi,CTA Button (page),py-3 px-6,Tombol primary di header halaman
+Dimensi,Table Action Button,px-4 py-2,Tombol aksi di tabel
+Warna,primary,#50290b,Warna utama — sidebar background & heading
+Warna,primary-container,#6b3f1f,Kontainer primary
+Warna,primary-fixed,#ffdcc6,Background avatar & elemen ringan primary
+Warna,secondary,#835500,Aksen utama — tombol CTA & link aktif
+Warna,secondary-container,#feae2c,Background badge secondary
+Warna,secondary-fixed,#ffddb4,Badge status sudah/selesai
+Warna,surface / background,#fef9f3,Background halaman utama
+Warna,surface-container,#f2ede7,Surface card standar
+Warna,surface-container-low,#f8f3ed,Header tabel & filter bar
+Warna,surface-container-lowest,#ffffff,Card form & konten utama
+Warna,on-surface,#1d1b18,Teks utama di atas surface
+Warna,on-surface-variant,#51443c,Teks sekunder / meta-info
+Warna,outline,#84746b,Border utama
+Warna,outline-variant,#d6c3b8,Border tipis card
+Warna,error,#ba1a1a,Warna error & belum dikumpulkan
+Status Badge,Selesai / Lulus / Sudah,bg-green-100 · text-green-700,Warna hijau untuk status positif
+Status Badge,Aktif / Terjadwal / Draft,bg-amber-100 · text-amber-700,Warna amber untuk status dalam proses
+Status Badge,Belum / Remedi / Error,bg-red-100 · text-red-700,Warna merah untuk status negatif
+Status Badge,Perlu Perhatian,bg-error · text-on-error · animate-pulse,Badge merah di stat card dashboard
+Status Badge,Secondary Accent,bg-secondary-fixed · text-on-secondary-fixed,Badge untuk status selesai/sudah dikumpulkan

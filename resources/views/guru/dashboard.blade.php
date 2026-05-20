@@ -1,0 +1,103 @@
+@extends('layouts.guru')
+
+@section('title', 'Dashboard Guru - SMK Mandalahayu 1')
+
+@section('content')
+<div class="flex justify-between items-end mb-8">
+    <div>
+        <h2 class="font-bold text-4xl text-primary mb-2" style="font-family: var(--font-serif)">Selamat Datang, {{ Auth::user()->name ?? 'Bapak Budi' }}</h2>
+        <p class="text-on-surface-variant text-lg">Ringkasan aktivitas mengajar Anda hari ini.</p>
+    </div>
+    <p class="text-sm font-semibold text-on-surface-variant flex items-center gap-2 bg-surface-container py-2 px-4 rounded-full">
+        <span class="material-symbols-outlined text-secondary">calendar_today</span>
+        {{ now()->translatedFormat('l, d F Y') }}
+    </p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+    <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-surface-variant hover:bg-surface-container-low transition-soft group relative overflow-hidden">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary opacity-5 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+        <div class="flex justify-between items-start mb-4 relative z-10">
+            <div class="p-3 bg-surface-container-high rounded-lg text-primary"><span class="material-symbols-outlined">groups</span></div>
+        </div>
+        <div class="relative z-10">
+            <p class="text-on-surface-variant text-xs font-bold uppercase tracking-wider mb-1">Kelas Aktif</p>
+            <h3 class="font-bold text-4xl text-primary">8</h3>
+            <p class="text-sm text-on-surface-variant mt-2">Semester Ganjil 2023</p>
+        </div>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-error-container hover:bg-error-container/20 transition-soft group relative overflow-hidden">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-error opacity-5 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+        <div class="flex justify-between items-start mb-4 relative z-10">
+            <div class="p-3 bg-error-container rounded-lg text-error"><span class="material-symbols-outlined">assignment_late</span></div>
+            <span class="bg-error text-on-error text-xs font-bold px-2 py-1 rounded-full animate-pulse">Perlu Perhatian</span>
+        </div>
+        <div class="relative z-10">
+            <p class="text-on-surface-variant text-xs font-bold uppercase tracking-wider mb-1">Belum Dinilai</p>
+            <h3 class="font-bold text-4xl text-error">42</h3>
+            <p class="text-sm text-on-surface-variant mt-2">Tugas &amp; Kuis</p>
+        </div>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-secondary-container hover:bg-secondary-container/10 transition-soft group relative overflow-hidden">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-secondary-container opacity-10 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+        <div class="flex justify-between items-start mb-4 relative z-10">
+            <div class="p-3 bg-secondary-fixed text-on-secondary-fixed rounded-lg"><span class="material-symbols-outlined">timer</span></div>
+            <span class="flex items-center gap-1 text-secondary text-xs font-bold"><span class="w-2 h-2 rounded-full bg-secondary"></span> Live</span>
+        </div>
+        <div class="relative z-10">
+            <p class="text-on-surface-variant text-xs font-bold uppercase tracking-wider mb-1">Ujian Berlangsung</p>
+            <h3 class="font-bold text-4xl text-secondary">2</h3>
+            <p class="text-sm text-on-surface-variant mt-2">Hari Ini</p>
+        </div>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-surface-variant hover:bg-surface-container-low transition-soft group relative overflow-hidden">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-tertiary opacity-5 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+        <div class="flex justify-between items-start mb-4 relative z-10">
+            <div class="p-3 bg-tertiary-fixed text-on-tertiary-fixed rounded-lg"><span class="material-symbols-outlined">school</span></div>
+        </div>
+        <div class="relative z-10">
+            <p class="text-on-surface-variant text-xs font-bold uppercase tracking-wider mb-1">Siswa Total</p>
+            <h3 class="font-bold text-4xl text-primary">245</h3>
+            <p class="text-sm text-on-surface-variant mt-2">Siswa Aktif</p>
+        </div>
+    </div>
+</div>
+
+<div class="space-y-8">
+    <section>
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-bold text-2xl text-primary flex items-center gap-2" style="font-family: var(--font-serif)">
+                <span class="material-symbols-outlined text-secondary">pending_actions</span>
+                Submission Menunggu Penilaian
+            </h3>
+            <a class="text-sm font-semibold text-secondary hover:underline" href="{{ route('guru.tugas') }}">Lihat Semua</a>
+        </div>
+        <div class="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-variant overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-surface-container-low border-b border-surface-variant">
+                    <tr>
+                        <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Nama Tugas</th>
+                        <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Kelas</th>
+                        <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-center">Menunggu</th>
+                        <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-right">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-surface-variant">
+                    <tr class="hover:bg-surface-container transition-soft">
+                        <td class="p-4"><p class="font-bold text-primary">Laporan Praktikum Jaringan Dasar</p><p class="text-sm text-on-surface-variant">Tenggat: Kemarin, 23:59</p></td>
+                        <td class="p-4 text-on-surface">10 TKJ 1</td>
+                        <td class="p-4 text-center"><span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-error-container text-error font-bold">15</span></td>
+                        <td class="p-4 text-right"><a href="{{ route('guru.penilaian.tugas') }}" class="px-4 py-2 border-2 border-secondary text-secondary text-xs font-bold rounded-lg hover:bg-secondary hover:text-on-secondary transition-soft">Nilai Sekarang</a></td>
+                    </tr>
+                    <tr class="hover:bg-surface-container transition-soft">
+                        <td class="p-4"><p class="font-bold text-primary">Tugas Pemrograman Web Bab 3</p><p class="text-sm text-on-surface-variant">Tenggat: 2 Hari Lalu</p></td>
+                        <td class="p-4 text-on-surface">11 RPL 2</td>
+                        <td class="p-4 text-center"><span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-error-container text-error font-bold">8</span></td>
+                        <td class="p-4 text-right"><a href="{{ route('guru.penilaian.tugas') }}" class="px-4 py-2 border-2 border-secondary text-secondary text-xs font-bold rounded-lg hover:bg-secondary hover:text-on-secondary transition-soft">Nilai Sekarang</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+@endsection
