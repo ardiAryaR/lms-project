@@ -1,6 +1,6 @@
 @extends('layouts.siswa')
-@section('title', 'Ruang Ujian - SMK Mandalahayu 1')
-@section('page-title', 'Ujian Akhir Semester')
+@section('title', 'Ruang Kuis - SMK Mandalahayu 1')
+@section('page-title', 'Kuis 1: Struktur Data HTML')
 
 @section('content')
 <style>
@@ -15,11 +15,11 @@
     <div class="bg-surface-container-lowest shadow-sm border border-outline-variant/30 rounded-xl px-6 py-3 shrink-0 mb-4 flex items-center justify-between">
         <div class="flex items-center gap-3">
             <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span class="material-symbols-outlined text-on-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">school</span>
+                <span class="material-symbols-outlined text-on-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">quiz</span>
             </div>
             <div>
-                <h1 class="font-bold text-sm text-primary">Ujian Akhir Semester</h1>
-                <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Pemrograman Web (Kelas XII)</p>
+                <h1 class="font-bold text-sm text-primary">Kuis 1: Struktur Data HTML</h1>
+                <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Pemrograman Web</p>
             </div>
         </div>
         <div class="flex items-center gap-6">
@@ -27,13 +27,13 @@
                 <span class="text-[10px] text-on-surface-variant uppercase">Progres</span>
                 <div class="flex items-baseline gap-1">
                     <span id="progress-current" class="font-bold text-sm text-primary">1</span>
-                    <span id="progress-total" class="text-xs text-outline">/ 40</span>
+                    <span id="progress-total" class="text-xs text-outline">/ 15</span>
                 </div>
             </div>
             <div class="w-[1px] h-6 bg-outline-variant hidden md:block"></div>
             <div class="bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
                 <span class="material-symbols-outlined text-[16px]">timer</span>
-                <span class="font-bold text-sm tracking-widest">01:45:22</span>
+                <span class="font-bold text-sm tracking-widest">00:25:12</span>
             </div>
         </div>
     </div>
@@ -112,20 +112,20 @@
 @push('scripts')
 <script>
     // State
-    const totalQuestions = 40;
+    const totalQuestions = 15;
     const questions = Array.from({length: totalQuestions}, (_, i) => ({
         id: i + 1,
-        text: `Soal no ${i + 1}: Manakah dari tag HTML5 berikut ini yang digunakan untuk merepresentasikan isi utama dari sebuah halaman web secara semantik?`,
-        options: ['<section>', '<main>', '<div id="main">', '<article>'],
+        text: `Soal no ${i + 1}: Tag HTML manakah yang digunakan untuk membuat daftar bernomor (ordered list)?`,
+        options: ['<ul>', '<ol>', '<li>', '<dl>'],
         answer: null,
         doubt: false
     }));
     
-    // Default mock data
-    questions[11].answer = 1; 
+    // Default mock data for testing
+    questions[4].answer = 1; // answered B
     questions[4].doubt = true; 
 
-    let currentIndex = 11; // Soal 12
+    let currentIndex = 0; // 0 to 14
 
     function initExam() {
         renderGrid();
@@ -249,8 +249,8 @@
         }
 
         Swal.fire({
-            title: 'Kumpulkan Ujian?',
-            text: "Apakah Anda yakin ingin menyelesaikan ujian ini?",
+            title: 'Kumpulkan Kuis?',
+            text: "Apakah Anda yakin ingin menyelesaikan kuis ini?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#50290b',
@@ -261,7 +261,7 @@
             if (result.isConfirmed) {
                 Swal.fire({
                     title: 'Berhasil!',
-                    text: 'Ujian telah berhasil dikumpulkan.',
+                    text: 'Kuis telah berhasil dikumpulkan.',
                     icon: 'success',
                     showConfirmButton: false,
                     timer: 1500
