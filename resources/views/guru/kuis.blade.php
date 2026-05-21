@@ -76,7 +76,7 @@ $statusList = collect($kuis)->pluck('status')->unique()->values();
                 </span>
             </div>
             <div class="col-span-2 flex justify-center">
-                <a href="#" class="p-2 rounded-lg text-secondary hover:bg-secondary-container/30 transition-soft">
+                <a href="{{ route('guru.kuis.buat', ['edit' => 1, 'judul' => $k['judul'], 'kelas' => $k['kelas'], 'durasi' => str_replace(' menit', '', $k['durasi']), 'status' => $k['status']]) }}" class="p-2 rounded-lg text-secondary hover:bg-secondary-container/30 transition-soft">
                     <span class="material-symbols-outlined text-base">edit</span>
                 </a>
             </div>

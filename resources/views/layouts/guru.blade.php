@@ -157,13 +157,13 @@
             <span class="material-symbols-outlined flex-shrink-0 text-[22px]" style="{{ request()->routeIs('guru.kuis*') ? 'font-variation-settings: \'FILL\' 1;' : '' }}">quiz</span>
             <span class="sidebar-label">Kuis</span>
         </a>
-        <a href="{{ route('guru.ujian') }}"
+        <a href="{{ Route::has('guru.ujian') ? route('guru.ujian') : '#' }}"
            title="Ujian"
            class="{{ request()->routeIs('guru.ujian*') ? 'bg-secondary-fixed/10 text-secondary-fixed font-bold border-r-4 border-secondary' : 'text-on-primary/70 hover:bg-on-primary/10' }} flex items-center gap-3 px-4 py-2.5 rounded transition-soft text-sm">
             <span class="material-symbols-outlined flex-shrink-0 text-[22px]" style="{{ request()->routeIs('guru.ujian*') ? 'font-variation-settings: \'FILL\' 1;' : '' }}">edit_calendar</span>
             <span class="sidebar-label">Ujian</span>
         </a>
-        <a href="{{ route('guru.nilai') }}"
+        <a href="{{ Route::has('guru.nilai') ? route('guru.nilai') : '#' }}"
            title="Nilai & Rekap"
            class="{{ request()->routeIs('guru.nilai*') ? 'bg-secondary-fixed/10 text-secondary-fixed font-bold border-r-4 border-secondary' : 'text-on-primary/70 hover:bg-on-primary/10' }} flex items-center gap-3 px-4 py-2.5 rounded transition-soft text-sm">
             <span class="material-symbols-outlined flex-shrink-0 text-[22px]" style="{{ request()->routeIs('guru.nilai*') ? 'font-variation-settings: \'FILL\' 1;' : '' }}">assessment</span>

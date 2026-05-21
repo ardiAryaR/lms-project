@@ -9,6 +9,8 @@ $ujian = [
     ['judul'=>'UAS Routing & Switching','kelas'=>'XI TKJ 2','tanggal'=>'16 Mei 2025','waktu'=>'10.00 - 12.00 WIB','durasi'=>'120 menit','peserta'=>28,'status'=>'selesai'],
     ['judul'=>'UAS Keamanan Jaringan','kelas'=>'XII TKJ 1','tanggal'=>'28 Mei 2025','waktu'=>'08.00 - 11.00 WIB','durasi'=>'180 menit','peserta'=>22,'status'=>'terjadwal'],
 ];
+$kelasList = collect($ujian)->pluck('kelas')->unique()->values();
+$statusList = collect($ujian)->pluck('status')->unique()->values();
 @endphp
 
 <div class="mb-8 flex justify-between items-center">
@@ -21,51 +23,48 @@ $ujian = [
     </a>
 </div>
 
-{{-- Stats --}}
-<div class="grid grid-cols-3 gap-4 mb-8">
-    <div class="bg-surface rounded-xl border border-outline-variant/30 p-5 flex items-center gap-4">
-        <div class="w-12 h-12 rounded-xl bg-secondary-container/30 flex items-center justify-center">
-            <span class="material-symbols-outlined text-secondary">edit_calendar</span>
-        </div>
-        <div><p class="text-2xl font-bold text-primary">5</p><p class="text-xs text-on-surface-variant">Total Ujian</p></div>
-    </div>
-    <div class="bg-surface rounded-xl border border-outline-variant/30 p-5 flex items-center gap-4">
-        <div class="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center">
-            <span class="material-symbols-outlined text-amber-600">schedule</span>
-        </div>
-        <div><p class="text-2xl font-bold text-amber-600">3</p><p class="text-xs text-on-surface-variant">Terjadwal</p></div>
-    </div>
-    <div class="bg-surface rounded-xl border border-outline-variant/30 p-5 flex items-center gap-4">
-        <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
-            <span class="material-symbols-outlined text-green-600">task_alt</span>
-        </div>
-        <div><p class="text-2xl font-bold text-green-600">2</p><p class="text-xs text-on-surface-variant">Selesai</p></div>
-    </div>
-</div>
-
 <div class="bg-surface rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden">
+        <div class="p-4 border-b border-surface-variant bg-surface-container-low flex flex-wrap gap-3">
+            <div class="relative">
+                <select id="filter-kelas" class="appearance-none bg-surface border border-outline-variant rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-secondary pr-9">
+                    <option value="">Semua Kelas</option>
+                    @foreach($kelasList as $kelas)
+                    <option value="{{ $kelas }}">{{ $kelas }}</option>
+                    @endforeach
+                </select>
+                <span class="material-symbols-outlined pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant">expand_more</span>
+            </div>
+            <div class="relative">
+                <select id="filter-status" class="appearance-none bg-surface border border-outline-variant rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-secondary pr-9">
+                    <option value="">Semua Status</option>
+                    @foreach($statusList as $status)
+                    <option value="{{ $status }}">{{ ucfirst($status) }}</option>
+                    @endforeach
+                </select>
+                <span class="material-symbols-outlined pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant">expand_more</span>
+            </div>
+        </div>
     <table class="w-full text-left">
         <thead class="bg-surface-container-low border-b border-surface-variant">
             <tr>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Judul Ujian</th>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Kelas</th>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Tanggal & Waktu</th>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-center">Durasi</th>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-center">Peserta</th>
+                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Nama Ujian & Kelas</th>
+                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Jadwal & Durasi</th>
+                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-center">Partisipasi</th>
                 <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-center">Status</th>
                 <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-center">Aksi</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-surface-variant">
             @foreach($ujian as $u)
-            <tr class="hover:bg-surface-container transition-soft">
-                <td class="p-4 font-bold text-on-surface">{{ $u['judul'] }}</td>
-                <td class="p-4 text-sm text-on-surface-variant">{{ $u['kelas'] }}</td>
-                <td class="p-4 text-sm text-on-surface-variant">
-                    <p class="font-bold text-on-surface">{{ $u['tanggal'] }}</p>
-                    <p>{{ $u['waktu'] }}</p>
+            <tr class="hover:bg-surface-container transition-soft ujian-row" data-kelas="{{ $u['kelas'] }}" data-status="{{ $u['status'] }}">
+                <td class="p-4">
+                    <p class="font-bold text-on-surface">{{ $u['judul'] }}</p>
+                    <p class="text-xs text-on-surface-variant">{{ $u['kelas'] }}</p>
                 </td>
-                <td class="p-4 text-center text-sm">{{ $u['durasi'] }}</td>
+                <td class="p-4">
+                    <p class="font-bold text-on-surface">{{ $u['tanggal'] }}</p>
+                    <p class="text-xs text-on-surface-variant">{{ $u['waktu'] }} • {{ $u['durasi'] }}</p>
+                </td>
                 <td class="p-4 text-center font-bold text-primary">{{ $u['peserta'] }}</td>
                 <td class="p-4 text-center">
                     <span class="px-3 py-1 rounded-full text-xs font-bold {{ $u['status']==='selesai' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700' }}">
@@ -74,8 +73,7 @@ $ujian = [
                 </td>
                 <td class="p-4 text-center">
                     <div class="flex gap-2 justify-center">
-                        <a href="#" class="p-2 rounded-lg text-secondary hover:bg-secondary-container/30 transition-soft"><span class="material-symbols-outlined text-base">edit</span></a>
-                        <a href="{{ route('guru.penilaian.ujian') }}" class="p-2 rounded-lg text-primary hover:bg-primary-container/30 transition-soft"><span class="material-symbols-outlined text-base">grading</span></a>
+                        <a href="{{ route('guru.ujian.buat', ['edit' => 1, 'judul' => $u['judul'], 'kelas' => $u['kelas'], 'tanggal' => $u['tanggal'], 'waktu' => $u['waktu'], 'durasi' => str_replace(' menit', '', $u['durasi']), 'status' => $u['status']]) }}" class="p-2 rounded-lg text-secondary hover:bg-secondary-container/30 transition-soft"><span class="material-symbols-outlined text-base">edit</span></a>
                     </div>
                 </td>
             </tr>
@@ -84,3 +82,27 @@ $ujian = [
     </table>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    const statusFilter = document.getElementById('filter-status');
+    const kelasFilter = document.getElementById('filter-kelas');
+    const rows = document.querySelectorAll('tr.ujian-row');
+
+    function applyFilters() {
+        const status = statusFilter.value;
+        const kelas = kelasFilter.value;
+
+        rows.forEach(row => {
+            const rowStatus = row.getAttribute('data-status');
+            const rowKelas = row.getAttribute('data-kelas');
+            const statusMatch = !status || rowStatus === status;
+            const kelasMatch = !kelas || rowKelas === kelas;
+            row.style.display = (statusMatch && kelasMatch) ? '' : 'none';
+        });
+    }
+
+    statusFilter.addEventListener('change', applyFilters);
+    kelasFilter.addEventListener('change', applyFilters);
+</script>
+@endpush

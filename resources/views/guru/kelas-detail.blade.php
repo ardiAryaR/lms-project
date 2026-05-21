@@ -176,9 +176,9 @@
             <div id="tab-materi" class="tab-pane hidden animate-dropdown">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="font-bold text-3xl md:text-4xl text-primary" style="font-family: var(--font-serif)">Materi Kelas</h2>
-                    <button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 hover:brightness-110 transition-soft">
+                    <a href="{{ route('guru.materi.tambah') }}" class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 hover:brightness-110 transition-soft">
                         <span class="material-symbols-outlined" style="font-size: 18px">add</span> Tambah Materi
-                    </button>
+                    </a>
                 </div>
                 <div class="flex flex-col gap-4">
                     {{-- Materi Item 1 --}}
@@ -212,9 +212,9 @@
             <div id="tab-tugas" class="tab-pane hidden animate-dropdown">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="font-bold text-3xl md:text-4xl text-primary" style="font-family: var(--font-serif)">Tugas Kelas</h2>
-                    <button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 hover:brightness-110 transition-soft">
+                    <a href="{{ route('guru.tugas.buat') }}" class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 hover:brightness-110 transition-soft">
                         <span class="material-symbols-outlined" style="font-size: 18px">add</span> Buat Tugas
-                    </button>
+                    </a>
                 </div>
                 <div class="flex flex-col gap-4">
                     {{-- Tugas Item 1 --}}
@@ -260,9 +260,9 @@
             <div id="tab-kuis" class="tab-pane hidden animate-dropdown">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="font-bold text-3xl md:text-4xl text-primary" style="font-family: var(--font-serif)">Kuis Kelas</h2>
-                    <button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 hover:brightness-110 transition-soft">
+                    <a href="{{ route('guru.kuis.buat') }}" class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 hover:brightness-110 transition-soft">
                         <span class="material-symbols-outlined" style="font-size: 18px">add</span> Buat Kuis
-                    </button>
+                    </a>
                 </div>
                 <div class="flex flex-col gap-4">
                     <div onclick="window.location.href='{{ route('guru.kuis') }}'" class="bg-surface border border-outline-variant/30 rounded-xl p-4 hover:bg-surface-container-low transition-soft cursor-pointer shadow-sm">
@@ -282,9 +282,9 @@
             <div id="tab-ujian" class="tab-pane hidden animate-dropdown">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="font-bold text-3xl md:text-4xl text-primary" style="font-family: var(--font-serif)">Ujian Kelas</h2>
-                    <button class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 hover:brightness-110 transition-soft">
+                    <a href="{{ route('guru.ujian.buat') }}" class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 hover:brightness-110 transition-soft">
                         <span class="material-symbols-outlined" style="font-size: 18px">add</span> Buat Ujian
-                    </button>
+                    </a>
                 </div>
                 <div class="flex flex-col gap-4">
                     <div onclick="window.location.href='{{ route('guru.ujian') }}'" class="bg-surface border border-outline-variant/30 rounded-xl p-4 hover:bg-surface-container-low transition-soft cursor-pointer shadow-sm">

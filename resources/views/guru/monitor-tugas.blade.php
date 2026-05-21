@@ -1,43 +1,268 @@
-﻿@extends('layouts.guru')
-@section('title', 'Monitor Pengumpulan Tugas - SMK Mandalahayu 1')
+@extends('layouts.guru')
+@section('title', 'Monitoring Pengumpulan Tugas - SMK Mandalahayu 1')
+
 @section('content')
-<div class="mb-8">
-    <h2 class="font-bold text-4xl text-primary" style="font-family: var(--font-serif)">Monitor Pengumpulan Tugas</h2>
-    <p class="text-on-surface-variant mt-1">Pantau status pengumpulan tugas dari seluruh siswa.</p>
-</div>
-<div class="bg-surface-container-lowest rounded-xl shadow-ambient border border-outline-variant/30 overflow-hidden">
-    <div class="p-4 bg-surface-container-low border-b border-surface-variant flex gap-4">
-        <input class="flex-1 bg-surface border border-outline-variant rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-secondary" placeholder="Cari siswa..." type="text"/>
-        <select class="bg-surface border border-outline-variant rounded-lg px-4 py-2 text-sm">
-            <option>Semua Status</option><option>Sudah Mengumpulkan</option><option>Belum Mengumpulkan</option>
-        </select>
+<style>
+    .smooth-shadow {
+        box-shadow: 0 2px 10px -2px rgba(107, 63, 31, 0.08);
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .btn-nilai {
+        display: inline-block;
+        padding: 4px 10px;
+        background: #feae2c;
+        color: #6b4500;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+        transition: filter .15s;
+    }
+    .btn-nilai:hover { filter: brightness(0.88); }
+    .btn-lihat {
+        display: inline-block;
+        padding: 4px 10px;
+        border: 1.5px solid #84746b;
+        color: #84746b;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+        transition: background .15s;
+    }
+    .btn-lihat:hover { background: #f2ede7; }
+</style>
+
+<!-- Header Compact -->
+<div class="mb-4 mt-2 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3">
+    <div>
+        <h2 class="font-bold text-2xl text-primary" style="font-family: var(--font-serif)">Monitoring Pengumpulan Tugas</h2>
+        <p class="text-sm text-on-surface-variant mt-1">Pantau status pengumpulan tugas dari seluruh siswa.</p>
     </div>
-    <table class="w-full text-left">
-        <thead class="bg-surface-container-low border-b border-surface-variant">
-            <tr>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Nama Siswa</th>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Kelas</th>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-center">Status</th>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">Waktu Pengumpulan</th>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-right">Aksi</th>
+</div>
+
+<!-- Filters -->
+<div class="flex flex-col gap-3 mb-4">
+    <!-- Search and Dropdowns -->
+    <div class="flex flex-wrap items-center gap-3">
+        <!-- Search Name -->
+        <div class="relative w-full max-w-xs">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+            <input id="searchName" class="w-full pl-9 pr-3 py-1.5 bg-surface-container border-b-2 border-primary/30 focus:border-primary rounded-t-lg text-sm text-on-surface focus:outline-none transition-colors" placeholder="Cari nama siswa..." type="text"/>
+        </div>
+        
+        <!-- Tipe Tugas Dropdown -->
+        <div class="relative">
+            <select id="filterType" class="appearance-none bg-surface-container border-b-2 border-primary/30 focus:border-primary px-3 py-1.5 pr-8 rounded-t-lg text-sm text-on-surface focus:outline-none transition-colors cursor-pointer w-36">
+                <option value="all">Semua Tipe</option>
+                <option value="tugas">Tugas</option>
+                <option value="kuis">Kuis</option>
+                <option value="ujian">Ujian</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-primary text-sm">expand_more</span>
+        </div>
+
+        <!-- Status Penilaian Dropdown -->
+        <div class="relative">
+            <select id="filterGrade" class="appearance-none bg-surface-container border-b-2 border-primary/30 focus:border-primary px-3 py-1.5 pr-8 rounded-t-lg text-sm text-on-surface focus:outline-none transition-colors cursor-pointer w-40">
+                <option value="all">Semua Penilaian</option>
+                <option value="belum">Belum Dinilai</option>
+                <option value="sudah">Sudah Dinilai</option>
+            </select>
+            <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-primary text-sm">expand_more</span>
+        </div>
+    </div>
+    
+    <!-- Filter Tabs (Status Pengumpulan) -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+        <button data-status="all" class="filter-tab px-4 py-1.5 rounded-full bg-primary text-on-primary font-bold text-xs shadow-md transition-all whitespace-nowrap">Semua</button>
+        <button data-status="terkumpul" class="filter-tab px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant font-semibold text-xs hover:bg-surface-variant transition-all whitespace-nowrap">Terkumpul</button>
+        <button data-status="terlambat" class="filter-tab px-4 py-1.5 rounded-full bg-surface-container-high text-on-surface-variant font-semibold text-xs hover:bg-surface-variant transition-all whitespace-nowrap">Terlambat</button>
+    </div>
+</div>
+
+<!-- Data Table Container -->
+<div class="bg-white rounded-xl smooth-shadow border border-outline-variant/30 overflow-hidden mb-6">
+    <table class="w-full text-left border-collapse table-fixed">
+        <thead>
+            <tr class="bg-surface-container-low border-b border-outline-variant">
+                <th class="px-3 py-2.5 text-[10px] font-bold text-primary uppercase tracking-wider w-[22%]">Nama Siswa</th>
+                <th class="px-3 py-2.5 text-[10px] font-bold text-primary uppercase tracking-wider w-[18%]">Kelas & Mapel</th>
+                <th class="px-3 py-2.5 text-[10px] font-bold text-primary uppercase tracking-wider w-[22%]">Judul & Tipe</th>
+                <th class="px-3 py-2.5 text-[10px] font-bold text-primary uppercase tracking-wider text-center w-[16%]">Status</th>
+                <th class="px-3 py-2.5 text-[10px] font-bold text-primary uppercase tracking-wider text-center w-[14%]">Pengumpulan & Nilai</th>
+                <th class="px-3 py-2.5 text-[10px] font-bold text-primary uppercase tracking-wider text-right w-[8%]">Aksi</th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-surface-variant">
-            <tr class="hover:bg-surface-container transition-soft">
-                <td class="p-4 font-bold text-primary">Ahmad Fauzi</td>
-                <td class="p-4 text-on-surface">X TKJ 1</td>
-                <td class="p-4 text-center"><span class="bg-secondary-fixed text-on-secondary-fixed text-xs font-bold px-2 py-1 rounded-full">Sudah</span></td>
-                <td class="p-4 text-on-surface-variant text-sm">Kemarin, 20:15</td>
-                <td class="p-4 text-right"><a href="{{ route('guru.penilaian.tugas') }}" class="px-4 py-2 border-2 border-secondary text-secondary text-xs font-bold rounded-lg hover:bg-secondary hover:text-on-secondary transition-soft">Nilai</a></td>
+        <tbody class="divide-y divide-outline-variant/30" id="studentTableBody">
+
+            <!-- Row 1: Submitted / Tugas -->
+            <tr class="hover:bg-surface-container-lowest transition-colors" data-name="aditya saputra" data-type="tugas" data-status="terkumpul" data-grade="belum">
+                <td class="px-3 py-2.5">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 flex-shrink-0 bg-primary-fixed flex items-center justify-center rounded-full text-primary font-bold text-[10px]">AS</div>
+                        <span class="font-semibold text-xs leading-tight">Aditya Saputra</span>
+                    </div>
+                </td>
+                <td class="px-3 py-2.5">
+                    <p class="text-xs font-semibold text-on-surface leading-tight">XI TKJ 1 <span class="text-[10px] text-on-surface-variant font-normal">· Ganjil</span></p>
+                    <p class="text-[10px] text-on-surface-variant mt-0.5">Admin Server</p>
+                </td>
+                <td class="px-3 py-2.5">
+                    <p class="text-xs font-semibold text-on-surface leading-tight truncate">Laporan Praktikum</p>
+                    <span class="text-[10px] px-1.5 py-0.5 bg-surface-variant rounded text-on-surface-variant">Tugas</span>
+                </td>
+                <td class="px-3 py-2.5 text-center">
+                    <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-[10px] font-bold inline-flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 bg-green-700 rounded-full flex-shrink-0"></span>Terkumpul
+                    </span>
+                </td>
+                <td class="px-3 py-2.5 text-center">
+                    <p class="text-[10px] text-on-surface-variant">12 Okt 2023</p>
+                    <p class="text-xs font-bold text-on-surface-variant">-</p>
+                </td>
+                <td class="px-3 py-2.5 text-right">
+                    <a href="{{ route('guru.penilaian.tugas') }}?s=0" class="btn-nilai">Nilai</a>
+                </td>
             </tr>
-            <tr class="hover:bg-surface-container transition-soft">
-                <td class="p-4 font-bold text-primary">Budi Santoso</td>
-                <td class="p-4 text-on-surface">X TKJ 1</td>
-                <td class="p-4 text-center"><span class="bg-error-container text-on-error-container text-xs font-bold px-2 py-1 rounded-full">Belum</span></td>
-                <td class="p-4 text-on-surface-variant text-sm">-</td>
-                <td class="p-4 text-right"><span class="text-xs text-on-surface-variant">Belum dikumpulkan</span></td>
+
+            <!-- Row 2: Late / Kuis -->
+            <tr class="hover:bg-surface-container-lowest transition-colors" data-name="bambang pamungkas" data-type="kuis" data-status="terlambat" data-grade="belum">
+                <td class="px-3 py-2.5">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 flex-shrink-0 bg-primary-fixed flex items-center justify-center rounded-full text-primary font-bold text-[10px]">BP</div>
+                        <span class="font-semibold text-xs leading-tight">Bambang Pamungkas</span>
+                    </div>
+                </td>
+                <td class="px-3 py-2.5">
+                    <p class="text-xs font-semibold text-on-surface leading-tight">XI TKJ 1 <span class="text-[10px] text-on-surface-variant font-normal">· Ganjil</span></p>
+                    <p class="text-[10px] text-on-surface-variant mt-0.5">Jaringan Dasar</p>
+                </td>
+                <td class="px-3 py-2.5">
+                    <p class="text-xs font-semibold text-on-surface leading-tight truncate">Kuis Bab 2 Routing</p>
+                    <span class="text-[10px] px-1.5 py-0.5 bg-surface-variant rounded text-on-surface-variant">Kuis</span>
+                </td>
+                <td class="px-3 py-2.5 text-center">
+                    <span class="px-2 py-0.5 bg-red-100 text-red-700 rounded-full text-[10px] font-bold inline-flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 bg-red-700 rounded-full flex-shrink-0"></span>Terlambat
+                    </span>
+                </td>
+                <td class="px-3 py-2.5 text-center">
+                    <p class="text-[10px] text-red-500">13 Okt 2023</p>
+                    <p class="text-xs font-bold text-on-surface-variant">-</p>
+                </td>
+                <td class="px-3 py-2.5 text-right">
+                    <a href="{{ route('guru.penilaian.kuis') }}?s=1" class="btn-nilai">Nilai</a>
+                </td>
             </tr>
+
+            <!-- Row 3: Graded / Ujian -->
+            <tr class="hover:bg-surface-container-lowest transition-colors" data-name="citra nuraini" data-type="ujian" data-status="terkumpul" data-grade="sudah">
+                <td class="px-3 py-2.5">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 flex-shrink-0 bg-primary-fixed flex items-center justify-center rounded-full text-primary font-bold text-[10px]">CN</div>
+                        <span class="font-semibold text-xs leading-tight">Citra Nuraini</span>
+                    </div>
+                </td>
+                <td class="px-3 py-2.5">
+                    <p class="text-xs font-semibold text-on-surface leading-tight">XI TKJ 1 <span class="text-[10px] text-on-surface-variant font-normal">· Genap</span></p>
+                    <p class="text-[10px] text-on-surface-variant mt-0.5">Pemrograman Web</p>
+                </td>
+                <td class="px-3 py-2.5">
+                    <p class="text-xs font-semibold text-on-surface leading-tight truncate">UTS Semester Genap</p>
+                    <span class="text-[10px] px-1.5 py-0.5 bg-surface-variant rounded text-on-surface-variant">Ujian</span>
+                </td>
+                <td class="px-3 py-2.5 text-center">
+                    <span class="px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-[10px] font-bold inline-flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 bg-green-700 rounded-full flex-shrink-0"></span>Terkumpul
+                    </span>
+                </td>
+                <td class="px-3 py-2.5 text-center">
+                    <p class="text-[10px] text-on-surface-variant">11 Okt 2023</p>
+                    <p class="text-xs font-bold text-secondary">88</p>
+                </td>
+                <td class="px-3 py-2.5 text-right">
+                    <a href="{{ route('guru.penilaian.ujian') }}?s=2" class="btn-lihat">Edit</a>
+                </td>
+            </tr>
+
         </tbody>
     </table>
+    <!-- Pagination -->
+    <div class="px-4 py-3 bg-surface-container-low border-t border-outline-variant flex items-center justify-between">
+        <p class="text-on-surface-variant text-xs font-bold">Menampilkan 1-3 dari 32 siswa</p>
+        <div class="flex items-center gap-1">
+            <button class="w-7 h-7 flex items-center justify-center rounded border border-outline hover:bg-surface-variant transition-colors disabled:opacity-50" disabled>
+                <span class="material-symbols-outlined" style="font-size:16px">chevron_left</span>
+            </button>
+            <button class="w-7 h-7 flex items-center justify-center rounded bg-primary text-on-primary text-xs font-bold shadow-sm">1</button>
+            <button class="w-7 h-7 flex items-center justify-center rounded border border-outline hover:bg-surface-variant transition-colors text-xs font-bold text-on-surface-variant">2</button>
+            <button class="w-7 h-7 flex items-center justify-center rounded border border-outline hover:bg-surface-variant transition-colors text-xs font-bold text-on-surface-variant">3</button>
+            <button class="w-7 h-7 flex items-center justify-center rounded border border-outline hover:bg-surface-variant transition-colors">
+                <span class="material-symbols-outlined" style="font-size:16px">chevron_right</span>
+            </button>
+        </div>
+    </div>
 </div>
+
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const searchInput = document.getElementById('searchName');
+        const filterType = document.getElementById('filterType');
+        const filterGrade = document.getElementById('filterGrade');
+        const rows = document.querySelectorAll('#studentTableBody tr');
+        let currentStatus = 'all';
+
+        // Filter tab switching logic
+        filterTabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // visual update
+                filterTabs.forEach(b => {
+                    b.classList.remove('bg-primary', 'text-on-primary', 'shadow-md');
+                    b.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+                });
+                btn.classList.add('bg-primary', 'text-on-primary', 'shadow-md');
+                btn.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+                
+                // state update
+                currentStatus = btn.dataset.status;
+                applyFilters();
+            });
+        });
+
+        // Event listeners for other filters
+        searchInput.addEventListener('input', applyFilters);
+        filterType.addEventListener('change', applyFilters);
+        filterGrade.addEventListener('change', applyFilters);
+
+        function applyFilters() {
+            const searchVal = searchInput.value.toLowerCase();
+            const typeVal = filterType.value;
+            const gradeVal = filterGrade.value;
+
+            rows.forEach(row => {
+                const rowName = row.dataset.name.toLowerCase();
+                const rowType = row.dataset.type;
+                const rowStatus = row.dataset.status;
+                const rowGrade = row.dataset.grade;
+
+                const matchSearch = rowName.includes(searchVal);
+                const matchType = (typeVal === 'all' || rowType === typeVal);
+                const matchGrade = (gradeVal === 'all' || rowGrade === gradeVal);
+                const matchStatus = (currentStatus === 'all' || rowStatus === currentStatus);
+
+                if (matchSearch && matchType && matchGrade && matchStatus) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    });
+</script>
+@endpush
 @endsection
