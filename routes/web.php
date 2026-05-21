@@ -101,6 +101,7 @@ Route::prefix('siswa')->name('siswa.')->middleware(['auth'])->group(function () 
 
     // Mata Pelajaran
     Route::get('/mapel', fn() => view('siswa.mapel'))->name('mapel');
+    Route::get('/mapel/detail', fn() => view('siswa.kelas-detail'))->name('mapel.detail');
 
     // Materi
     Route::get('/materi', fn() => view('siswa.materi'))->name('materi');
@@ -108,11 +109,13 @@ Route::prefix('siswa')->name('siswa.')->middleware(['auth'])->group(function () 
 
     // Tugas
     Route::get('/tugas', fn() => view('siswa.tugas'))->name('tugas');
+    Route::get('/tugas/kerjakan', fn() => view('siswa.pengerjaan-tugas'))->name('pengerjaan-tugas');
     Route::get('/tugas/kumpulkan', fn() => view('siswa.kumpul-tugas'))->name('kumpul-tugas');
 
     // Ujian
     Route::get('/ujian', fn() => view('siswa.ujian'))->name('ujian');
     Route::get('/ujian/kerjakan', fn() => view('siswa.pengerjaan-ujian'))->name('pengerjaan-ujian');
+    Route::get('/kuis/kerjakan', fn() => view('siswa.pengerjaan-kuis'))->name('pengerjaan-kuis');
 
     // Nilai
     Route::get('/nilai', fn() => view('siswa.nilai'))->name('nilai');

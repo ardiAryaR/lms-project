@@ -111,24 +111,10 @@
                 <span class="material-symbols-outlined flex-shrink-0 text-[22px]" style="{{ request()->routeIs('siswa.mapel*') ? 'font-variation-settings:\'FILL\' 1;' : '' }}">menu_book</span>
                 <span class="sidebar-label">Mata Pelajaran</span>
             </a>
-            <a href="{{ route('siswa.materi') }}" title="Materi"
-               class="{{ request()->routeIs('siswa.materi*') ? 'bg-secondary-fixed/10 text-secondary-fixed font-bold border-r-4 border-secondary' : 'text-on-primary/70 hover:bg-on-primary/10' }} flex items-center gap-3 px-4 py-2.5 rounded transition-soft text-sm">
-                <span class="material-symbols-outlined flex-shrink-0 text-[22px]" style="{{ request()->routeIs('siswa.materi*') ? 'font-variation-settings:\'FILL\' 1;' : '' }}">book</span>
-                <span class="sidebar-label">Materi</span>
-            </a>
-            <a href="{{ route('siswa.tugas') }}" title="Tugas"
-               class="{{ request()->routeIs('siswa.tugas*') ? 'bg-secondary-fixed/10 text-secondary-fixed font-bold border-r-4 border-secondary' : 'text-on-primary/70 hover:bg-on-primary/10' }} flex items-center gap-3 px-4 py-2.5 rounded transition-soft text-sm">
-                <span class="material-symbols-outlined flex-shrink-0 text-[22px]" style="{{ request()->routeIs('siswa.tugas*') ? 'font-variation-settings:\'FILL\' 1;' : '' }}">assignment</span>
-                <span class="sidebar-label">Tugas</span>
-            </a>
-            <a href="{{ route('siswa.ujian') }}" title="Ujian"
-               class="{{ request()->routeIs('siswa.ujian*') ? 'bg-secondary-fixed/10 text-secondary-fixed font-bold border-r-4 border-secondary' : 'text-on-primary/70 hover:bg-on-primary/10' }} flex items-center gap-3 px-4 py-2.5 rounded transition-soft text-sm">
-                <span class="material-symbols-outlined flex-shrink-0 text-[22px]" style="{{ request()->routeIs('siswa.ujian*') ? 'font-variation-settings:\'FILL\' 1;' : '' }}">school</span>
-                <span class="sidebar-label">Ujian</span>
-            </a>
+
             <a href="{{ route('siswa.nilai') }}" title="Nilai"
                class="{{ request()->routeIs('siswa.nilai*') ? 'bg-secondary-fixed/10 text-secondary-fixed font-bold border-r-4 border-secondary' : 'text-on-primary/70 hover:bg-on-primary/10' }} flex items-center gap-3 px-4 py-2.5 rounded transition-soft text-sm">
-                <span class="material-symbols-outlined flex-shrink-0 text-[22px]" style="{{ request()->routeIs('siswa.nilai*') ? 'font-variation-settings:\'FILL\' 1;' : '' }}">grade</span>
+                <span class="material-symbols-outlined flex-shrink-0 text-[22px]" style="{{ request()->routeIs('siswa.nilai*') ? 'font-variation-settings:\'FILL\' 1;' : '' }}">assessment</span>
                 <span class="sidebar-label">Nilai</span>
             </a>
             <a href="{{ route('siswa.notifikasi') }}" title="Notifikasi"
