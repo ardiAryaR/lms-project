@@ -1,52 +1,233 @@
-﻿@extends('layouts.guru')
-@section('title', 'Penilaian Tugas - SMK Mandalahayu 1')
+@extends('layouts.guru')
+@section('title', 'Penilaian Siswa - SMK Mandalahayu 1')
+
 @section('content')
-<div class="mb-8">
-    <h2 class="font-bold text-4xl text-primary" style="font-family: var(--font-serif)">Penilaian Pengumpulan Tugas</h2>
-    <p class="text-on-surface-variant mt-1">Berikan nilai dan feedback untuk tugas yang telah dikumpulkan.</p>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-    <div class="lg:col-span-2 bg-surface-container-lowest rounded-2xl p-8 shadow-ambient border border-outline-variant/30">
-        <div class="flex items-start gap-4 mb-6 pb-6 border-b border-outline-variant/30">
-            <div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-lg">AF</div>
+<style>
+    .shadow-ambient {
+        box-shadow: 0 4px 20px -2px rgba(107, 63, 31, 0.06);
+    }
+    .card-border {
+        border: 1px solid #efe6de;
+    }
+</style>
+
+<!-- Confirmation Modal -->
+<div id="confirmModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-sm w-full mx-4 border border-outline-variant">
+        <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-on-secondary-container">help</span>
+            </div>
             <div>
-                <h3 class="font-bold text-xl text-on-surface">Ahmad Fauzi</h3>
-                <p class="text-on-surface-variant text-sm">X TKJ 1 • Dikumpulkan: Kemarin, 20:15</p>
+                <h3 class="font-bold text-lg text-primary">Konfirmasi Simpan</h3>
             </div>
         </div>
-        <div class="bg-surface-container rounded-xl p-6 mb-6">
-            <p class="text-xs font-bold uppercase tracking-wider text-primary mb-2">File Tugas</p>
-            <div class="flex items-center gap-3">
-                <span class="material-symbols-outlined text-error">picture_as_pdf</span>
-                <span class="text-on-surface font-bold">laporan_praktikum_fauzi.pdf</span>
-                <a href="#" class="ml-auto text-secondary text-xs font-bold hover:underline">Unduh</a>
-            </div>
-        </div>
-        <form method="POST" action="#">
-            @csrf
-            <div class="mb-4">
-                <label class="block text-xs font-bold uppercase tracking-wider text-primary mb-2" for="nilai">Nilai (0-100)</label>
-                <input class="w-32 bg-surface-container-low border-0 border-b-2 border-primary focus:border-secondary focus:ring-0 text-2xl font-bold text-center transition-soft px-4 py-3"
-                       id="nilai" name="nilai" type="number" min="0" max="100" placeholder="85"/>
-            </div>
-            <div class="mb-6">
-                <label class="block text-xs font-bold uppercase tracking-wider text-primary mb-2" for="feedback">Feedback</label>
-                <textarea class="w-full bg-surface-container-low border-0 border-b-2 border-primary focus:border-secondary focus:ring-0 transition-soft px-4 py-3 resize-none"
-                          id="feedback" name="feedback" rows="4" placeholder="Tulis catatan atau feedback untuk siswa..."></textarea>
-            </div>
-            <button type="submit" class="bg-secondary text-on-secondary font-bold py-3 px-8 rounded-xl flex items-center gap-2 hover:brightness-110 transition-soft">
-                <span class="material-symbols-outlined">save</span> Simpan Penilaian
-            </button>
-        </form>
-    </div>
-    <div class="bg-surface-container-lowest rounded-2xl p-6 shadow-ambient border border-outline-variant/30 h-fit">
-        <h3 class="font-bold text-lg text-primary mb-4">Info Tugas</h3>
-        <div class="space-y-3 text-sm">
-            <div><p class="text-xs text-on-surface-variant uppercase">Nama Tugas</p><p class="font-bold">Laporan Praktikum Jaringan</p></div>
-            <div><p class="text-xs text-on-surface-variant uppercase">Kelas</p><p class="font-bold">X TKJ 1</p></div>
-            <div><p class="text-xs text-on-surface-variant uppercase">Tenggat</p><p class="font-bold text-error">Kemarin, 23:59</p></div>
-            <div><p class="text-xs text-on-surface-variant uppercase">Sudah Dinilai</p><p class="font-bold">5 / 30 Siswa</p></div>
+        <p class="text-sm text-on-surface-variant mb-5">Apakah Anda yakin ingin menyimpan nilai ini?</p>
+        <div class="flex gap-3">
+            <button id="modalCancel" class="flex-1 py-2 border-2 border-outline-variant text-on-surface-variant font-bold rounded-xl hover:bg-surface-container transition-all text-sm">Batal</button>
+            <button id="modalConfirm" class="flex-1 py-2 bg-secondary-container text-on-secondary-container font-bold rounded-xl hover:opacity-90 transition-all text-sm">Ya, Simpan</button>
         </div>
     </div>
 </div>
+
+<div class="h-[calc(100vh-100px)] flex flex-col">
+    <!-- Header Section -->
+    <div class="mb-4 flex-shrink-0">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+                <h1 class="font-bold text-2xl text-primary" style="font-family: var(--font-serif)">Penilaian Siswa</h1>
+                <div class="flex items-center gap-3 mt-1 flex-wrap">
+                    <span class="text-base font-semibold text-on-surface" id="studentName">Rizky Ramadhan</span>
+                    <span class="px-2 py-0.5 bg-error-container text-on-error-container text-[11px] font-bold rounded-full flex items-center gap-1 uppercase tracking-wider">
+                        <span class="material-symbols-outlined text-[13px]">schedule</span> Terlambat
+                    </span>
+                    <span class="text-xs text-on-surface-variant font-medium">| XII Teknik Komputer Jaringan 1</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button id="btnPrev" class="p-1.5 border border-outline-variant rounded-lg hover:bg-surface-container transition-colors">
+                    <span class="material-symbols-outlined text-sm">chevron_left</span>
+                </button>
+                <span id="navText" class="text-xs font-medium whitespace-nowrap">Siswa 4 dari 32</span>
+                <button id="btnNext" class="p-1.5 border border-outline-variant rounded-lg hover:bg-surface-container transition-colors">
+                    <span class="material-symbols-outlined text-sm">chevron_right</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Asymmetric Split Grid -->
+    <div class="flex-1 min-h-0 flex flex-col lg:flex-row gap-6 items-stretch">
+        <!-- Left: Submission Content -->
+        <div class="lg:w-[65%] flex flex-col min-h-0">
+            <!-- Submission Info Card -->
+            <div class="bg-surface-container-lowest rounded-2xl p-4 card-border shadow-ambient flex-1 flex flex-col min-h-0">
+                <div class="flex justify-between items-start mb-4 border-b border-outline-variant/30 pb-3 flex-wrap gap-3 flex-shrink-0">
+                    <div>
+                        <h3 class="font-bold text-lg text-primary mb-1" style="font-family: var(--font-serif)">Laporan Praktik Jaringan Dasar</h3>
+                        <p class="text-xs text-on-surface-variant">Mata Pelajaran: Dasar Kompetensi Kejuruan</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[10px] font-bold uppercase text-on-surface-variant mb-1">Waktu Submit</p>
+                        <p class="text-xs font-medium text-on-surface">14 Okt 2023, 10:45 WIB</p>
+                    </div>
+                </div>
+
+                <!-- PDF Preview Mockup -->
+                <div class="relative group flex-1 w-full bg-surface-container rounded-xl overflow-hidden shadow-inner border border-outline-variant/30 min-h-0">
+                    <div class="w-full h-full flex flex-col items-center justify-center gap-4 text-on-surface-variant">
+                        <span class="material-symbols-outlined text-5xl text-primary/30">picture_as_pdf</span>
+                        <p class="text-sm font-medium">Laporan_Praktik_Rizky.pdf</p>
+                        <button class="bg-white text-primary px-4 py-1.5 rounded-full font-bold shadow text-xs border border-outline-variant flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[13px]">fullscreen</span> Lihat File
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-3 flex items-center justify-between p-3 bg-surface-container rounded-lg border border-outline-variant/30 flex-shrink-0">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-primary/10 rounded flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary text-xl">picture_as_pdf</span>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-on-surface">Laporan_Praktik_Rizky.pdf</p>
+                            <p class="text-[10px] text-on-surface-variant">PDF Document • 4.2 MB</p>
+                        </div>
+                    </div>
+                    <button class="text-primary hover:underline font-bold text-xs flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">download</span> Unduh
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Grading Panel -->
+        <div class="lg:w-[35%] flex flex-col min-h-0">
+            <div class="bg-surface-container-high rounded-2xl p-4 shadow-ambient border-2 border-primary-container/10 flex-1 flex flex-col min-h-0">
+                <h3 class="font-bold text-lg text-primary mb-3 flex-shrink-0" style="font-family: var(--font-serif)">Penilaian</h3>
+                
+                <div class="flex-1 flex flex-col min-h-0 space-y-4">
+                    <!-- Grade Input -->
+                    <div class="flex-shrink-0">
+                        <label class="text-[11px] font-bold uppercase tracking-wider text-primary mb-1 block">Nilai (0-100)</label>
+                        <div class="relative">
+                            <input class="w-full text-3xl font-bold p-3 bg-white border-b-2 border-primary focus:ring-0 focus:border-secondary transition-all rounded-t-xl" id="gradeInput" max="100" min="0" placeholder="0" type="number"/>
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-lg font-bold text-on-surface-variant/40">/ 100</span>
+                        </div>
+                        <p id="gradeError" class="text-error text-xs font-bold mt-1 hidden">Nilai harus diisi sebelum disimpan!</p>
+                    </div>
+
+                    <!-- Feedback Area -->
+                    <div class="flex-1 flex flex-col min-h-0">
+                        <label class="text-[11px] font-bold uppercase tracking-wider text-primary mb-1 block">Feedback Guru</label>
+                        <textarea class="flex-1 w-full bg-white border border-outline-variant rounded-xl p-3 text-xs focus:ring-2 focus:ring-secondary/30 transition-all focus:outline-none resize-none" placeholder="Berikan komentar konstruktif untuk siswa..."></textarea>
+                    </div>
+                    
+                    <!-- Late Penalty -->
+                    <div class="p-3 bg-red-50 border border-red-100 rounded-xl flex items-center justify-between flex-shrink-0">
+                        <span class="text-[11px] font-bold text-red-700 uppercase tracking-wider">Pinalti Terlambat</span>
+                        <span class="text-xs font-bold text-red-700">-5 Poin</span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="pt-3 border-t border-outline-variant/30 flex-shrink-0">
+                        <button class="w-full py-2.5 bg-secondary-container text-on-secondary-container font-bold rounded-xl shadow transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 text-sm" id="saveBtn">
+                            <span class="material-symbols-outlined text-base">save</span> Simpan Nilai
+                        </button>
+                        <p class="text-[9px] text-center text-on-surface-variant uppercase tracking-widest font-bold mt-2">
+                            Terakhir diperbarui: -
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+    const saveBtn = document.getElementById('saveBtn');
+    const gradeInput = document.getElementById('gradeInput');
+    const gradeError = document.getElementById('gradeError');
+    const confirmModal = document.getElementById('confirmModal');
+    const modalCancel = document.getElementById('modalCancel');
+    const modalConfirm = document.getElementById('modalConfirm');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const navText = document.getElementById('navText');
+    const studentName = document.getElementById('studentName');
+
+    let currentStudent = 4;
+    const students = ["Aditya Saputra", "Bambang Pamungkas", "Citra Nuraini", "Rizky Ramadhan", "Siti Aminah", "Joko Susilo"];
+
+    function updateStudent() {
+        navText.textContent = `Siswa ${currentStudent} dari 32`;
+        studentName.textContent = students[(currentStudent - 1) % students.length] || "Siswa Lainnya";
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const sIndex = urlParams.get('s');
+    if (sIndex !== null) {
+        currentStudent = parseInt(sIndex) + 1;
+        updateStudent();
+    }
+
+    if (btnPrev && btnNext) {
+        btnPrev.addEventListener('click', () => {
+            if(currentStudent > 1) currentStudent--;
+            updateStudent();
+        });
+        btnNext.addEventListener('click', () => {
+            if(currentStudent < 32) currentStudent++;
+            updateStudent();
+        });
+    }
+
+    gradeInput.addEventListener('input', (e) => {
+        let val = parseInt(e.target.value);
+        if (val > 100) e.target.value = 100;
+        if (val < 0) e.target.value = 0;
+        if (val >= 75) {
+            gradeInput.style.color = '#15803d';
+        } else if (val > 0) {
+            gradeInput.style.color = '#b91c1c';
+        } else {
+            gradeInput.style.color = '';
+        }
+        
+        if (e.target.value !== '') {
+            gradeError.classList.add('hidden');
+            gradeInput.classList.remove('border-red-500');
+        }
+    });
+
+    saveBtn.addEventListener('click', () => {
+        if (!gradeInput.value || gradeInput.value === '') {
+            gradeError.classList.remove('hidden');
+            gradeInput.classList.add('border-red-500');
+            return;
+        }
+        confirmModal.classList.remove('hidden');
+        confirmModal.classList.add('flex');
+    });
+
+    modalCancel.addEventListener('click', () => {
+        confirmModal.classList.add('hidden');
+        confirmModal.classList.remove('flex');
+    });
+
+    modalConfirm.addEventListener('click', () => {
+        confirmModal.classList.add('hidden');
+        confirmModal.classList.remove('flex');
+        
+        saveBtn.innerHTML = `<span class="material-symbols-outlined animate-spin text-base">sync</span> Menyimpan...`;
+        saveBtn.disabled = true;
+        setTimeout(() => {
+            saveBtn.innerHTML = `<span class="material-symbols-outlined text-base">check_circle</span> Nilai Tersimpan`;
+            saveBtn.style.backgroundColor = '#15803d';
+            saveBtn.style.color = '#fff';
+        }, 1200);
+    });
+</script>
+@endpush
 @endsection

@@ -86,6 +86,7 @@ Route::prefix('guru')->name('guru.')->middleware(['auth'])->group(function () {
     Route::get('/monitor', fn() => view('guru.monitor-tugas'))->name('monitor');
     Route::get('/monitor/tugas', fn() => view('guru.monitor-tugas'))->name('monitor.tugas');
     Route::get('/penilaian/tugas', fn() => view('guru.penilaian-tugas'))->name('penilaian.tugas');
+    Route::get('/penilaian/kuis', fn() => view('guru.penilaian-kuis'))->name('penilaian.kuis');
     Route::get('/penilaian/ujian', fn() => view('guru.penilaian-ujian'))->name('penilaian.ujian');
 
     // Notifikasi

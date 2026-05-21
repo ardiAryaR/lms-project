@@ -1,5 +1,5 @@
 @extends('layouts.guru')
-@section('title', 'Penilaian Ujian - SMK Mandalahayu 1')
+@section('title', 'Penilaian Kuis - SMK Mandalahayu 1')
 
 @section('content')
 <style>
@@ -79,29 +79,30 @@
 
     <!-- Page Title Badge -->
     <div class="flex items-center gap-2 mb-2">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-primary text-on-primary rounded-full text-xs font-bold uppercase tracking-wider">
-            <span class="material-symbols-outlined text-sm">history_edu</span> Penilaian Ujian
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold uppercase tracking-wider">
+            <span class="material-symbols-outlined text-sm">quiz</span> Penilaian Kuis
         </span>
-        <span class="text-on-surface-variant text-xs">Ujian Akhir Semester — Dasar Jaringan</span>
+        <span class="text-on-surface-variant text-xs">Kuis Bab 2 Routing — Jaringan Dasar</span>
     </div>
 
+    <!-- Header Card (same width as questions area) -->
     <div class="flex flex-col lg:flex-row gap-6 flex-1">
         <!-- Left Column: 70% -->
         <div class="flex-1 min-w-0 flex flex-col" style="flex: 0 0 68%; max-width: 68%;">
 
-            <!-- Exam Header Card -->
+            <!-- Quiz Header Card -->
             <div class="bg-surface-container-lowest p-3 rounded-xl shadow-ambient border border-outline-variant/30 mb-3">
                 <div class="flex flex-col md:flex-row justify-between items-start gap-2 mb-2">
                     <div>
-                        <h1 class="font-bold text-lg text-primary mb-0" style="font-family: var(--font-serif)">Aditya Saputra</h1>
-                        <p class="text-xs text-on-surface-variant">XI TKJ 1 · Dasar Jaringan</p>
-                        <p class="text-[11px] text-on-surface-variant/70">Diserahkan: 12 Des 2023, 10:42</p>
+                        <h1 class="font-bold text-lg text-primary mb-0" style="font-family: var(--font-serif)">Bambang Pamungkas</h1>
+                        <p class="text-xs text-on-surface-variant">XI TKJ 1 · Jaringan Dasar</p>
+                        <p class="text-[11px] text-on-surface-variant/70">Diserahkan: 13 Okt 2023, 09:15</p>
                     </div>
                     <div class="flex-shrink-0">
                         <div class="bg-error-container text-on-error-container px-2 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1 mb-1 w-fit ml-auto">
-                            <span class="material-symbols-outlined text-[13px]">schedule</span> Late (12m)
+                            <span class="material-symbols-outlined text-[13px]">schedule</span> Late (5m)
                         </div>
-                        <p class="text-[11px] text-on-surface-variant text-right" id="navCounter">Siswa 1 dari 5</p>
+                        <p class="text-[11px] text-on-surface-variant text-right" id="navCounter">Siswa 2 dari 5</p>
                     </div>
                 </div>
 
@@ -111,11 +112,11 @@
                         <span class="material-symbols-outlined text-[13px]">arrow_back_ios_new</span>
                     </button>
                     <div class="flex-1 flex justify-center gap-2 overflow-x-auto py-0.5" id="studentNav">
-                        <div class="student-thumb active" data-index="0" data-name="Aditya Saputra">AS</div>
-                        <div class="student-thumb inactive" data-index="1" data-name="Bambang Pamungkas">BP</div>
+                        <div class="student-thumb inactive" data-index="0" data-name="Aditya Saputra">AS</div>
+                        <div class="student-thumb active" data-index="1" data-name="Bambang Pamungkas">BP</div>
                         <div class="student-thumb inactive" data-index="2" data-name="Citra Nuraini">CN</div>
-                        <div class="student-thumb inactive" data-index="3" data-name="Joko Susilo">JS</div>
-                        <div class="student-thumb inactive" data-index="4" data-name="Maya Putri">MT</div>
+                        <div class="student-thumb inactive" data-index="3" data-name="Dedi Mulyadi">DM</div>
+                        <div class="student-thumb inactive" data-index="4" data-name="Eka Fitriani">EF</div>
                     </div>
                     <button id="nextStudent" class="p-1 hover:bg-outline-variant/20 rounded-full text-primary transition-colors flex-shrink-0">
                         <span class="material-symbols-outlined text-[13px]">arrow_forward_ios</span>
@@ -123,35 +124,35 @@
                 </div>
             </div>
 
-            <!-- Questions — scrollable -->
+            <!-- Questions — scrollable area -->
             <div class="overflow-y-auto space-y-3 pr-1" style="max-height: calc(100vh - 220px)">
 
                 <!-- Q1: Correct -->
                 <div class="bg-surface-container-lowest p-4 rounded-xl shadow-ambient border border-outline-variant/30 relative">
-                    <div class="absolute top-4 right-4 flex items-center gap-2">
+                    <div class="absolute top-4 right-4 flex items-center gap-2 flex-wrap justify-end">
                         <span class="bg-green-100 text-green-700 px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1 border border-green-200">
                             <span class="material-symbols-outlined text-sm">check_circle</span> Benar
                         </span>
                         <span class="text-sm font-bold text-primary">10/10 pts</span>
                     </div>
                     <h4 class="text-xs font-bold text-secondary uppercase tracking-wider mb-2">Pertanyaan 1 — Pilihan Ganda</h4>
-                    <p class="text-base font-semibold text-on-surface mb-4 pr-28">Manakah di bawah ini yang merupakan fungsi utama dari Router dalam sebuah jaringan komputer?</p>
+                    <p class="text-base font-semibold text-on-surface mb-4 pr-28">Apa kepanjangan dari IP dalam istilah jaringan komputer?</p>
                     <div class="space-y-2">
                         <div class="flex items-center p-3 rounded-lg bg-surface-container border border-outline-variant/20">
                             <span class="w-6 h-6 flex items-center justify-center rounded-full border-2 border-outline-variant mr-3 text-xs flex-shrink-0">A</span>
-                            <span class="text-sm">Menghubungkan perangkat di dalam satu LAN</span>
+                            <span class="text-sm">Internal Protocol</span>
                         </div>
                         <div class="flex items-center p-3 rounded-lg bg-green-50 border-2 border-green-500 text-green-900">
                             <span class="w-6 h-6 flex items-center justify-center rounded-full bg-green-500 text-white mr-3 text-xs font-bold flex-shrink-0">B</span>
-                            <span class="text-sm flex-1">Menentukan jalur terbaik untuk pengiriman data antar jaringan</span>
+                            <span class="text-sm flex-1">Internet Protocol</span>
                             <span class="material-symbols-outlined text-green-600 text-lg">check</span>
                         </div>
                         <div class="flex items-center p-3 rounded-lg bg-surface-container border border-outline-variant/20">
                             <span class="w-6 h-6 flex items-center justify-center rounded-full border-2 border-outline-variant mr-3 text-xs flex-shrink-0">C</span>
-                            <span class="text-sm">Mengonversi sinyal analog menjadi digital</span>
+                            <span class="text-sm">Intranet Protocol</span>
                         </div>
                     </div>
-                    <p class="text-xs text-on-surface-variant italic mt-3 pt-3 border-t border-outline-variant/20">Automated: Kunci Jawaban B cocok dengan pilihan siswa.</p>
+                    <p class="text-xs text-on-surface-variant italic mt-3 pt-3 border-t border-outline-variant/20">Automated: Kunci B cocok dengan pilihan siswa.</p>
                 </div>
 
                 <!-- Q2: Incorrect -->
@@ -163,41 +164,41 @@
                         <span class="text-sm font-bold text-error">0/10 pts</span>
                     </div>
                     <h4 class="text-xs font-bold text-secondary uppercase tracking-wider mb-2">Pertanyaan 2 — Pilihan Ganda</h4>
-                    <p class="text-base font-semibold text-on-surface mb-4 pr-28">Protokol apa yang digunakan untuk mengirimkan email dari client ke server?</p>
+                    <p class="text-base font-semibold text-on-surface mb-4 pr-28">Berapa jumlah bit yang dimiliki oleh alamat IPv4?</p>
                     <div class="space-y-2">
                         <div class="flex items-center p-3 rounded-lg bg-error-container/20 border-2 border-error text-on-error-container">
                             <span class="w-6 h-6 flex items-center justify-center rounded-full bg-error text-white mr-3 text-xs font-bold flex-shrink-0">A</span>
-                            <span class="text-sm flex-1">HTTP</span>
+                            <span class="text-sm flex-1">64 bit</span>
                             <span class="material-symbols-outlined text-error text-lg">close</span>
                         </div>
                         <div class="flex items-center p-3 rounded-lg bg-green-50 border-2 border-green-400/50 text-green-800">
                             <span class="w-6 h-6 flex items-center justify-center rounded-full bg-green-400/50 text-white mr-3 text-xs font-bold flex-shrink-0">B</span>
-                            <span class="text-sm flex-1">SMTP <span class="text-xs">(Kunci Jawaban)</span></span>
+                            <span class="text-sm flex-1">32 bit <span class="text-xs">(Kunci Jawaban)</span></span>
                         </div>
                         <div class="flex items-center p-3 rounded-lg bg-surface-container border border-outline-variant/20">
                             <span class="w-6 h-6 flex items-center justify-center rounded-full border-2 border-outline-variant mr-3 text-xs flex-shrink-0">C</span>
-                            <span class="text-sm">FTP</span>
+                            <span class="text-sm">128 bit</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Q3: Essay - needs grading -->
+                <!-- Q3: Essay/Short Answer - needs grading -->
                 <div class="bg-surface-container-lowest p-4 rounded-xl shadow-ambient border-l-4 border-l-secondary border border-outline-variant/30 relative">
                     <div class="absolute top-4 right-4 flex items-center gap-2">
                         <span class="bg-secondary-container/20 text-on-secondary-container px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1 border border-secondary-container/40">
                             <span class="material-symbols-outlined text-sm">edit</span> Perlu Dinilai
                         </span>
                         <div class="flex items-center bg-surface-container border border-outline-variant px-2 py-1 rounded">
-                            <input class="essay-score w-10 bg-transparent border-none p-0 text-center font-bold text-primary focus:ring-0 text-sm" data-max="30" max="30" min="0" placeholder="0" type="number" value="25">
-                            <span class="text-xs text-on-surface-variant border-l border-outline-variant ml-2 pl-2">/ 30 pts</span>
+                            <input class="essay-score w-10 bg-transparent border-none p-0 text-center font-bold text-primary focus:ring-0 text-sm" data-max="20" max="20" min="0" placeholder="0" type="number" value="18">
+                            <span class="text-xs text-on-surface-variant border-l border-outline-variant ml-2 pl-2">/ 20 pts</span>
                         </div>
                     </div>
-                    <h4 class="text-xs font-bold text-secondary uppercase tracking-wider mb-2">Pertanyaan 3 — Essay</h4>
-                    <p class="text-base font-semibold text-on-surface mb-4 pr-40">Jelaskan perbedaan mendasar antara model OSI dan model TCP/IP!</p>
+                    <h4 class="text-xs font-bold text-secondary uppercase tracking-wider mb-2">Pertanyaan 3 — Jawaban Singkat</h4>
+                    <p class="text-base font-semibold text-on-surface mb-4 pr-40">Sebutkan dan jelaskan 3 kelas alamat IP beserta range-nya!</p>
                     <div class="bg-surface-bright p-4 rounded-lg border border-outline-variant/30 mb-4 italic text-on-surface text-sm leading-relaxed">
-                        "Model OSI memiliki 7 lapisan sedangkan TCP/IP hanya memiliki 4 lapisan. Model OSI lebih bersifat teoritis untuk standarisasi, sedangkan TCP/IP adalah protokol praktis yang digunakan di internet saat ini. OSI memisahkan Data Link dan Physical Layer, sementara di TCP/IP keduanya digabung dalam Network Access layer."
+                        "Kelas A: 1.0.0.0 - 127.255.255.255, digunakan untuk jaringan besar. Kelas B: 128.0.0.0 - 191.255.255.255, untuk jaringan menengah. Kelas C: 192.0.0.0 - 223.255.255.255, untuk jaringan kecil dan rumahan."
                     </div>
-                    <textarea class="w-full bg-surface-container border-0 border-b-2 border-primary focus:ring-0 focus:border-secondary transition-all p-3 rounded-t-lg text-sm resize-none" placeholder="Tulis catatan untuk jawaban ini..." rows="2">Penjelasan sudah sangat baik dan detail. Tambahkan protokol spesifik di tiap layer untuk nilai maksimal.</textarea>
+                    <textarea class="w-full bg-surface-container border-0 border-b-2 border-primary focus:ring-0 focus:border-secondary transition-all p-3 rounded-t-lg text-sm resize-none" placeholder="Tulis catatan untuk jawaban ini..." rows="2">Jawaban sudah mencakup ketiga kelas dengan range yang tepat.</textarea>
                 </div>
 
             </div>
@@ -211,7 +212,7 @@
                 <!-- Score Circle -->
                 <div class="text-center mb-3 flex-shrink-0">
                     <div class="inline-flex flex-col items-center justify-center w-20 h-20 rounded-full border-[6px] border-secondary-container bg-white shadow-inner score-circle transition-transform duration-200">
-                        <span class="text-2xl font-bold text-primary leading-none" id="totalScore">80</span>
+                        <span class="text-2xl font-bold text-primary leading-none" id="totalScore">68</span>
                         <span class="text-[9px] text-on-surface-variant font-bold border-t border-outline-variant pt-0.5 mt-0.5 w-10">/ 100</span>
                     </div>
                     <p class="mt-1 text-[11px] text-on-surface-variant font-medium">Skor saat ini</p>
@@ -221,16 +222,16 @@
                 <div class="space-y-1.5 mb-3 flex-shrink-0">
                     <div class="flex justify-between text-[11px]">
                         <span class="text-on-surface-variant">Otomatis (PG)</span>
-                        <span class="font-bold text-primary" id="autoScore">55/70</span>
+                        <span class="font-bold text-primary" id="autoScore">50/80</span>
                     </div>
                     <div class="flex justify-between text-[11px]">
                         <span class="text-on-surface-variant">Manual (Essay)</span>
-                        <span class="font-bold text-secondary" id="manualScore">25/30</span>
+                        <span class="font-bold text-secondary" id="manualScore">18/20</span>
                     </div>
                     <div class="h-px bg-outline-variant/30 my-1.5"></div>
                     <div class="flex justify-between text-xs font-bold">
                         <span class="text-primary">Total</span>
-                        <span class="text-primary" id="totalPercent">80%</span>
+                        <span class="text-primary" id="totalPercent">68%</span>
                     </div>
                 </div>
 
@@ -250,6 +251,7 @@
             </div>
         </aside>
     </div>
+
 </div>
 </div>
 
@@ -261,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevBtn = document.getElementById('prevStudent');
     const nextBtn = document.getElementById('nextStudent');
     const navCounter = document.getElementById('navCounter');
-    let currentIndex = 0;
+    let currentIndex = 1; // BP is active
 
     function activateStudent(idx) {
         thumbs.forEach((t, i) => {
@@ -286,15 +288,16 @@ document.addEventListener('DOMContentLoaded', () => {
     activateStudent(currentIndex);
 
     // ── Dynamic Score Calculation ──────────────────────────────
-    const AUTO_CORRECT = 55;
-    const AUTO_MAX = 70;
-    const ESSAY_MAX_TOTAL = 30;
+    const essayInputs = document.querySelectorAll('.essay-score');
+    const AUTO_CORRECT = 50;
+    const AUTO_MAX = 80;
+    const ESSAY_MAX_TOTAL = 20;
 
     function recalcScore() {
         let essayGained = 0;
-        document.querySelectorAll('.essay-score').forEach(inp => {
+        essayInputs.forEach(inp => {
             const v = parseInt(inp.value) || 0;
-            const max = parseInt(inp.dataset.max) || 30;
+            const max = parseInt(inp.dataset.max) || 20;
             essayGained += Math.min(Math.max(v, 0), max);
         });
         const total = AUTO_CORRECT + essayGained;
@@ -303,11 +306,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('totalScore').textContent = pct;
         document.getElementById('totalPercent').textContent = pct + '%';
         document.getElementById('manualScore').textContent = essayGained + '/' + ESSAY_MAX_TOTAL;
+        document.getElementById('autoScore').textContent = AUTO_CORRECT + '/' + AUTO_MAX;
         const circle = document.querySelector('.score-circle');
         circle.classList.add('scale-105');
         setTimeout(() => circle.classList.remove('scale-105'), 200);
     }
-    document.querySelectorAll('.essay-score').forEach(inp => inp.addEventListener('input', recalcScore));
+    essayInputs.forEach(inp => inp.addEventListener('input', recalcScore));
 
     // ── Toast Notification ─────────────────────────────────────
     const toast = document.getElementById('toastMsg');
@@ -316,7 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showToast(message, type = 'success') {
         toastText.textContent = message;
-        toast.className = toast.className.replace(/bg-\S+|text-\S+|border-\S+/g, '').trim();
         if (type === 'success') {
             toast.style.cssText = 'background:#dcfce7;color:#15803d;border-color:#86efac;display:flex;';
             toastIcon.textContent = 'check_circle';
@@ -361,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
         openModal('Batalkan Penilaian?', 'Progres yang belum disimpan akan hilang. Anda akan kembali ke halaman Monitor Tugas.', 'batalkan');
     });
     document.getElementById('btnTerbitkan').addEventListener('click', () => {
-        openModal('Terbitkan Nilai?', 'Nilai akan dikirim ke siswa dan tidak dapat diubah tanpa konfirmasi. Lanjutkan menerbitkan?', 'terbitkan');
+        openModal('Terbitkan Nilai?', 'Nilai akan dikirim ke siswa dan tidak dapat diubah tanpa konfirmasi. Lanjutkan?', 'terbitkan');
     });
 });
 </script>
