@@ -25,34 +25,46 @@ $kelasList = collect($tugas)->pluck('kelas')->unique()->values();
 
 {{-- Table --}}
 <div class="bg-surface rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden">
-    <div class="p-4 border-b border-surface-variant flex flex-wrap gap-3 bg-surface-container-low">
-        <div class="relative">
-            <select id="filter-kelas" class="appearance-none bg-surface border border-outline-variant rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-secondary pr-9">
-                <option value="">Semua Kelas</option>
+    <div class="p-4 border-b border-surface-variant flex flex-col md:flex-row gap-3 bg-surface-container-low justify-end">
+        {{-- Filter Kelas --}}
+        <div class="relative w-full md:w-auto md:min-w-[200px] shrink-0">
+            <input type="hidden" id="filterKelas" value="Semua">
+            <button type="button" onclick="toggleDropdown('kelas')" class="w-full bg-surface border border-outline-variant/50 rounded-xl pl-10 pr-10 py-2 text-sm font-medium text-on-surface text-left focus:outline-none focus:border-secondary transition-soft hover:border-secondary/50">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">school</span>
+                <span id="filterKelasLabel">Semua Kelas</span>
+                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">expand_more</span>
+            </button>
+            <div id="dropdownKelas" class="hidden absolute z-20 mt-2 w-full md:min-w-[200px] bg-surface rounded-xl border border-outline-variant/30 shadow-xl overflow-hidden">
+                <button type="button" onclick="selectDropdown('kelas','Semua','Semua Kelas')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Semua Kelas</button>
                 @foreach($kelasList as $kelas)
-                <option value="{{ $kelas }}">{{ $kelas }}</option>
+                <button type="button" onclick="selectDropdown('kelas','{{ $kelas }}','{{ $kelas }}')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">{{ $kelas }}</button>
                 @endforeach
-            </select>
-            <span class="material-symbols-outlined pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant">expand_more</span>
+            </div>
         </div>
-        <div class="relative">
-            <select id="filter-status" class="appearance-none bg-surface border border-outline-variant rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-secondary pr-9">
-                <option value="">Semua Status</option>
-                <option value="aktif">Aktif</option>
-                <option value="selesai">Selesai</option>
-            </select>
-            <span class="material-symbols-outlined pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant">expand_more</span>
+        {{-- Filter Status --}}
+        <div class="relative w-full md:w-auto md:min-w-[170px] shrink-0">
+            <input type="hidden" id="filterStatus" value="Semua">
+            <button type="button" onclick="toggleDropdown('status')" class="w-full bg-surface border border-outline-variant/50 rounded-xl pl-10 pr-10 py-2 text-sm font-medium text-on-surface text-left focus:outline-none focus:border-secondary transition-soft hover:border-secondary/50">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">inventory_2</span>
+                <span id="filterStatusLabel">Semua Status</span>
+                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">expand_more</span>
+            </button>
+            <div id="dropdownStatus" class="hidden absolute z-20 mt-2 w-full md:min-w-[170px] bg-surface rounded-xl border border-outline-variant/30 shadow-xl overflow-hidden">
+                <button type="button" onclick="selectDropdown('status','Semua','Semua Status')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Semua Status</button>
+                <button type="button" onclick="selectDropdown('status','aktif','Aktif')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Aktif</button>
+                <button type="button" onclick="selectDropdown('status','selesai','Selesai')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Selesai</button>
+            </div>
         </div>
     </div>
     <table class="w-full text-left table-fixed">
         <thead class="bg-surface-container-low border-b border-surface-variant">
             <tr>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider w-[25%]">Judul Tugas</th>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider w-[25%]">Kelas</th>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider w-[12.5%]">Deadline</th>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-center w-[12.5%]">Pengumpulan</th>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-center w-[12.5%]">Status</th>
-                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-center w-[12.5%]">Aksi</th>
+                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider w-[30%]">Judul Tugas</th>
+                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider w-[15%]">Kelas</th>
+                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider w-[15%]">Deadline</th>
+                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-center w-[15%]">Pengumpulan</th>
+                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-center w-[10%]">Status</th>
+                <th class="p-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-center w-[15%]">Aksi</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-surface-variant">
@@ -98,24 +110,58 @@ $kelasList = collect($tugas)->pluck('kelas')->unique()->values();
 @endsection
 @push('scripts')
 <script>
-    const statusFilter = document.getElementById('filter-status');
-    const kelasFilter = document.getElementById('filter-kelas');
+    const filterStatusInput = document.getElementById('filterStatus');
+    const filterKelasInput = document.getElementById('filterKelas');
     const rows = document.querySelectorAll('tbody tr[data-status]');
 
-    function applyFilters() {
-        const status = statusFilter.value;
-        const kelas = kelasFilter.value;
+    function filterTugas() {
+        const status = filterStatusInput.value;
+        const kelas = filterKelasInput.value;
 
         rows.forEach(row => {
             const rowStatus = row.getAttribute('data-status');
             const rowKelas = row.getAttribute('data-kelas');
-            const statusMatch = !status || rowStatus === status;
-            const kelasMatch = !kelas || rowKelas === kelas;
+            const statusMatch = status === 'Semua' || rowStatus === status;
+            const kelasMatch = kelas === 'Semua' || rowKelas === kelas;
             row.classList.toggle('hidden', !(statusMatch && kelasMatch));
         });
     }
 
-    statusFilter.addEventListener('change', applyFilters);
-    kelasFilter.addEventListener('change', applyFilters);
+    function toggleDropdown(type) {
+        const targetId = type === 'kelas' ? 'dropdownKelas' : 'dropdownStatus';
+        const target = document.getElementById(targetId);
+        const otherId = type === 'kelas' ? 'dropdownStatus' : 'dropdownKelas';
+        const other = document.getElementById(otherId);
+        if (other && !other.classList.contains('hidden')) {
+            other.classList.add('hidden');
+        }
+        target.classList.toggle('hidden');
+    }
+
+    function selectDropdown(type, value, label) {
+        if (type === 'kelas') {
+            document.getElementById('filterKelas').value = value;
+            document.getElementById('filterKelasLabel').textContent = label;
+            document.getElementById('dropdownKelas').classList.add('hidden');
+        } else {
+            document.getElementById('filterStatus').value = value;
+            document.getElementById('filterStatusLabel').textContent = label;
+            document.getElementById('dropdownStatus').classList.add('hidden');
+        }
+        filterTugas();
+    }
+
+    document.addEventListener('click', function (event) {
+        const kelasWrapper = document.getElementById('dropdownKelas');
+        const statusWrapper = document.getElementById('dropdownStatus');
+        if (!event.target.closest('[onclick="toggleDropdown(\'kelas\')"]') && kelasWrapper && !kelasWrapper.classList.contains('hidden')) {
+            kelasWrapper.classList.add('hidden');
+        }
+        if (!event.target.closest('[onclick="toggleDropdown(\'status\')"]') && statusWrapper && !statusWrapper.classList.contains('hidden')) {
+            statusWrapper.classList.add('hidden');
+        }
+    });
+
+    filterTugas();
 </script>
 @endpush

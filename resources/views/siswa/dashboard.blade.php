@@ -26,11 +26,11 @@
         </div>
     </div>
     <div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/30 shadow-sm hover:shadow-md transition-soft relative flex items-center gap-4">
-        <div class="absolute top-2 right-2"><span class="bg-error text-on-error px-1.5 py-0.5 rounded text-[8px] font-bold uppercase">Mendesak</span></div>
-        <div class="p-2 bg-error-container rounded-lg text-on-error-container"><span class="material-symbols-outlined text-lg">assignment_late</span></div>
+        <div class="absolute top-2 right-2"><span class="bg-red-400 text-white px-1.5 py-0.5 rounded text-[8px] font-bold uppercase">Mendesak</span></div>
+        <div class="p-2 bg-red-50 rounded-lg text-red-500"><span class="material-symbols-outlined text-lg">assignment_late</span></div>
         <div>
             <h3 class="text-on-surface-variant text-xs mb-0.5">Tugas Belum Dikerjakan</h3>
-            <p class="font-bold text-2xl text-error">3</p>
+            <p class="font-bold text-2xl text-red-500">3</p>
         </div>
     </div>
     <div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/30 shadow-sm hover:shadow-md transition-soft flex items-center gap-4">
@@ -98,27 +98,6 @@
                         <a href="{{ route('siswa.pengerjaan-kuis') }}" class="bg-secondary-container hover:bg-secondary text-on-secondary-container hover:text-white font-semibold px-4 py-1.5 rounded transition-soft text-xs">Kerjakan</a>
                     </div>
                 </div>
-
-                <!-- Task 3 (Ujian) -->
-                <div class="bg-surface-container-lowest p-3 rounded-lg border border-outline-variant/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 group hover:border-secondary transition-soft">
-                    <div class="flex items-start gap-3">
-                        <div class="bg-surface-container-high p-2 rounded-lg text-primary"><span class="material-symbols-outlined text-sm">school</span></div>
-                        <div>
-                            <div class="flex items-center gap-2 mb-0.5">
-                                <span class="bg-primary-fixed text-on-primary-fixed px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider">Ujian</span>
-                                <h4 class="font-bold text-sm text-on-surface">Ujian Tengah Semester</h4>
-                            </div>
-                            <p class="text-on-surface-variant text-xs">Pemrograman Web</p>
-                        </div>
-                    </div>
-                    <div class="flex sm:flex-col items-center sm:items-end gap-3 sm:gap-1">
-                        <div class="text-secondary font-semibold text-[10px] flex items-center gap-1 bg-secondary-fixed/30 px-1.5 py-0.5 rounded">
-                            <span class="material-symbols-outlined text-xs">calendar_today</span><span>3 Hari Lagi</span>
-                        </div>
-                        <a href="{{ route('siswa.pengerjaan-ujian') }}" class="bg-secondary-container hover:bg-secondary text-on-secondary-container hover:text-white font-semibold px-4 py-1.5 rounded transition-soft text-xs">Kerjakan</a>
-                    </div>
-                </div>
-            </div>
         </section>
 
         {{-- Materi Terbaru --}}

@@ -88,8 +88,8 @@
 
     {{-- Content Area --}}
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        {{-- Left: Tab Content (col-span-2) --}}
-        <div class="xl:col-span-2 relative min-h-[500px]">
+        {{-- Left: Tab Content (col-span-3) --}}
+        <div class="xl:col-span-3 relative min-h-[500px]">
             
             {{-- TAB: SISWA --}}
             <div id="tab-siswa" class="tab-pane block animate-dropdown">
@@ -304,6 +304,9 @@
             <div id="tab-pengumuman" class="tab-pane hidden animate-dropdown">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="font-bold text-3xl md:text-4xl text-primary" style="font-family: var(--font-serif)">Pengumuman Kelas</h2>
+                    <button onclick="openModalBuatPengumuman()" class="bg-secondary text-on-secondary px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 hover:brightness-110 transition-soft">
+                        <span class="material-symbols-outlined" style="font-size: 18px">add</span> Buat Pengumuman
+                    </button>
                 </div>
                 <div class="flex flex-col gap-4">
                     <div class="bg-surface border border-outline-variant/30 rounded-xl p-4 hover:bg-surface-container-low transition-soft cursor-pointer shadow-sm relative group">
@@ -333,31 +336,31 @@
                 </div>
             </div>
 
-        </div>
+    </div>
+</div>
 
-        {{-- Right: Pengumuman Panel --}}
-        <div>
-            <div class="bg-surface border border-outline-variant/30 rounded-xl shadow-sm overflow-hidden mb-6">
-                <div class="p-5 border-b border-outline-variant/30 flex gap-3 items-center bg-surface-container-low">
-                    <div class="w-10 h-10 rounded-full bg-secondary-container/30 text-secondary flex items-center justify-center">
-                        <span class="material-symbols-outlined">campaign</span>
-                    </div>
-                    <h3 class="font-bold text-xl text-primary" style="font-family: var(--font-serif)">Buat Pengumuman</h3>
-                </div>
-                <div class="p-5">
-                    <div id="pengumumanWarning" class="hidden mb-3 p-3 bg-error-container/20 border border-error/30 text-error text-sm rounded-lg flex items-center gap-2">
-                        <span class="material-symbols-outlined" style="font-size: 18px">warning</span>
-                        Pengumuman tidak boleh kosong!
-                    </div>
-                    <div class="border border-outline-variant/50 rounded-xl overflow-hidden mb-4">
-                        <textarea id="pengumumanInput" class="w-full h-32 p-3 bg-transparent border-none focus:ring-0 text-sm resize-none text-on-surface outline-none" placeholder="Tulis informasi penting untuk siswa kelas ini..."></textarea>
-                    </div>
-                    <div class="flex justify-end items-center">
-                        <button onclick="postPengumuman()" class="bg-primary text-on-primary px-4 md:px-6 py-2 rounded-lg font-bold text-sm flex items-center gap-2 hover:bg-primary/90 transition-soft">
-                            Posting <span class="material-symbols-outlined" style="font-size: 16px">send</span>
-                        </button>
-                    </div>
-                </div>
+<!-- Modal Buat Pengumuman -->
+<div id="modalBuat" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-opacity">
+    <div class="bg-surface border border-outline-variant/30 rounded-2xl w-full max-w-lg shadow-xl overflow-hidden transform scale-95 transition-transform" id="modalBuatContent">
+        <div class="p-5 border-b border-outline-variant/30 flex justify-between items-center bg-surface-container-low">
+            <h3 class="font-bold text-xl text-primary" style="font-family: var(--font-serif)">Buat Pengumuman</h3>
+            <button onclick="closeModalBuatPengumuman()" class="text-on-surface-variant hover:text-error transition-soft">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="p-5">
+            <div id="pengumumanWarning" class="hidden mb-3 p-3 bg-error-container/20 border border-error/30 text-error text-sm rounded-lg flex items-center gap-2">
+                <span class="material-symbols-outlined" style="font-size: 18px">warning</span>
+                Pengumuman tidak boleh kosong!
+            </div>
+            <textarea id="pengumumanInput" class="w-full h-32 p-3 bg-surface-container-lowest border border-outline-variant/50 rounded-xl focus:ring-1 focus:ring-secondary focus:border-secondary text-sm resize-none text-on-surface outline-none" placeholder="Tulis informasi penting untuk siswa kelas ini..."></textarea>
+            <div class="flex justify-end gap-3 mt-4">
+                <button onclick="closeModalBuatPengumuman()" class="px-4 py-2 rounded-lg font-bold text-sm text-on-surface hover:bg-surface-variant transition-soft border border-outline-variant/50">
+                    Batal
+                </button>
+                <button onclick="postPengumuman()" class="bg-primary text-on-primary px-4 py-2 rounded-lg font-bold text-sm hover:bg-primary/90 transition-soft">
+                    Posting
+                </button>
             </div>
         </div>
     </div>
@@ -413,6 +416,12 @@
     <span class="font-bold text-sm">Berhasil disalin!</span>
 </div>
 
+<!-- Toast Success (Popup Hijau) -->
+<div id="toast-success" class="fixed top-5 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 bg-green-100 border border-green-300 text-green-800 px-6 py-3 rounded-lg shadow-lg opacity-0 invisible transition-all duration-300 transform -translate-y-4">
+    <span class="material-symbols-outlined">check_circle</span>
+    <span class="font-bold text-sm" id="toast-success-text">Berhasil!</span>
+</div>
+
 @push('scripts')
 <script>
     let currentEditId = null;
@@ -425,6 +434,20 @@
         
         setTimeout(() => {
             toast.classList.add("translate-y-24", "opacity-0");
+        }, 2500);
+    }
+
+    function showSuccessToast(message) {
+        const toast = document.getElementById('toast-success');
+        const toastText = document.getElementById('toast-success-text');
+        
+        toastText.innerText = message;
+        toast.classList.remove('invisible', 'opacity-0', '-translate-y-4');
+        toast.classList.add('opacity-100', 'translate-y-0');
+        
+        setTimeout(() => {
+            toast.classList.add('invisible', 'opacity-0', '-translate-y-4');
+            toast.classList.remove('opacity-100', 'translate-y-0');
         }, 2500);
     }
 
@@ -502,17 +525,52 @@
         }
     }
 
-    function postPengumuman() {
-        const input = document.getElementById("pengumumanInput").value.trim();
-        const warning = document.getElementById("pengumumanWarning");
+    function openModalBuatPengumuman() {
+        const modal = document.getElementById('modalBuat');
+        const modalContent = document.getElementById('modalBuatContent');
+        const input = document.getElementById('pengumumanInput');
+        const warning = document.getElementById('pengumumanWarning');
         
-        if (input === "") {
+        input.value = '';
+        warning.classList.add('hidden');
+        input.classList.remove('border-error');
+        
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeModalBuatPengumuman() {
+        const modal = document.getElementById('modalBuat');
+        const modalContent = document.getElementById('modalBuatContent');
+        
+        modalContent.classList.remove('scale-100');
+        modalContent.classList.add('scale-95');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 200);
+    }
+
+    function postPengumuman() {
+        const input = document.getElementById("pengumumanInput");
+        const warning = document.getElementById("pengumumanWarning");
+        const val = input.value.trim();
+        
+        if (val === "") {
             warning.classList.remove("hidden");
+            input.classList.add("border-error");
         } else {
             warning.classList.add("hidden");
-            // Form submission logic can be added here
-            alert("Pengumuman berhasil diposting!");
-            document.getElementById("pengumumanInput").value = "";
+            input.classList.remove("border-error");
+            
+            closeModalBuatPengumuman();
+            
+            setTimeout(() => {
+                showSuccessToast("Pengumuman berhasil diposting!");
+                input.value = "";
+            }, 300);
         }
     }
 
@@ -554,6 +612,10 @@
             document.getElementById('pengumuman-title-' + currentEditId).innerText = newText;
         }
         closeModalEdit();
+        
+        setTimeout(() => {
+            showSuccessToast("Pengumuman berhasil diperbarui!");
+        }, 300);
     }
 
     // Modal Delete Logic

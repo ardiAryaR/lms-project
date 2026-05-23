@@ -41,35 +41,23 @@
         filter: none;
     }
 
-    /* Modals */
-    #confirmModal { display: none; }
-    #confirmModal.open { display: flex; }
-    #toastMsg { display: none; }
-    #toastMsg.show { display: flex; }
 </style>
 
 <!-- Toast Success -->
-<div id="toastMsg" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] items-center gap-3 px-6 py-3.5 rounded-2xl shadow-2xl text-sm font-bold min-w-[280px] justify-center border" role="alert">
-    <span class="material-symbols-outlined text-lg" id="toastIcon">check_circle</span>
-    <span id="toastText">Nilai berhasil diterbitkan!</span>
+<div id="toast-success" class="fixed top-5 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-3 bg-green-100 border border-green-300 text-green-800 px-6 py-3 rounded-lg shadow-lg opacity-0 invisible transition-all duration-300 transform -translate-y-4">
+    <span class="material-symbols-outlined">check_circle</span>
+    <span class="font-bold text-sm">Nilai berhasil disimpan!</span>
 </div>
 
-<!-- Confirmation Modal -->
-<div id="confirmModal" class="fixed inset-0 z-50 items-center justify-center bg-black/40 backdrop-blur-sm">
-    <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full mx-4 border border-outline-variant">
-        <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0">
-                <span class="material-symbols-outlined text-on-secondary-container">help</span>
-            </div>
-            <div>
-                <h3 class="font-bold text-lg text-primary" id="modalTitle">Konfirmasi Aksi</h3>
-                <p class="text-sm text-on-surface-variant" id="modalSubtitle">Apakah Anda yakin?</p>
-            </div>
-        </div>
-        <p class="text-sm text-on-surface-variant mb-6" id="modalMessage">Tindakan ini tidak dapat dibatalkan.</p>
-        <div class="flex gap-3">
-            <button id="modalCancel" class="flex-1 py-2.5 border-2 border-outline-variant text-on-surface-variant font-bold rounded-xl hover:bg-surface-container transition-all text-sm">Tidak, Kembali</button>
-            <button id="modalConfirm" class="flex-1 py-2.5 bg-secondary-container text-on-secondary-container font-bold rounded-xl hover:opacity-90 transition-all text-sm">Ya, Lanjutkan</button>
+<!-- Modal Konfirmasi Simpan -->
+<div id="modal-confirm-simpan" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 hidden backdrop-blur-sm transition-opacity">
+    <div class="bg-[#fef9f3] rounded-xl shadow-2xl p-6 w-full max-w-sm border border-[#d6c3b8] text-center">
+        <span class="material-symbols-outlined text-[#feae2c] text-5xl mb-4">help</span>
+        <h3 class="text-xl font-bold text-[#50290b] mb-2" style="font-family: var(--font-serif)">Simpan Nilai?</h3>
+        <p class="text-xs text-[#51443c] mb-6">Apakah Anda yakin nilai yang diberikan sudah benar dan siap disimpan?</p>
+        <div class="flex gap-2 justify-center">
+            <button type="button" id="btn-cancel-simpan" class="px-4 py-2 rounded-lg font-bold text-xs text-[#51443c] border border-[#d6c3b8] hover:bg-[#f8f3ed] transition-colors">Periksa Lagi</button>
+            <button type="button" id="btn-confirm-simpan" class="px-4 py-2 rounded-lg font-bold text-xs bg-[#feae2c] text-[#6b4500] hover:brightness-110 transition-all">Ya, Simpan</button>
         </div>
     </div>
 </div>
@@ -79,10 +67,10 @@
 
     <!-- Page Title Badge -->
     <div class="flex items-center gap-2 mb-2">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-primary text-on-primary rounded-full text-xs font-bold uppercase tracking-wider">
-            <span class="material-symbols-outlined text-sm">history_edu</span> Penilaian Ujian
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold uppercase tracking-wider">
+            <span class="material-symbols-outlined text-sm">contract_edit</span> Penilaian Ujian
         </span>
-        <span class="text-on-surface-variant text-xs">Ujian Akhir Semester — Dasar Jaringan</span>
+        <span class="text-on-surface-variant text-xs">Ujian Tengah Semester Ganjil</span>
     </div>
 
     <div class="flex flex-col lg:flex-row gap-6 flex-1">
@@ -99,27 +87,9 @@
                     </div>
                     <div class="flex-shrink-0">
                         <div class="bg-error-container text-on-error-container px-2 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1 mb-1 w-fit ml-auto">
-                            <span class="material-symbols-outlined text-[13px]">schedule</span> Late (12m)
+                            <span class="material-symbols-outlined text-[13px]">schedule</span> Late (5m)
                         </div>
-                        <p class="text-[11px] text-on-surface-variant text-right" id="navCounter">Siswa 1 dari 5</p>
                     </div>
-                </div>
-
-                <!-- Student Navigator -->
-                <div class="flex items-center gap-1.5 bg-surface-container p-1.5 rounded-lg">
-                    <button id="prevStudent" class="p-1 hover:bg-outline-variant/20 rounded-full text-primary transition-colors flex-shrink-0">
-                        <span class="material-symbols-outlined text-[13px]">arrow_back_ios_new</span>
-                    </button>
-                    <div class="flex-1 flex justify-center gap-2 overflow-x-auto py-0.5" id="studentNav">
-                        <div class="student-thumb active" data-index="0" data-name="Aditya Saputra">AS</div>
-                        <div class="student-thumb inactive" data-index="1" data-name="Bambang Pamungkas">BP</div>
-                        <div class="student-thumb inactive" data-index="2" data-name="Citra Nuraini">CN</div>
-                        <div class="student-thumb inactive" data-index="3" data-name="Joko Susilo">JS</div>
-                        <div class="student-thumb inactive" data-index="4" data-name="Maya Putri">MT</div>
-                    </div>
-                    <button id="nextStudent" class="p-1 hover:bg-outline-variant/20 rounded-full text-primary transition-colors flex-shrink-0">
-                        <span class="material-symbols-outlined text-[13px]">arrow_forward_ios</span>
-                    </button>
                 </div>
             </div>
 
@@ -240,12 +210,12 @@
                         <label class="text-[11px] font-bold text-on-surface-variant block mb-1">Feedback Keseluruhan:</label>
                         <textarea class="flex-1 w-full bg-white border border-outline-variant rounded-lg p-2.5 text-xs focus:ring-2 focus:ring-secondary/20 focus:border-secondary focus:outline-none resize-none" placeholder="Tuliskan evaluasi menyeluruh..."></textarea>
                     </div>
-                    <button id="btnBatalkan" class="w-full py-2 bg-white border-2 border-error text-error font-bold rounded-lg hover:bg-error-container transition-all text-[13px] flex-shrink-0">
-                        Batalkan
-                    </button>
-                    <button id="btnTerbitkan" class="w-full py-2 bg-secondary-container text-on-secondary-container font-bold rounded-lg hover:opacity-90 transition-opacity shadow text-[13px] flex-shrink-0">
-                        Terbitkan Nilai
-                    </button>
+                    <!-- Actions -->
+                    <div class="pt-3 border-t border-outline-variant/30 flex-shrink-0">
+                        <button type="button" id="btn-trigger-simpan" class="w-full px-6 py-2.5 bg-[#feae2c] text-[#6b4500] text-sm font-bold rounded-lg flex items-center justify-center gap-2 hover:brightness-110 transition-soft">
+                            <span class="material-symbols-outlined" style="font-size: 18px">save</span> Simpan Nilai
+                        </button>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -309,59 +279,38 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     document.querySelectorAll('.essay-score').forEach(inp => inp.addEventListener('input', recalcScore));
 
-    // ── Toast Notification ─────────────────────────────────────
-    const toast = document.getElementById('toastMsg');
-    const toastText = document.getElementById('toastText');
-    const toastIcon = document.getElementById('toastIcon');
-
-    function showToast(message, type = 'success') {
-        toastText.textContent = message;
-        toast.className = toast.className.replace(/bg-\S+|text-\S+|border-\S+/g, '').trim();
-        if (type === 'success') {
-            toast.style.cssText = 'background:#dcfce7;color:#15803d;border-color:#86efac;display:flex;';
-            toastIcon.textContent = 'check_circle';
-        } else {
-            toast.style.cssText = 'background:#fee2e2;color:#b91c1c;border-color:#fca5a5;display:flex;';
-            toastIcon.textContent = 'cancel';
-        }
-        toast.classList.add('show');
-        setTimeout(() => {
-            toast.classList.remove('show');
-            toast.style.display = 'none';
-        }, 2000);
-    }
-
-    // ── Confirmation Modal ─────────────────────────────────────
-    const modal = document.getElementById('confirmModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalMessage = document.getElementById('modalMessage');
+    // ── Modals & Toasts ─────────────────────────────────────
     const monitorUrl = "{{ route('guru.monitor') }}";
-    let pendingAction = null;
+    
+    const modalSimpan = document.getElementById('modal-confirm-simpan');
+    const toastSuccess = document.getElementById('toast-success');
+    const btnTriggerSimpan = document.getElementById('btn-trigger-simpan');
+    const btnConfirmSimpan = document.getElementById('btn-confirm-simpan');
+    const btnCancelSimpan = document.getElementById('btn-cancel-simpan');
 
-    function openModal(title, message, action) {
-        modalTitle.textContent = title;
-        modalMessage.textContent = message;
-        pendingAction = action;
-        modal.classList.add('open');
-    }
-
-    document.getElementById('modalCancel').addEventListener('click', () => modal.classList.remove('open'));
-    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('open'); });
-    document.getElementById('modalConfirm').addEventListener('click', () => {
-        modal.classList.remove('open');
-        if (pendingAction === 'terbitkan') {
-            showToast('Nilai berhasil diterbitkan!', 'success');
-        } else if (pendingAction === 'batalkan') {
-            showToast('Penilaian berhasil dibatalkan.', 'cancel');
-        }
-        setTimeout(() => { window.location.href = monitorUrl; }, 2200);
+    // Trigger Modals
+    btnTriggerSimpan.addEventListener('click', () => {
+        modalSimpan.classList.remove('hidden');
+        modalSimpan.classList.add('flex');
     });
 
-    document.getElementById('btnBatalkan').addEventListener('click', () => {
-        openModal('Batalkan Penilaian?', 'Progres yang belum disimpan akan hilang. Anda akan kembali ke halaman Monitor Tugas.', 'batalkan');
+    // Cancel Modals
+    btnCancelSimpan.addEventListener('click', () => {
+        modalSimpan.classList.add('hidden');
+        modalSimpan.classList.remove('flex');
     });
-    document.getElementById('btnTerbitkan').addEventListener('click', () => {
-        openModal('Terbitkan Nilai?', 'Nilai akan dikirim ke siswa dan tidak dapat diubah tanpa konfirmasi. Lanjutkan menerbitkan?', 'terbitkan');
+
+    // Confirm Simpan
+    btnConfirmSimpan.addEventListener('click', () => {
+        modalSimpan.classList.add('hidden');
+        modalSimpan.classList.remove('flex');
+        
+        toastSuccess.classList.remove('invisible', 'opacity-0', '-translate-y-4');
+        toastSuccess.classList.add('opacity-100', 'translate-y-0');
+        
+        setTimeout(() => {
+            window.location.href = monitorUrl;
+        }, 1500);
     });
 });
 </script>

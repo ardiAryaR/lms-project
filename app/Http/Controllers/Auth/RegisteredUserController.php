@@ -29,18 +29,28 @@ class RegisteredUserController extends Controller
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role'     => ['required', 'in:guru,murid'],
+            'nis'      => ['required_if:role,murid', 'nullable', 'numeric'],
+            'nrg'      => ['required_if:role,guru', 'nullable', 'numeric'],
         ]);
 
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
+            'role'     => $request->role,
+            'nis'      => $request->role === 'murid' ? $request->nis : null,
+            'nrg'      => $request->role === 'guru' ? $request->nrg : null,
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect()->route('guru.dashboard');
+        if ($user->role === 'guru') {
+            return redirect()->route('guru.dashboard');
+        }
+
+        return redirect()->route('siswa.dashboard');
     }
 }

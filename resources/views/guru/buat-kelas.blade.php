@@ -3,14 +3,7 @@
 
 @section('content')
 <div class="max-w-[1000px] w-full">
-    {{-- Breadcrumbs --}}
-    <div class="flex items-center gap-2 text-xs text-on-surface-variant mb-4">
-        <a href="{{ route('guru.dashboard') }}" class="hover:text-primary transition-soft">Dashboard</a>
-        <span class="material-symbols-outlined" style="font-size: 14px">chevron_right</span>
-        <a href="{{ route('guru.kelas') }}" class="hover:text-primary transition-soft">Kelas Saya</a>
-        <span class="material-symbols-outlined" style="font-size: 14px">chevron_right</span>
-        <span class="font-bold text-primary">Buat Kelas Baru</span>
-    </div>
+
 
     {{-- Page Header --}}
     <div class="mb-4">
@@ -26,19 +19,25 @@
                 {{-- Nama Kelas --}}
                 <div>
                     <label class="block text-xs font-bold text-[#51443c] mb-1">Nama Kelas</label>
-                    <input type="text" placeholder="Contoh: XII RPL 1 - Pengembangan Web" class="w-full bg-[#f8f3ed] border-none rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#835500] text-sm text-[#50290b] placeholder-[#84746b]">
+                    <input type="text" id="nama-kelas" placeholder="Contoh: Pengembangan Web" class="w-full bg-[#f8f3ed] border-none rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#835500] text-sm text-[#50290b] placeholder-[#84746b]">
+                    <p id="nama-kelas-error" class="hidden text-[11px] text-red-500 font-bold mt-1">Nama kelas wajib diisi.</p>
                 </div>
-                {{-- Semester/Periode --}}
-                <div class="relative">
-                    <label class="block text-xs font-bold text-[#51443c] mb-1">Semester/Periode</label>
+                {{-- Pemilihan Kelas --}}
+                <div>
+                    <label class="block text-xs font-bold text-[#51443c] mb-1">Pilih Kelas</label>
                     <div class="relative">
-                        <select class="w-full bg-[#f8f3ed] border-none rounded-lg pl-3 pr-8 py-2 focus:ring-2 focus:ring-[#835500] text-sm text-[#50290b] appearance-none cursor-pointer">
-                            <option>Pilih Semester</option>
-                            <option>Ganjil 2023/2024</option>
-                            <option>Genap 2023/2024</option>
+                        <select id="pilih-kelas" class="w-full bg-[#f8f3ed] border-none rounded-lg pl-3 pr-8 py-2 focus:ring-2 focus:ring-[#835500] text-sm text-[#50290b] appearance-none cursor-pointer">
+                            <option value="">Pilih satu kelas...</option>
+                            <option value="X TKJ 1">X TKJ 1</option>
+                            <option value="X TKJ 2">X TKJ 2</option>
+                            <option value="XI TKJ 1">XI TKJ 1</option>
+                            <option value="XI TKJ 2">XI TKJ 2</option>
+                            <option value="XII TKJ 1">XII TKJ 1</option>
+                            <option value="XII TKJ 2">XII TKJ 2</option>
                         </select>
                         <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-[#84746b] pointer-events-none" style="font-size: 18px">expand_more</span>
                     </div>
+                    <p id="pilih-kelas-error" class="hidden text-[11px] text-red-500 font-bold mt-1">Pilih satu kelas.</p>
                 </div>
             </div>
 
@@ -52,12 +51,7 @@
                 {{-- Guru Pengampu --}}
                 <div>
                     <label class="block text-xs font-bold text-[#51443c] mb-1">Guru Pengampu</label>
-                    <div class="relative">
-                        <select class="w-full bg-[#f8f3ed] border-none rounded-lg pl-3 pr-8 py-2 focus:ring-2 focus:ring-[#835500] text-sm text-[#50290b] appearance-none cursor-pointer">
-                            <option>Siti Aminah, S.Kom (Saya)</option>
-                        </select>
-                        <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-[#84746b] pointer-events-none" style="font-size: 18px">expand_more</span>
-                    </div>
+                    <input type="text" value="{{ Auth::user()->name ?? 'Budi Santoso' }}" class="w-full bg-[#f8f3ed] border-none rounded-lg px-3 py-2 text-sm text-[#50290b] cursor-not-allowed opacity-80" readonly>
                 </div>
                 {{-- Class Key --}}
                 <div>
@@ -77,18 +71,18 @@
             {{-- Status Kelas --}}
             <div class="mb-4">
                 <label class="block text-xs font-bold text-[#51443c] mb-2">Status Kelas</label>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
-                    {{-- Draft (Active) --}}
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
+                    {{-- Terjadwal --}}
                     <label class="cursor-pointer relative">
-                        <input type="radio" name="status" value="draft" class="peer sr-only" checked>
+                        <input type="radio" name="status" value="terjadwal" id="status-terjadwal-main" class="peer sr-only">
                         <div class="w-full h-full bg-[#f8f3ed] border-2 border-transparent rounded-xl flex items-center justify-center py-2 gap-1 text-[#51443c] peer-checked:bg-[#fef9f3] peer-checked:border-[#835500] peer-checked:text-[#50290b] transition-soft hover:bg-[#e6e2dc]">
-                            <span class="material-symbols-outlined" style="font-size: 18px">draft</span>
-                            <span class="text-xs font-semibold">Draft</span>
+                            <span class="material-symbols-outlined" style="font-size: 18px">schedule</span>
+                            <span class="text-xs font-semibold">Terjadwal</span>
                         </div>
                     </label>
-                    {{-- Active --}}
+                    {{-- Active (Default) --}}
                     <label class="cursor-pointer relative">
-                        <input type="radio" name="status" value="active" class="peer sr-only">
+                        <input type="radio" name="status" value="active" class="peer sr-only" checked>
                         <div class="w-full h-full bg-[#f8f3ed] border-2 border-transparent rounded-xl flex items-center justify-center py-2 gap-1 text-[#51443c] peer-checked:bg-[#fef9f3] peer-checked:border-[#835500] peer-checked:text-[#50290b] transition-soft hover:bg-[#e6e2dc]">
                             <span class="material-symbols-outlined" style="font-size: 18px">check_circle</span>
                             <span class="text-xs font-semibold">Active</span>
@@ -96,29 +90,25 @@
                     </label>
                     {{-- Closed --}}
                     <label class="cursor-pointer relative">
-                        <input type="radio" name="status" value="closed" class="peer sr-only">
+                        <input type="radio" name="status" value="closed" id="status-closed" class="peer sr-only">
                         <div class="w-full h-full bg-[#f8f3ed] border-2 border-transparent rounded-xl flex items-center justify-center py-2 gap-1 text-[#51443c] peer-checked:bg-[#fef9f3] peer-checked:border-[#835500] peer-checked:text-[#50290b] transition-soft hover:bg-[#e6e2dc]">
                             <span class="material-symbols-outlined" style="font-size: 18px">lock</span>
                             <span class="text-xs font-semibold">Closed</span>
                         </div>
                     </label>
-                    {{-- Archived --}}
-                    <label class="cursor-pointer relative">
-                        <input type="radio" name="status" value="archived" class="peer sr-only">
-                        <div class="w-full h-full bg-[#f8f3ed] border-2 border-transparent rounded-xl flex items-center justify-center py-2 gap-1 text-[#51443c] peer-checked:bg-[#fef9f3] peer-checked:border-[#835500] peer-checked:text-[#50290b] transition-soft hover:bg-[#e6e2dc]">
-                            <span class="material-symbols-outlined" style="font-size: 18px">inventory_2</span>
-                            <span class="text-xs font-semibold">Archived</span>
-                        </div>
-                    </label>
+
                 </div>
+                <!-- Hidden info jadwal -->
+                <input type="hidden" name="scheduled_at" id="scheduled_at_input" />
+                <div id="scheduled-display" class="hidden text-[11px] text-[#835500] font-bold bg-[#835500]/10 px-2 py-1 rounded-md inline-block w-full text-center mt-2"></div>
             </div>
 
             {{-- Footer Buttons --}}
             <div class="border-t border-outline-variant/30 pt-4 flex flex-col-reverse sm:flex-row justify-end gap-3">
-                <a href="{{ route('guru.kelas') }}" class="px-6 py-2 border border-[#d6c3b8] text-[#51443c] text-sm text-center font-bold rounded-lg hover:bg-[#f8f3ed] transition-soft">
+                <button type="button" id="btn-trigger-batal" class="px-6 py-2 border border-[#d6c3b8] text-[#51443c] text-sm text-center font-bold rounded-lg hover:bg-[#f8f3ed] transition-soft">
                     Batal
-                </a>
-                <button type="submit" class="px-6 py-2 bg-[#feae2c] text-[#6b4500] text-sm font-bold rounded-lg flex items-center justify-center gap-1 hover:brightness-110 transition-soft">
+                </button>
+                <button type="button" id="btn-trigger-simpan" class="px-6 py-2 bg-[#feae2c] text-[#6b4500] text-sm font-bold rounded-lg flex items-center justify-center gap-1 hover:brightness-110 transition-soft">
                     <span class="material-symbols-outlined" style="font-size: 18px">save</span> Simpan Kelas
                 </button>
             </div>
@@ -126,14 +116,259 @@
     </div>
 </div>
 
+<!-- Modal Konfirmasi Simpan -->
+<div id="modal-confirm-simpan" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 hidden backdrop-blur-sm transition-opacity">
+    <div class="bg-[#fef9f3] rounded-xl shadow-2xl p-6 w-full max-w-sm border border-[#d6c3b8] text-center">
+        <span class="material-symbols-outlined text-[#feae2c] text-5xl mb-4">help</span>
+        <h3 class="text-xl font-bold text-[#50290b] mb-2" style="font-family: var(--font-serif)">Simpan Kelas?</h3>
+        <p class="text-xs text-[#51443c] mb-6">Apakah Anda yakin data kelas sudah benar dan siap disimpan?</p>
+        <div class="flex gap-2 justify-center">
+            <button type="button" id="btn-cancel-simpan" class="px-4 py-2 rounded-lg font-bold text-xs text-[#51443c] border border-[#d6c3b8] hover:bg-[#f8f3ed] transition-colors">Periksa Lagi</button>
+            <button type="button" id="btn-confirm-simpan" class="px-4 py-2 rounded-lg font-bold text-xs bg-[#feae2c] text-[#6b4500] hover:brightness-110 transition-all">Ya, Simpan</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Konfirmasi Batal -->
+<div id="modal-confirm-batal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 hidden backdrop-blur-sm transition-opacity">
+    <div class="bg-red-50 rounded-xl shadow-2xl p-6 w-full max-w-sm border border-red-200 text-center">
+        <span class="material-symbols-outlined text-red-500 text-5xl mb-4">warning</span>
+        <h3 class="text-xl font-bold text-red-700 mb-2" style="font-family: var(--font-serif)">Batalkan Pembuatan?</h3>
+        <p class="text-xs text-red-600/80 mb-6">Semua data yang telah Anda isikan akan hilang. Apakah Anda yakin?</p>
+        <div class="flex gap-2 justify-center">
+            <button type="button" id="btn-cancel-batal" class="px-4 py-2 rounded-lg font-bold text-xs text-red-700 border border-red-200 hover:bg-red-100 transition-colors">Kembali</button>
+            <button type="button" id="btn-confirm-batal" class="px-4 py-2 rounded-lg font-bold text-xs bg-red-500 text-white hover:bg-red-600 transition-all shadow-md hover:shadow-lg">Ya, Batalkan</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Success (Popup Hijau) -->
+<div id="toast-success" class="fixed top-5 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-3 bg-green-100 border border-green-300 text-green-800 px-6 py-3 rounded-lg shadow-lg opacity-0 invisible transition-all duration-300 transform -translate-y-4">
+    <span class="material-symbols-outlined">check_circle</span>
+    <span class="font-bold text-sm">Kelas berhasil dibuat!</span>
+</div>
+
+<!-- Toast Batal (Popup Merah) -->
+<div id="toast-batal" class="fixed top-5 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-3 bg-red-100 border border-red-300 text-red-800 px-6 py-3 rounded-lg shadow-lg opacity-0 invisible transition-all duration-300 transform -translate-y-4">
+    <span class="material-symbols-outlined">cancel</span>
+    <span class="font-bold text-sm">Kelas berhasil dibatalkan!</span>
+</div>
+
+<!-- Modal Popup Terjadwal -->
+<div id="modal-terjadwal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 hidden backdrop-blur-sm transition-opacity">
+    <div class="bg-[#fef9f3] rounded-xl shadow-2xl p-6 w-full max-w-sm border border-[#d6c3b8]">
+        <h3 class="text-lg font-bold text-[#50290b] mb-2 flex items-center gap-2" style="font-family: var(--font-serif)">
+            <span class="material-symbols-outlined">schedule</span> Jadwal Kelas
+        </h3>
+        <p class="text-[11px] text-[#51443c] mb-5">Atur kapan kelas ini akan aktif. Pilih waktu minimal 5 menit dari sekarang.</p>
+        
+        <div class="mb-5">
+            <label class="block text-xs font-bold text-[#51443c] mb-2">Pilih Tanggal & Waktu</label>
+            <input id="modal-datetime-input" type="datetime-local" class="w-full bg-[#f8f3ed] border-none border-b-2 border-[#835500] focus:ring-0 focus:border-[#feae2c] transition-all py-2 px-3 text-sm text-[#50290b]" />
+            <p id="modal-error" class="hidden text-red-500 text-[11px] mt-2 font-bold max-w-full">Waktu yang dipilih kurang dari 5 menit dari sekarang!</p>
+        </div>
+        
+        <div class="flex gap-2 justify-end">
+            <button type="button" id="btn-cancel-terjadwal" class="px-4 py-2 rounded-lg font-bold text-xs text-[#51443c] border border-[#d6c3b8] hover:bg-[#f8f3ed] transition-colors">Batal</button>
+            <button type="button" id="btn-save-terjadwal" class="px-4 py-2 rounded-lg font-bold text-xs bg-[#feae2c] text-[#6b4500] hover:brightness-110 transition-all">Simpan Jadwal</button>
+        </div>
+    </div>
+</div>
+
 <script>
     function generateClassKey() {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let result = 'MNDLH-';
-        for (let i = 0; i < 4; i++) {
-            result += characters.charAt(Math.floor(Math.random() * characters.length));
+        const classSelect = document.getElementById('pilih-kelas');
+        let prefix = 'MNDLH';
+        
+        if (classSelect && classSelect.value) {
+            // Hilangkan spasi dari nama kelas, contoh: "X TKJ 1" -> "XTKJ1"
+            prefix = classSelect.value.replace(/\s+/g, '').toUpperCase();
         }
-        document.getElementById('classKeyInput').value = result;
+
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let randomPart = '';
+        for (let i = 0; i < 4; i++) {
+            randomPart += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        document.getElementById('classKeyInput').value = prefix + '-' + randomPart;
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- STATUS PUBLIKASI ---
+        const radioTerjadwalMain = document.getElementById('status-terjadwal-main');
+        const radioActive = document.querySelector('input[name="status"][value="active"]');
+        const radioClosed = document.getElementById('status-closed');
+        const modal = document.getElementById('modal-terjadwal');
+        const datetimeInput = document.getElementById('modal-datetime-input');
+        const btnCancel = document.getElementById('btn-cancel-terjadwal');
+        const btnSave = document.getElementById('btn-save-terjadwal');
+        const hiddenScheduledInput = document.getElementById('scheduled_at_input');
+        const scheduledDisplay = document.getElementById('scheduled-display');
+        const errorMessage = document.getElementById('modal-error');
+        
+        let previousStatus = 'active';
+
+        function getMinDateTime() {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() + 5);
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            return now.toISOString().slice(0, 16);
+        }
+
+        function showModal() {
+            const minDateTime = getMinDateTime();
+            datetimeInput.min = minDateTime;
+            if (!datetimeInput.value || datetimeInput.value < minDateTime) {
+                datetimeInput.value = minDateTime;
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function hideModal() {
+            modal.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+        }
+
+        [radioActive, radioClosed].forEach(radio => {
+            radio?.addEventListener('change', function() {
+                if (this.checked) {
+                    previousStatus = this.value;
+                    hiddenScheduledInput.value = '';
+                    scheduledDisplay.classList.add('hidden');
+                }
+            });
+        });
+
+        radioTerjadwalMain.addEventListener('change', function() {
+            if (this.checked) {
+                showModal();
+            }
+        });
+
+        btnCancel.addEventListener('click', function() {
+            hideModal();
+            if (previousStatus === 'terjadwal') radioTerjadwalMain.checked = true;
+            else if (previousStatus === 'active') radioActive.checked = true;
+            else if (radioClosed) radioClosed.checked = true;
+        });
+
+        btnSave.addEventListener('click', function() {
+            const selectedTime = new Date(datetimeInput.value).getTime();
+            const minTime = new Date(getMinDateTime()).getTime();
+            
+            if (selectedTime < minTime) {
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+            
+            errorMessage.classList.add('hidden');
+            hiddenScheduledInput.value = datetimeInput.value;
+            previousStatus = 'terjadwal';
+            hideModal();
+            
+            const dateObj = new Date(datetimeInput.value);
+            scheduledDisplay.textContent = 'Jadwal Kelas: ' + dateObj.toLocaleString('id-ID', {
+                day: 'numeric', month: 'short', year: 'numeric', 
+                hour: '2-digit', minute: '2-digit'
+            });
+            scheduledDisplay.classList.remove('hidden');
+        });
+
+        // --- KONFIRMASI SIMPAN & BATAL ---
+        const btnTriggerSimpan = document.getElementById('btn-trigger-simpan');
+        const btnTriggerBatal = document.getElementById('btn-trigger-batal');
+        const modalConfirmSimpan = document.getElementById('modal-confirm-simpan');
+        const modalConfirmBatal = document.getElementById('modal-confirm-batal');
+        const btnCancelSimpan = document.getElementById('btn-cancel-simpan');
+        const btnConfirmSimpan = document.getElementById('btn-confirm-simpan');
+        const btnCancelBatal = document.getElementById('btn-cancel-batal');
+        const btnConfirmBatal = document.getElementById('btn-confirm-batal');
+        const toastSuccess = document.getElementById('toast-success');
+        const toastBatal = document.getElementById('toast-batal');
+
+        const namaKelasInput = document.getElementById('nama-kelas');
+        const pilihKelasInput = document.getElementById('pilih-kelas');
+        const namaKelasError = document.getElementById('nama-kelas-error');
+        const pilihKelasError = document.getElementById('pilih-kelas-error');
+
+        function validateForm() {
+            let isValid = true;
+            
+            if (!namaKelasInput.value.trim()) {
+                namaKelasError.classList.remove('hidden');
+                namaKelasInput.classList.add('border-red-500', 'border-2', 'border-solid');
+                isValid = false;
+            } else {
+                namaKelasError.classList.add('hidden');
+                namaKelasInput.classList.remove('border-red-500', 'border-2', 'border-solid');
+            }
+
+            if (!pilihKelasInput.value) {
+                pilihKelasError.classList.remove('hidden');
+                isValid = false;
+            } else {
+                pilihKelasError.classList.add('hidden');
+            }
+
+            return isValid;
+        }
+
+        namaKelasInput.addEventListener('input', () => {
+            if (namaKelasInput.value.trim()) {
+                namaKelasError.classList.add('hidden');
+                namaKelasInput.classList.remove('border-red-500', 'border-2', 'border-solid');
+            }
+        });
+        
+        pilihKelasInput.addEventListener('change', () => {
+            if (pilihKelasInput.value) {
+                pilihKelasError.classList.add('hidden');
+                // Auto generate class key based on selected class
+                generateClassKey();
+            }
+        });
+
+        btnTriggerSimpan.addEventListener('click', () => {
+            modalConfirmSimpan.classList.remove('hidden');
+        });
+        
+        btnTriggerBatal.addEventListener('click', () => {
+            modalConfirmBatal.classList.remove('hidden');
+        });
+
+        btnCancelSimpan.addEventListener('click', () => {
+            modalConfirmSimpan.classList.add('hidden');
+        });
+
+        btnCancelBatal.addEventListener('click', () => {
+            modalConfirmBatal.classList.add('hidden');
+        });
+
+        btnConfirmBatal.addEventListener('click', () => {
+            modalConfirmBatal.classList.add('hidden');
+            
+            toastBatal.classList.remove('invisible', 'opacity-0', '-translate-y-4');
+            toastBatal.classList.add('opacity-100', 'translate-y-0');
+            
+            setTimeout(() => {
+                window.location.href = "{{ route('guru.kelas') }}";
+            }, 1500);
+        });
+
+        btnConfirmSimpan.addEventListener('click', () => {
+            if (!validateForm()) {
+                modalConfirmSimpan.classList.add('hidden');
+                return;
+            }
+            modalConfirmSimpan.classList.add('hidden');
+            
+            toastSuccess.classList.remove('invisible', 'opacity-0', '-translate-y-4');
+            toastSuccess.classList.add('opacity-100', 'translate-y-0');
+            
+            setTimeout(() => {
+                window.location.href = "{{ route('guru.kelas') }}";
+            }, 1500);
+        });
+    });
 </script>
 @endsection

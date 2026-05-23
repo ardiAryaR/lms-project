@@ -60,9 +60,6 @@ $rataRata = round(array_sum(array_column($rekap,'rata')) / count($rekap), 1);
             <option>Semua Kelas</option><option>X TKJ 1</option><option>X TKJ 2</option><option>XI TKJ 1</option>
         </select>
         <select class="bg-surface border border-outline-variant rounded-lg px-4 py-2 text-sm flex-1 focus:outline-none">
-            <option>Semester Genap 2024/2025</option><option>Semester Ganjil 2024/2025</option>
-        </select>
-        <select class="bg-surface border border-outline-variant rounded-lg px-4 py-2 text-sm flex-1 focus:outline-none">
             <option>Semua Predikat</option><option>A</option><option>B+</option><option>B</option><option>C</option>
         </select>
     </div>

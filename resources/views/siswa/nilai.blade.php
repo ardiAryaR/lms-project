@@ -25,8 +25,6 @@
                 <p class="text-[11px] uppercase tracking-widest text-on-primary/60 mb-1 font-bold">Rata-rata Semester</p>
                 <h3 class="text-4xl font-bold leading-none mb-2" style="font-family: var(--font-serif)">88.5</h3>
                 <p class="text-[11px] text-secondary font-bold flex items-center gap-1">
-                    <span class="material-symbols-outlined text-[14px]">trending_up</span>
-                    +2.4 dari bulan lalu
                 </p>
             </div>
             <div class="absolute right-0 bottom-0 opacity-10 transform translate-x-1/4 translate-y-1/4 group-hover:scale-110 transition-transform duration-700">
@@ -62,18 +60,34 @@
                 <span class="material-symbols-outlined text-primary text-[20px]">history_edu</span>
                 <h3 class="text-lg font-bold text-primary" style="font-family: var(--font-serif)">Daftar Nilai & Evaluasi</h3>
             </div>
-            <div class="flex flex-wrap gap-2">
-                <select id="filter-category" onchange="applyFilters()" class="text-xs border-outline-variant rounded-lg focus:ring-secondary focus:border-secondary py-1.5 pl-3 pr-8 bg-surface">
-                    <option value="semua">Semua Kategori</option>
-                    <option value="ujian">Ujian</option>
-                    <option value="tugas">Tugas</option>
-                    <option value="kuis">Kuis</option>
-                </select>
-                <select id="sort-score" onchange="applyFilters()" class="text-xs border-outline-variant rounded-lg focus:ring-secondary focus:border-secondary py-1.5 pl-3 pr-8 bg-surface">
-                    <option value="terbaru">Terbaru</option>
-                    <option value="tertinggi">Nilai Tertinggi</option>
-                    <option value="terendah">Nilai Terendah</option>
-                </select>
+            <div class="flex flex-wrap gap-4 w-full md:w-auto">
+                {{-- Custom Select Kategori --}}
+                <div class="relative w-full md:w-48">
+                    <input type="hidden" id="filter-category" value="semua">
+                    <button type="button" onclick="toggleDropdownSiswa('kategori')" class="w-full bg-surface border border-outline-variant/50 rounded-xl px-4 py-2 text-sm text-left text-on-surface hover:bg-surface-variant/50 transition-soft focus:outline-none focus:border-secondary flex items-center justify-between">
+                        <span id="filterKategoriLabel" class="block truncate mr-6">Semua Kategori</span>
+                        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">expand_more</span>
+                    </button>
+                    <div id="dropdownKategori" class="hidden absolute right-0 z-20 mt-2 w-full md:min-w-[170px] bg-surface rounded-xl border border-outline-variant/30 shadow-xl overflow-hidden">
+                        <button type="button" onclick="selectDropdownSiswa('kategori','semua','Semua Kategori')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Semua Kategori</button>
+                        <button type="button" onclick="selectDropdownSiswa('kategori','ujian','Ujian')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Ujian</button>
+                        <button type="button" onclick="selectDropdownSiswa('kategori','tugas','Tugas')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Tugas</button>
+                        <button type="button" onclick="selectDropdownSiswa('kategori','kuis','Kuis')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Kuis</button>
+                    </div>
+                </div>
+                {{-- Custom Select Urutkan --}}
+                <div class="relative w-full md:w-48">
+                    <input type="hidden" id="sort-score" value="terbaru">
+                    <button type="button" onclick="toggleDropdownSiswa('sort')" class="w-full bg-surface border border-outline-variant/50 rounded-xl px-4 py-2 text-sm text-left text-on-surface hover:bg-surface-variant/50 transition-soft focus:outline-none focus:border-secondary flex items-center justify-between">
+                        <span id="sortScoreLabel" class="block truncate mr-6">Terbaru</span>
+                        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">expand_more</span>
+                    </button>
+                    <div id="dropdownSort" class="hidden absolute right-0 z-20 mt-2 w-full md:min-w-[170px] bg-surface rounded-xl border border-outline-variant/30 shadow-xl overflow-hidden">
+                        <button type="button" onclick="selectDropdownSiswa('sort','terbaru','Terbaru')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Terbaru</button>
+                        <button type="button" onclick="selectDropdownSiswa('sort','tertinggi','Nilai Tertinggi')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Nilai Tertinggi</button>
+                        <button type="button" onclick="selectDropdownSiswa('sort','terendah','Nilai Terendah')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Nilai Terendah</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -233,6 +247,45 @@
 
     // Init table
     applyFilters();
+
+    function toggleDropdownSiswa(type) {
+        const targetId = type === 'kategori' ? 'dropdownKategori' : 'dropdownSort';
+        const target = document.getElementById(targetId);
+        const otherId = type === 'kategori' ? 'dropdownSort' : 'dropdownKategori';
+        const other = document.getElementById(otherId);
+        if (other && !other.classList.contains('hidden')) {
+            other.classList.add('hidden');
+        }
+        target.classList.toggle('hidden');
+    }
+
+    function selectDropdownSiswa(type, value, label) {
+        if (type === 'kategori') {
+            document.getElementById('filter-category').value = value;
+            document.getElementById('filterKategoriLabel').textContent = label;
+            document.getElementById('dropdownKategori').classList.add('hidden');
+        } else {
+            document.getElementById('sort-score').value = value;
+            document.getElementById('sortScoreLabel').textContent = label;
+            document.getElementById('dropdownSort').classList.add('hidden');
+        }
+        applyFilters();
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(event) {
+        const dropdownKategori = document.getElementById('dropdownKategori');
+        const dropdownSort = document.getElementById('dropdownSort');
+        const btnKategori = document.getElementById('filterKategoriLabel').parentElement;
+        const btnSort = document.getElementById('sortScoreLabel').parentElement;
+
+        if (!btnKategori.contains(event.target) && !dropdownKategori.contains(event.target)) {
+            dropdownKategori.classList.add('hidden');
+        }
+        if (!btnSort.contains(event.target) && !dropdownSort.contains(event.target)) {
+            dropdownSort.classList.add('hidden');
+        }
+    });
 </script>
 @endpush
 @endsection

@@ -5,7 +5,7 @@
 $materi = [
     ['judul'=>'Pengantar Jaringan Komputer','kelas'=>'X TKJ 1, X TKJ 2','pertemuan'=>'Pertemuan 1','tipe'=>'PDF','icon'=>'picture_as_pdf','tanggal'=>'10 Mei 2025','status'=>'Published'],
     ['judul'=>'Model OSI dan TCP/IP','kelas'=>'X TKJ 1','pertemuan'=>'Pertemuan 2','tipe'=>'Video','icon'=>'play_circle','tanggal'=>'12 Mei 2025','status'=>'Published'],
-    ['judul'=>'Konfigurasi IP Address','kelas'=>'XI TKJ 1','pertemuan'=>'Pertemuan 5','tipe'=>'PDF','icon'=>'picture_as_pdf','tanggal'=>'13 Mei 2025','status'=>'Draft'],
+    ['judul'=>'Konfigurasi IP Address','kelas'=>'XI TKJ 1','pertemuan'=>'Pertemuan 5','tipe'=>'PDF','icon'=>'picture_as_pdf','tanggal'=>'13 Mei 2025','status'=>'Terjadwal'],
     ['judul'=>'Subnetting dan CIDR','kelas'=>'XI TKJ 2','pertemuan'=>'Pertemuan 6','tipe'=>'Presentasi','icon'=>'slideshow','tanggal'=>'14 Mei 2025','status'=>'Published'],
     ['judul'=>'Routing Statis & Dinamis','kelas'=>'XII TKJ 1','pertemuan'=>'Pertemuan 10','tipe'=>'PDF','icon'=>'picture_as_pdf','tanggal'=>'15 Mei 2025','status'=>'Archive'],
     ['judul'=>'Keamanan Jaringan Dasar','kelas'=>'XII TKJ 1','pertemuan'=>'Pertemuan 11','tipe'=>'Video','icon'=>'play_circle','tanggal'=>'16 Mei 2025','status'=>'Published'],
@@ -55,7 +55,7 @@ $materi = [
             <div id="dropdownStatus" class="hidden absolute z-20 mt-2 w-full md:min-w-[170px] bg-surface rounded-xl border border-outline-variant/30 shadow-xl overflow-hidden">
                 <button type="button" onclick="selectDropdown('status','Semua','Semua Status')" class="w-full text-left px-4 py-2.5 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Semua Status</button>
                 <button type="button" onclick="selectDropdown('status','Published','Published')" class="w-full text-left px-4 py-2.5 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Published</button>
-                <button type="button" onclick="selectDropdown('status','Draft','Draft')" class="w-full text-left px-4 py-2.5 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Draft</button>
+                <button type="button" onclick="selectDropdown('status','Terjadwal','Terjadwal')" class="w-full text-left px-4 py-2.5 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Terjadwal</button>
                 <button type="button" onclick="selectDropdown('status','Archive','Archive')" class="w-full text-left px-4 py-2.5 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Archive</button>
             </div>
         </div>
@@ -78,7 +78,7 @@ $materi = [
                 @php
                     $statusColor = match($m['status']) {
                         'Published' => 'bg-green-100 text-green-700',
-                        'Draft' => 'bg-gray-100 text-gray-700',
+                        'Terjadwal' => 'bg-blue-100 text-blue-700',
                         'Archive' => 'bg-amber-100 text-amber-700',
                         default => 'bg-gray-100 text-gray-700',
                     };

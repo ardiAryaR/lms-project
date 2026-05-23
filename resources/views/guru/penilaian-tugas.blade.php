@@ -44,15 +44,6 @@
                     <span class="text-xs text-on-surface-variant font-medium">| XII Teknik Komputer Jaringan 1</span>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
-                <button id="btnPrev" class="p-1.5 border border-outline-variant rounded-lg hover:bg-surface-container transition-colors">
-                    <span class="material-symbols-outlined text-sm">chevron_left</span>
-                </button>
-                <span id="navText" class="text-xs font-medium whitespace-nowrap">Siswa 4 dari 32</span>
-                <button id="btnNext" class="p-1.5 border border-outline-variant rounded-lg hover:bg-surface-container transition-colors">
-                    <span class="material-symbols-outlined text-sm">chevron_right</span>
-                </button>
-            </div>
         </div>
     </div>
 
@@ -131,15 +122,31 @@
 
                     <!-- Actions -->
                     <div class="pt-3 border-t border-outline-variant/30 flex-shrink-0">
-                        <button class="w-full py-2.5 bg-secondary-container text-on-secondary-container font-bold rounded-xl shadow transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 text-sm" id="saveBtn">
-                            <span class="material-symbols-outlined text-base">save</span> Simpan Nilai
+                        <button type="button" id="saveBtn" class="w-full px-6 py-2.5 bg-[#feae2c] text-[#6b4500] text-sm font-bold rounded-lg flex items-center justify-center gap-2 hover:brightness-110 transition-soft">
+                            <span class="material-symbols-outlined" style="font-size: 18px">save</span> Simpan Nilai
                         </button>
-                        <p class="text-[9px] text-center text-on-surface-variant uppercase tracking-widest font-bold mt-2">
-                            Terakhir diperbarui: -
-                        </p>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Success -->
+<div id="toast-success" class="fixed top-5 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-3 bg-green-100 border border-green-300 text-green-800 px-6 py-3 rounded-lg shadow-lg opacity-0 invisible transition-all duration-300 transform -translate-y-4">
+    <span class="material-symbols-outlined">check_circle</span>
+    <span class="font-bold text-sm">Nilai berhasil disimpan!</span>
+</div>
+
+<!-- Modal Konfirmasi Simpan -->
+<div id="modal-confirm-simpan" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 hidden backdrop-blur-sm transition-opacity">
+    <div class="bg-[#fef9f3] rounded-xl shadow-2xl p-6 w-full max-w-sm border border-[#d6c3b8] text-center">
+        <span class="material-symbols-outlined text-[#feae2c] text-5xl mb-4">help</span>
+        <h3 class="text-xl font-bold text-[#50290b] mb-2" style="font-family: var(--font-serif)">Simpan Nilai?</h3>
+        <p class="text-xs text-[#51443c] mb-6">Apakah Anda yakin nilai yang diberikan sudah benar dan siap disimpan?</p>
+        <div class="flex gap-2 justify-center">
+            <button type="button" id="btn-cancel-simpan" class="px-4 py-2 rounded-lg font-bold text-xs text-[#51443c] border border-[#d6c3b8] hover:bg-[#f8f3ed] transition-colors">Periksa Lagi</button>
+            <button type="button" id="btn-confirm-simpan" class="px-4 py-2 rounded-lg font-bold text-xs bg-[#feae2c] text-[#6b4500] hover:brightness-110 transition-all">Ya, Simpan</button>
         </div>
     </div>
 </div>
@@ -149,39 +156,10 @@
     const saveBtn = document.getElementById('saveBtn');
     const gradeInput = document.getElementById('gradeInput');
     const gradeError = document.getElementById('gradeError');
-    const confirmModal = document.getElementById('confirmModal');
-    const modalCancel = document.getElementById('modalCancel');
-    const modalConfirm = document.getElementById('modalConfirm');
-    const btnPrev = document.getElementById('btnPrev');
-    const btnNext = document.getElementById('btnNext');
-    const navText = document.getElementById('navText');
-    const studentName = document.getElementById('studentName');
-
-    let currentStudent = 4;
-    const students = ["Aditya Saputra", "Bambang Pamungkas", "Citra Nuraini", "Rizky Ramadhan", "Siti Aminah", "Joko Susilo"];
-
-    function updateStudent() {
-        navText.textContent = `Siswa ${currentStudent} dari 32`;
-        studentName.textContent = students[(currentStudent - 1) % students.length] || "Siswa Lainnya";
-    }
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const sIndex = urlParams.get('s');
-    if (sIndex !== null) {
-        currentStudent = parseInt(sIndex) + 1;
-        updateStudent();
-    }
-
-    if (btnPrev && btnNext) {
-        btnPrev.addEventListener('click', () => {
-            if(currentStudent > 1) currentStudent--;
-            updateStudent();
-        });
-        btnNext.addEventListener('click', () => {
-            if(currentStudent < 32) currentStudent++;
-            updateStudent();
-        });
-    }
+    const confirmModal = document.getElementById('modal-confirm-simpan');
+    const modalCancel = document.getElementById('btn-cancel-simpan');
+    const modalConfirm = document.getElementById('btn-confirm-simpan');
+    const toastSuccess = document.getElementById('toast-success');
 
     gradeInput.addEventListener('input', (e) => {
         let val = parseInt(e.target.value);
@@ -220,13 +198,12 @@
         confirmModal.classList.add('hidden');
         confirmModal.classList.remove('flex');
         
-        saveBtn.innerHTML = `<span class="material-symbols-outlined animate-spin text-base">sync</span> Menyimpan...`;
-        saveBtn.disabled = true;
+        toastSuccess.classList.remove('invisible', 'opacity-0', '-translate-y-4');
+        toastSuccess.classList.add('opacity-100', 'translate-y-0');
+        
         setTimeout(() => {
-            saveBtn.innerHTML = `<span class="material-symbols-outlined text-base">check_circle</span> Nilai Tersimpan`;
-            saveBtn.style.backgroundColor = '#15803d';
-            saveBtn.style.color = '#fff';
-        }, 1200);
+            window.location.href = "{{ route('guru.monitor.tugas') }}";
+        }, 1500);
     });
 </script>
 @endpush

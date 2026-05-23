@@ -47,25 +47,51 @@
                     <p class="text-xs text-error font-bold hidden" id="err-ujianName"></p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-2 relative">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 z-10">
+                    <div class="space-y-2">
                         <label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Mata Pelajaran</label>
-                        <select id="ujianMapel" class="w-full p-3 bg-surface-container-low border border-outline rounded-lg focus:ring-2 focus:ring-secondary-container">
+                        <select class="w-full p-3 bg-surface-container-low border border-outline rounded-lg focus:ring-2 focus:ring-secondary-container" id="ujianMapel">
                             <option value="">Pilih Mata Pelajaran...</option>
-                            <option value="Teknologi Jaringan (TKJ)">Teknologi Jaringan (TKJ)</option>
-                            <option value="Pemrograman Web">Pemrograman Web</option>
+                            <option value="Jaringan Komputer">Jaringan Komputer</option>
                             <option value="Sistem Operasi">Sistem Operasi</option>
+                            <option value="Pemrograman Dasar">Pemrograman Dasar</option>
                         </select>
                         <p class="text-xs text-error font-bold hidden" id="err-ujianMapel"></p>
                     </div>
-                    <div class="space-y-2 relative">
-                        <label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Kelas</label>
-                        <select id="ujianKelas" class="w-full p-3 bg-surface-container-low border border-outline rounded-lg focus:ring-2 focus:ring-secondary-container">
-                            <option value="">Pilih Kelas...</option>
-                            <option value="XII TKJ 1" {{ str_contains(request('kelas', ''), 'XII TKJ 1') ? 'selected' : '' }}>XII TKJ 1</option>
-                            <option value="XII TKJ 2" {{ str_contains(request('kelas', ''), 'XII TKJ 2') ? 'selected' : '' }}>XII TKJ 2</option>
-                            <option value="XI TKJ 1" {{ str_contains(request('kelas', ''), 'XI TKJ 1') ? 'selected' : '' }}>XI TKJ 1</option>
-                        </select>
+                    <div class="space-y-2 relative" id="classDropdownContainer">
+                        <label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Pilih Kelas</label>
+                        <button type="button" class="w-full p-3 bg-surface-container-low border border-outline rounded-lg focus:ring-2 focus:ring-secondary-container flex justify-between items-center" onclick="toggleClassesDropdown()">
+                            <span id="selectedClassesText" class="text-on-surface-variant">Pilih Kelas...</span>
+                            <span class="material-symbols-outlined">expand_more</span>
+                        </button>
+                        <div id="classesDropdown" class="absolute z-50 w-full mt-1 bg-white border border-outline-variant/50 rounded-lg shadow-lg hidden top-full left-0">
+                            <ul class="p-2 space-y-1 max-h-48 overflow-y-auto">
+                                <li>
+                                    <label class="flex items-center gap-3 p-2 hover:bg-surface-container-low rounded cursor-pointer group">
+                                        <input type="checkbox" value="X TKJ 1" class="w-5 h-5 text-secondary border-outline rounded class-checkbox" onchange="updateSelectedClasses()" {{ str_contains(request('kelas', ''), 'X TKJ 1') ? 'checked' : '' }}>
+                                        <span class="text-sm group-hover:text-primary">X TKJ 1</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="flex items-center gap-3 p-2 hover:bg-surface-container-low rounded cursor-pointer group">
+                                        <input type="checkbox" value="X TKJ 2" class="w-5 h-5 text-secondary border-outline rounded class-checkbox" onchange="updateSelectedClasses()" {{ str_contains(request('kelas', ''), 'X TKJ 2') ? 'checked' : '' }}>
+                                        <span class="text-sm group-hover:text-primary">X TKJ 2</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="flex items-center gap-3 p-2 hover:bg-surface-container-low rounded cursor-pointer group">
+                                        <input type="checkbox" value="XI TKJ 1" class="w-5 h-5 text-secondary border-outline rounded class-checkbox" onchange="updateSelectedClasses()" {{ str_contains(request('kelas', ''), 'XI TKJ 1') ? 'checked' : '' }}>
+                                        <span class="text-sm group-hover:text-primary">XI TKJ 1</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="flex items-center gap-3 p-2 hover:bg-surface-container-low rounded cursor-pointer group">
+                                        <input type="checkbox" value="XI TKJ 2" class="w-5 h-5 text-secondary border-outline rounded class-checkbox" onchange="updateSelectedClasses()" {{ str_contains(request('kelas', ''), 'XI TKJ 2') ? 'checked' : '' }}>
+                                        <span class="text-sm group-hover:text-primary">XI TKJ 2</span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
                         <p class="text-xs text-error font-bold hidden" id="err-ujianKelas"></p>
                     </div>
                 </div>
@@ -86,17 +112,46 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-2 relative">
-                        <label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Waktu Mulai</label>
-                        <input id="ujianWaktuMulai" class="w-full p-3 bg-surface-container-low border border-outline rounded-lg focus:ring-2 focus:ring-secondary-container text-sm" type="datetime-local" value="{{ request('tanggal') ? date('Y-m-d\TH:i', strtotime(request('tanggal'))) : '' }}"/>
-                        <p class="text-xs text-error font-bold hidden" id="err-ujianWaktuMulai"></p>
+                <div class="space-y-4">
+                    <label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Status Ujian</label>
+                    <div class="flex flex-wrap gap-4">
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input {{ in_array(request('status'), ['aktif', 'published']) ? 'checked' : '' }} class="w-5 h-5 text-secondary border-outline focus:ring-secondary-container" name="status" type="radio" value="published" onchange="toggleScheduleInput()"/>
+                            <span class="text-sm group-hover:text-primary transition-colors">Published</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input {{ in_array(request('status'), ['selesai', 'closed']) ? 'checked' : '' }} class="w-5 h-5 text-secondary border-outline focus:ring-secondary-container" name="status" type="radio" value="closed" onchange="toggleScheduleInput()"/>
+                            <span class="text-sm group-hover:text-primary transition-colors">Closed</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input {{ request('status') === 'archived' ? 'checked' : '' }} class="w-5 h-5 text-secondary border-outline focus:ring-secondary-container" name="status" type="radio" value="archived" onchange="toggleScheduleInput()"/>
+                            <span class="text-sm group-hover:text-primary transition-colors">Archived</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input {{ request('status') === 'terjadwal' ? 'checked' : '' }} class="w-5 h-5 text-secondary border-outline focus:ring-secondary-container" name="status" type="radio" value="terjadwal" onchange="toggleScheduleInput()"/>
+                            <span class="text-sm group-hover:text-primary transition-colors">Terjadwal</span>
+                        </label>
                     </div>
-                    <div class="space-y-2 relative">
-                        <label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Waktu Berakhir</label>
-                        <input id="ujianWaktuBerakhir" class="w-full p-3 bg-surface-container-low border border-outline rounded-lg focus:ring-2 focus:ring-secondary-container text-sm" type="datetime-local"/>
-                        <p class="text-xs text-error font-bold hidden" id="err-ujianWaktuBerakhir"></p>
+                    <p class="text-xs text-error font-bold hidden mt-1" id="err-ujianStatus"></p>
+                    <div id="scheduleContainer" class="hidden space-y-4 mt-4 bg-surface-container-low p-4 rounded-lg border border-outline/30">
+                        <div class="space-y-2" id="waktuMulaiContainer">
+                            <label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Waktu Mulai</label>
+                            <input class="w-full p-3 bg-white border border-outline rounded-lg focus:ring-2 focus:ring-secondary-container" type="datetime-local" id="ujianWaktuMulai"/>
+                            <p class="text-xs text-on-surface-variant/60 italic">Ujian akan otomatis diterbitkan pada waktu yang ditentukan.</p>
+                            <p class="text-xs text-error font-bold hidden" id="err-ujianWaktuMulai"></p>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Waktu Berakhir</label>
+                            <input class="w-full p-3 bg-white border border-outline rounded-lg focus:ring-2 focus:ring-secondary-container" type="datetime-local" id="ujianWaktuBerakhir"/>
+                            <p class="text-xs text-on-surface-variant/60 italic">Ujian akan otomatis ditutup pada waktu yang ditentukan.</p>
+                            <p class="text-xs text-error font-bold hidden" id="err-ujianWaktuBerakhir"></p>
+                        </div>
                     </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Deskripsi Ujian</label>
+                    <textarea class="w-full p-4 bg-surface-container-low border border-outline rounded-lg focus:ring-2 focus:ring-secondary-container resize-none" placeholder="Berikan instruksi atau deskripsi singkat mengenai cakupan materi ujian ini..." rows="4"></textarea>
                 </div>
 
                 <div class="space-y-3 pt-2">
@@ -122,13 +177,12 @@
                     </div>
                 </div>
 
-                <div class="pt-6 border-t border-outline-variant/30 flex items-center justify-end gap-4 mt-8">
-                    <button class="px-6 py-3 border-2 border-primary text-primary font-bold rounded-lg hover:bg-primary/5 transition-colors" type="button" onclick="openActionModal('cancel')">
-                        Batalkan
+                <div class="pt-6 border-t border-outline-variant/30 flex flex-col-reverse md:flex-row gap-3 justify-end mt-4">
+                    <button type="button" class="px-6 py-2 border border-[#d6c3b8] text-[#51443c] text-sm text-center font-bold rounded-lg hover:bg-[#f8f3ed] transition-soft w-full md:w-auto" onclick="openActionModal('cancel')">
+                        Batal
                     </button>
-                    <button class="px-8 py-3 bg-secondary-container text-on-secondary-container font-bold rounded-lg shadow-sm hover:opacity-90 active:scale-95 transition-all flex items-center gap-2" type="button" onclick="openActionModal('save')">
-                        <span class="material-symbols-outlined">send</span>
-                        {{ request('edit') ? 'Perbarui Ujian' : 'Simpan Ujian' }}
+                    <button type="button" class="px-6 py-2 bg-[#feae2c] text-[#6b4500] text-sm font-bold rounded-lg flex items-center justify-center gap-1 hover:brightness-110 transition-soft w-full md:w-auto" onclick="openActionModal('save')">
+                        <span class="material-symbols-outlined" style="font-size: 18px">save</span> {{ request('edit') ? 'Perbarui Ujian' : 'Simpan Ujian' }}
                     </button>
                 </div>
             </div>
@@ -146,7 +200,7 @@
                 <div class="space-y-4">
                     <!-- Question Card 1 -->
                     <div class="question-card bg-white p-6 rounded-xl shadow-sm border border-outline-variant/20 relative group">
-                        <div class="absolute -left-3 top-6 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center font-bold">1</div>
+                        <div class="absolute -left-3 top-6 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center font-bold question-number-label">1</div>
                         <button class="absolute top-4 right-4 text-on-surface-variant/40 hover:text-error transition-colors" type="button" onclick="openDeleteModal(this)">
                             <span class="material-symbols-outlined">delete</span>
                         </button>
@@ -217,25 +271,27 @@
 </div>
 
 <!-- Modal Confirm Delete Question -->
-<div id="deleteQuestionModal" class="fixed inset-0 z-50 flex hidden items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity opacity-0">
-    <div class="bg-white rounded-xl shadow-lg w-[90%] max-w-md p-6 transform scale-95 transition-transform duration-300">
-        <h4 class="text-xl font-bold text-primary mb-2">Hapus Soal?</h4>
-        <p class="text-on-surface-variant mb-6">Apakah Anda yakin ingin menghapus soal ini? Tindakan ini tidak dapat dibatalkan.</p>
-        <div class="flex justify-end gap-3">
-            <button type="button" onclick="closeDeleteModal()" class="px-5 py-2 font-bold text-primary hover:bg-primary/5 rounded-lg transition-colors">Batal</button>
-            <button type="button" id="confirmDeleteBtn" class="px-5 py-2 font-bold bg-error text-on-error rounded-lg shadow-sm hover:opacity-90 transition-all">Hapus</button>
+<div id="deleteQuestionModal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 hidden backdrop-blur-sm transition-opacity opacity-0">
+    <div class="bg-red-50 rounded-xl shadow-2xl p-6 w-full max-w-sm border border-red-200 text-center transform scale-95 transition-transform duration-300">
+        <span class="material-symbols-outlined text-red-500 text-5xl mb-4">warning</span>
+        <h3 class="text-xl font-bold text-red-700 mb-2">Hapus Soal?</h3>
+        <p class="text-xs text-red-600/80 mb-6">Apakah Anda yakin ingin menghapus soal ini? Tindakan ini tidak dapat dibatalkan.</p>
+        <div class="flex gap-2 justify-center">
+            <button type="button" onclick="closeDeleteModal()" class="px-4 py-2 rounded-lg font-bold text-xs text-red-700 border border-red-200 hover:bg-red-100 transition-colors">Batal</button>
+            <button type="button" id="confirmDeleteBtn" class="px-4 py-2 rounded-lg font-bold text-xs bg-red-500 text-white hover:bg-red-600 transition-all shadow-md hover:shadow-lg">Ya, Hapus</button>
         </div>
     </div>
 </div>
 
 <!-- Modal Confirm Action -->
-<div id="actionModal" class="fixed inset-0 z-50 flex hidden items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity opacity-0">
-    <div class="bg-white rounded-xl shadow-lg w-[90%] max-w-md p-6 transform scale-95 transition-transform duration-300">
-        <h4 class="text-xl font-bold text-primary mb-2" id="actionModalTitle">Konfirmasi</h4>
-        <p class="text-on-surface-variant mb-6" id="actionModalDesc">Apakah Anda yakin dengan tindakan ini?</p>
-        <div class="flex justify-end gap-3">
-            <button type="button" onclick="closeActionModal()" class="px-5 py-2 font-bold text-primary hover:bg-primary/5 rounded-lg transition-colors">Tidak, Kembali</button>
-            <button type="button" id="confirmActionBtn" class="px-5 py-2 font-bold bg-secondary-container text-on-secondary-container rounded-lg shadow-sm hover:opacity-90 transition-all">Ya, Yakin</button>
+<div id="actionModal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 hidden backdrop-blur-sm transition-opacity opacity-0">
+    <div class="bg-[#fef9f3] rounded-xl shadow-2xl p-6 w-full max-w-sm border border-[#d6c3b8] text-center transform scale-95 transition-transform duration-300">
+        <span class="material-symbols-outlined text-[#feae2c] text-5xl mb-4" id="actionModalIcon">help</span>
+        <h3 class="text-xl font-bold text-[#50290b] mb-2" style="font-family: var(--font-serif)" id="actionModalTitle">Simpan Ujian?</h3>
+        <p class="text-xs text-[#51443c] mb-6" id="actionModalDesc">Apakah Anda yakin data ujian sudah benar dan siap disimpan?</p>
+        <div class="flex gap-2 justify-center" id="actionModalButtons">
+            <button type="button" onclick="closeActionModal()" class="px-4 py-2 rounded-lg font-bold text-xs text-[#51443c] border border-[#d6c3b8] hover:bg-[#f8f3ed] transition-colors">Periksa Lagi</button>
+            <button type="button" id="confirmActionBtn" class="px-4 py-2 rounded-lg font-bold text-xs bg-[#feae2c] text-[#6b4500] hover:brightness-110 transition-all">Ya, Simpan</button>
         </div>
     </div>
 </div>
@@ -280,11 +336,12 @@
         questionCount++;
         const container = document.querySelector('#questionContainer .space-y-4');
         const btn = container.querySelector('button[onclick="addQuestion()"]');
+        const visualNumber = document.querySelectorAll('.question-card').length + 1;
 
         const newCard = document.createElement('div');
         newCard.className = 'question-card bg-white p-6 rounded-xl shadow-sm border border-outline-variant/20 relative group animate-in fade-in slide-in-from-bottom-4 duration-300';
         newCard.innerHTML = `
-            <div class="absolute -left-3 top-6 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center font-bold">${questionCount}</div>
+            <div class="absolute -left-3 top-6 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center font-bold question-number-label">${visualNumber}</div>
             <button type="button" class="absolute top-4 right-4 text-on-surface-variant/40 hover:text-error transition-colors" onclick="openDeleteModal(this)">
                 <span class="material-symbols-outlined">delete</span>
             </button>
@@ -361,9 +418,20 @@
         }, 300);
     }
 
+    function updateQuestionNumbers() {
+        const cards = document.querySelectorAll('.question-card');
+        cards.forEach((card, index) => {
+            const label = card.querySelector('.question-number-label');
+            if (label) {
+                label.textContent = index + 1;
+            }
+        });
+    }
+
     document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
         if (questionToDelete) {
             questionToDelete.remove();
+            updateQuestionNumbers();
         }
         closeDeleteModal();
     });
@@ -377,23 +445,46 @@
         const title = document.getElementById('actionModalTitle');
         const desc = document.getElementById('actionModalDesc');
         const confirmBtn = document.getElementById('confirmActionBtn');
+        const icon = document.getElementById('actionModalIcon');
+        const buttonsContainer = document.getElementById('actionModalButtons');
+        const modalCard = modal.querySelector('div');
 
         if (action === 'cancel') {
+            modalCard.className = 'bg-red-50 rounded-xl shadow-2xl p-6 w-full max-w-sm border border-red-200 text-center transform scale-95 transition-transform duration-300';
+            icon.className = 'material-symbols-outlined text-red-500 text-5xl mb-4';
+            icon.textContent = 'warning';
+            title.className = 'text-xl font-bold text-red-700 mb-2';
             title.textContent = 'Batalkan Pembuatan?';
-            desc.textContent = 'Apakah Anda yakin ingin membatalkan? Semua data yang telah diisi akan hilang.';
-            confirmBtn.className = 'px-5 py-2 font-bold bg-error text-on-error rounded-lg shadow-sm hover:opacity-90 transition-all';
-            confirmBtn.textContent = 'Ya, Batalkan';
+            desc.className = 'text-xs text-red-600/80 mb-6';
+            desc.textContent = 'Semua data yang telah Anda isikan akan hilang. Apakah Anda yakin?';
+            
+            buttonsContainer.innerHTML = `
+                <button type="button" onclick="closeActionModal()" class="px-4 py-2 rounded-lg font-bold text-xs text-red-700 border border-red-200 hover:bg-red-100 transition-colors">Kembali</button>
+                <button type="button" id="confirmActionBtn" class="px-4 py-2 rounded-lg font-bold text-xs bg-red-500 text-white hover:bg-red-600 transition-all shadow-md hover:shadow-lg">Ya, Batalkan</button>
+            `;
+            
+            document.getElementById('confirmActionBtn').addEventListener('click', confirmAction);
         } else if (action === 'save') {
+            modalCard.className = 'bg-[#fef9f3] rounded-xl shadow-2xl p-6 w-full max-w-sm border border-[#d6c3b8] text-center transform scale-95 transition-transform duration-300';
+            icon.className = 'material-symbols-outlined text-[#feae2c] text-5xl mb-4';
+            icon.textContent = 'help';
+            title.className = 'text-xl font-bold text-[#50290b] mb-2';
             title.textContent = 'Simpan Ujian?';
-            desc.textContent = 'Apakah Anda yakin ingin menyimpan ujian ini?';
-            confirmBtn.className = 'px-5 py-2 font-bold bg-secondary-container text-on-secondary-container rounded-lg shadow-sm hover:opacity-90 transition-all';
-            confirmBtn.textContent = 'Ya, Simpan';
+            desc.className = 'text-xs text-[#51443c] mb-6';
+            desc.textContent = 'Apakah Anda yakin data ujian sudah benar dan siap disimpan?';
+            
+            buttonsContainer.innerHTML = `
+                <button type="button" onclick="closeActionModal()" class="px-4 py-2 rounded-lg font-bold text-xs text-[#51443c] border border-[#d6c3b8] hover:bg-[#f8f3ed] transition-colors">Periksa Lagi</button>
+                <button type="button" id="confirmActionBtn" class="px-4 py-2 rounded-lg font-bold text-xs bg-[#feae2c] text-[#6b4500] hover:brightness-110 transition-all">Ya, Simpan</button>
+            `;
+            
+            document.getElementById('confirmActionBtn').addEventListener('click', confirmAction);
         }
 
         modal.classList.remove('hidden');
         void modal.offsetWidth;
         modal.classList.remove('opacity-0');
-        modal.querySelector('div').classList.remove('scale-95');
+        modalCard.classList.remove('scale-95');
     }
 
     function closeActionModal() {
@@ -432,6 +523,52 @@
         });
     }
 
+    function toggleScheduleInput() {
+        const scheduledRadio = document.querySelector('input[name="status"][value="terjadwal"]');
+        const publishedRadio = document.querySelector('input[name="status"][value="published"]');
+        const scheduleContainer = document.getElementById('scheduleContainer');
+        const waktuMulaiContainer = document.getElementById('waktuMulaiContainer');
+        
+        if (scheduledRadio.checked || publishedRadio.checked) {
+            scheduleContainer.classList.remove('hidden');
+            if (publishedRadio.checked) {
+                waktuMulaiContainer.classList.add('hidden'); // waktu mulai is now, so hide it
+            } else {
+                waktuMulaiContainer.classList.remove('hidden');
+            }
+        } else {
+            scheduleContainer.classList.add('hidden');
+        }
+    }
+
+    function toggleClassesDropdown() {
+        const dropdown = document.getElementById('classesDropdown');
+        dropdown.classList.toggle('hidden');
+    }
+
+    function updateSelectedClasses() {
+        const checked = document.querySelectorAll('.class-checkbox:checked');
+        const textSpan = document.getElementById('selectedClassesText');
+        if (checked.length === 0) {
+            textSpan.textContent = 'Pilih Kelas...';
+            textSpan.classList.add('text-on-surface-variant');
+            textSpan.classList.remove('font-semibold');
+        } else {
+            const values = Array.from(checked).map(cb => cb.value);
+            textSpan.textContent = values.join(', ');
+            textSpan.classList.remove('text-on-surface-variant');
+            textSpan.classList.add('font-semibold');
+        }
+    }
+
+    document.addEventListener('click', function(event) {
+        const container = document.getElementById('classDropdownContainer');
+        const dropdown = document.getElementById('classesDropdown');
+        if (container && !container.contains(event.target) && dropdown) {
+            dropdown.classList.add('hidden');
+        }
+    });
+
     function validateForm() {
         clearErrors();
         let isValid = true;
@@ -453,8 +590,8 @@
         const mapel = document.getElementById('ujianMapel').value;
         if (!mapel) showError('err-ujianMapel', 'Pilih Mata Pelajaran.');
 
-        const kelas = document.getElementById('ujianKelas').value;
-        if (!kelas) showError('err-ujianKelas', 'Pilih Kelas.');
+        const classes = document.querySelectorAll('.class-checkbox:checked');
+        if (classes.length === 0) showError('err-ujianKelas', 'Pilih minimal satu Kelas.');
 
         const durasi = document.getElementById('ujianDurasi').value;
         if (!durasi || durasi <= 0) showError('err-ujianDurasi', 'Durasi tidak valid.');
@@ -462,22 +599,46 @@
         const batas = document.getElementById('ujianBatas').value;
         if (!batas || batas <= 0) showError('err-ujianBatas', 'Batas percobaan tidak valid.');
 
+        const checkedStatus = document.querySelector('input[name="status"]:checked');
+        if (!checkedStatus) showError('err-ujianStatus', 'Pilih Status Ujian.');
+
+        const scheduledRadio = document.querySelector('input[name="status"][value="terjadwal"]');
+        const publishedRadio = document.querySelector('input[name="status"][value="published"]');
         const waktuMulai = document.getElementById('ujianWaktuMulai').value;
         const waktuBerakhir = document.getElementById('ujianWaktuBerakhir').value;
 
-        if (!waktuMulai) {
-            showError('err-ujianWaktuMulai', 'Waktu mulai harus diisi.');
+        if (scheduledRadio && scheduledRadio.checked) {
+            if (!waktuMulai) {
+                showError('err-ujianWaktuMulai', 'Waktu mulai harus diisi jika ujian terjadwal.');
+            } else {
+                const scheduleDate = new Date(waktuMulai);
+                const now = new Date();
+                const diffMinutes = (scheduleDate - now) / 1000 / 60;
+                if (diffMinutes < 5) {
+                    showError('err-ujianWaktuMulai', 'Waktu mulai minimal 5 menit dari waktu saat ini.');
+                }
+            }
+            if (!waktuBerakhir) {
+                showError('err-ujianWaktuBerakhir', 'Waktu berakhir harus diisi.');
+            }
+            if (waktuMulai && waktuBerakhir) {
+                const start = new Date(waktuMulai);
+                const end = new Date(waktuBerakhir);
+                if (end <= start) {
+                    showError('err-ujianWaktuBerakhir', 'Waktu berakhir tidak boleh sebelum atau sama dengan waktu mulai.');
+                }
+            }
         }
-        if (!waktuBerakhir) {
-            showError('err-ujianWaktuBerakhir', 'Waktu berakhir harus diisi.');
-        }
-
-        if (waktuMulai && waktuBerakhir) {
-            const start = new Date(waktuMulai);
-            const end = new Date(waktuBerakhir);
-            if (start >= end) {
-                showError('err-ujianWaktuMulai', 'Waktu mulai tidak boleh sama atau lebih dari waktu berakhir.');
-                showError('err-ujianWaktuBerakhir', 'Waktu berakhir harus lebih dari waktu mulai.');
+        
+        if (publishedRadio && publishedRadio.checked) {
+            if (!waktuBerakhir) {
+                showError('err-ujianWaktuBerakhir', 'Waktu berakhir harus diisi untuk ujian yang diterbitkan.');
+            } else {
+                const end = new Date(waktuBerakhir);
+                const now = new Date();
+                if (end <= now) {
+                    showError('err-ujianWaktuBerakhir', 'Waktu berakhir tidak boleh sebelum atau sama dengan waktu saat ini.');
+                }
             }
         }
 
@@ -515,17 +676,40 @@
         return isValid;
     }
 
-    document.getElementById('confirmActionBtn').addEventListener('click', function() {
+    function confirmAction() {
         if (currentAction === 'cancel') {
             closeActionModal();
-            showToast('Berhasil dibatalkan', 'error');
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-5 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-3 bg-red-100 border border-red-300 text-red-800 px-6 py-3 rounded-lg shadow-lg opacity-0 invisible transition-all duration-300 transform -translate-y-4';
+            toast.innerHTML = `
+                <span class="material-symbols-outlined">cancel</span>
+                <span class="font-bold text-sm whitespace-nowrap">Pembuatan dibatalkan!</span>
+            `;
+            toastContainer.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.remove('invisible', 'opacity-0', '-translate-y-4');
+                toast.classList.add('opacity-100', 'translate-y-0');
+            }, 10);
+            
             setTimeout(() => {
                 window.location.href = '/guru/ujian';
             }, 1500);
         } else if (currentAction === 'save') {
             if (validateForm()) {
                 closeActionModal();
-                showToast(document.querySelector('h2').textContent.includes('Edit') ? 'Berhasil diperbarui' : 'Berhasil disimpan', 'success');
+                const toastContainer = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = 'fixed top-5 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-3 bg-green-100 border border-green-300 text-green-800 px-6 py-3 rounded-lg shadow-lg opacity-0 invisible transition-all duration-300 transform -translate-y-4';
+                toast.innerHTML = `
+                    <span class="material-symbols-outlined">check_circle</span>
+                    <span class="font-bold text-sm whitespace-nowrap">${document.querySelector('h2').textContent.includes('Edit') ? 'Ujian berhasil diperbarui!' : 'Ujian berhasil disimpan!'}</span>
+                `;
+                toastContainer.appendChild(toast);
+                setTimeout(() => {
+                    toast.classList.remove('invisible', 'opacity-0', '-translate-y-4');
+                    toast.classList.add('opacity-100', 'translate-y-0');
+                }, 10);
                 setTimeout(() => {
                     window.location.href = '/guru/ujian';
                 }, 1500);
@@ -533,7 +717,7 @@
                 closeActionModal();
             }
         }
-    });
+    }
 
     // Simulating auto-save time
     const autoSaveTime = document.getElementById('autoSaveTime');
