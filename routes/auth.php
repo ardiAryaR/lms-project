@@ -21,6 +21,11 @@ Route::middleware('guest')->group(function () {
     // Forgot Password
     Route::get('forgot-password', fn() => view('auth.forgot-password'))->name('password.request');
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+
+    // Reset Password
+    Route::get('reset-password/{token}', function ($token) {
+        return view('auth.reset-password', ['token' => $token]);
+    })->name('password.reset');
 });
 
 // ─── Authenticated Routes ─────────────────────────────────────

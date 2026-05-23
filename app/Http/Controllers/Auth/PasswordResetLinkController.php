@@ -30,7 +30,7 @@ class PasswordResetLinkController extends Controller
         );
 
         return $status == Password::ResetLinkSent
-            ? back()->with(['status' => __($status)])
+            ? response()->view('auth.verify-email', ['status' => __($status)])
             : back()->withInput($request->only('email'))
                     ->withErrors(['email' => __($status)]);
     }
