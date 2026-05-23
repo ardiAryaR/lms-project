@@ -25,11 +25,11 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('verification.send') }}" class="mb-4">
+            <form method="POST" action="{{ route('verification.send') }}" class="mb-4" id="resend-form">
                 @csrf
-                <button type="submit" class="w-full bg-secondary-container text-on-secondary-container font-bold py-4 px-6 rounded hover:bg-secondary-fixed transition-soft flex justify-center items-center gap-2 text-sm">
+                <button type="submit" id="resend-btn" disabled class="w-full bg-secondary-container text-on-secondary-container font-bold py-4 px-6 rounded hover:bg-secondary-fixed transition-soft flex justify-center items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
                     <span class="material-symbols-outlined">refresh</span>
-                    Kirim Ulang Email Verifikasi
+                    <span id="resend-text">Tunggu 03:00 sebelum mengirim ulang</span>
                 </button>
             </form>
 
@@ -42,5 +42,58 @@
             </form>
         </div>
     </div>
-</div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const resendBtn = document.getElementById('resend-btn');
+        const resendText = document.getElementById('resend-text');
+        
+        let timeLeft = 180; // 3 menit dalam detik
+        
+        // Cek localStorage kalau ada sisa waktu sebelumnya
+        const savedTime = localStorage.getItem('resend_timer_end');
+        if (savedTime) {
+            const now = Math.floor(Date.now() / 1000);
+            const diff = savedTime - now;
+            if (diff > 0) {
+                timeLeft = diff;
+            } else {
+                timeLeft = 0;
+            }
+        } else {
+            // Set end time di localStorage
+            localStorage.setItem('resend_timer_end', Math.floor(Date.now() / 1000) + timeLeft);
+        }
+
+        function updateTimer() {
+            if (timeLeft <= 0) {
+                resendBtn.removeAttribute('disabled');
+                resendText.textContent = 'Kirim Ulang Email Verifikasi';
+                localStorage.removeItem('resend_timer_end');
+                return;
+            }
+            
+            resendBtn.setAttribute('disabled', 'disabled');
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            resendText.textContent = `Tunggu ${formattedTime} sebelum mengirim ulang`;
+            
+            timeLeft--;
+            setTimeout(updateTimer, 1000);
+        }
+        
+        updateTimer();
+
+        // Saat form disubmit, reset timer ke 3 menit
+        document.getElementById('resend-form').addEventListener('submit', function() {
+            if (!resendBtn.hasAttribute('disabled')) {
+                localStorage.setItem('resend_timer_end', Math.floor(Date.now() / 1000) + 180);
+                // Biarkan form submit
+            }
+        });
+    });
+</script>
+@endpush

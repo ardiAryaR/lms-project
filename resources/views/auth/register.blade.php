@@ -67,12 +67,12 @@
                 <div>
                     <label class="block text-sm font-semibold text-primary mb-1" for="password">Password</label>
                     <input class="w-full bg-surface-container-low border-0 border-b-2 border-primary/20 text-on-surface focus:ring-0 focus:border-secondary-container transition-soft py-2 px-3 text-sm"
-                           id="password" name="password" placeholder="Buat password" type="password" required/>
+                           id="password" name="password" placeholder="Buat password" type="password" required minlength="8"/>
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-primary mb-1" for="password_confirmation">Konfirmasi Password</label>
                     <input class="w-full bg-surface-container-low border-0 border-b-2 border-primary/20 text-on-surface focus:ring-0 focus:border-secondary-container transition-soft py-2 px-3 text-sm"
-                           id="password_confirmation" name="password_confirmation" placeholder="Ulangi password" type="password" required/>
+                           id="password_confirmation" name="password_confirmation" placeholder="Ulangi password" type="password" required minlength="8"/>
                 </div>
                 <div class="pt-2">
                     <button class="w-full bg-secondary-container text-on-secondary-container font-bold py-4 px-6 rounded hover:bg-secondary-fixed transition-soft flex justify-center items-center gap-2" type="submit">

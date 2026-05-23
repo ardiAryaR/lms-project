@@ -113,11 +113,11 @@
 <header class="bg-[#6B3F1F] fixed top-0 w-full z-50 shadow-lg">
     <div class="max-w-[1200px] mx-auto flex justify-between items-center px-8 py-4">
         <div class="text-xl font-black text-white font-['Noto_Serif']">SMK Mandalahayu 1</div>
-        <nav class="hidden md:flex gap-6 items-center">
-            <a class="text-[#F5A623] border-b-2 border-[#F5A623] pb-1 font-['Noto_Serif'] font-bold text-sm tracking-wide" href="#tentang">Tentang Kami</a>
-            <a class="text-white/90 hover:text-[#F5A623] transition-colors duration-300 font-['Noto_Serif'] font-bold text-sm tracking-wide" href="#program">Program Keahlian</a>
-            <a class="text-white/90 hover:text-[#F5A623] transition-colors duration-300 font-['Noto_Serif'] font-bold text-sm tracking-wide" href="#kegiatan">Kegiatan</a>
-            <a class="text-white/90 hover:text-[#F5A623] transition-colors duration-300 font-['Noto_Serif'] font-bold text-sm tracking-wide" href="#kontak">Kontak</a>
+        <nav class="hidden md:flex gap-6 items-center" id="main-nav">
+            <a class="nav-link text-[#F5A623] border-b-2 border-[#F5A623] pb-1 font-['Noto_Serif'] font-bold text-sm tracking-wide transition-colors duration-300" href="#tentang">Tentang Kami</a>
+            <a class="nav-link text-white/90 border-b-2 border-transparent pb-1 hover:text-[#F5A623] transition-colors duration-300 font-['Noto_Serif'] font-bold text-sm tracking-wide" href="#program">Program Keahlian</a>
+            <a class="nav-link text-white/90 border-b-2 border-transparent pb-1 hover:text-[#F5A623] transition-colors duration-300 font-['Noto_Serif'] font-bold text-sm tracking-wide" href="#kegiatan">Kegiatan</a>
+            <a class="nav-link text-white/90 border-b-2 border-transparent pb-1 hover:text-[#F5A623] transition-colors duration-300 font-['Noto_Serif'] font-bold text-sm tracking-wide" href="#kontak">Kontak</a>
         </nav>
         <div class="hidden md:flex items-center gap-4">
             <a href="{{ route('login') }}" class="text-[#F5A623] border-2 border-[#F5A623] px-4 py-2 rounded font-['Noto_Serif'] font-bold text-sm tracking-wide hover:bg-[#F5A623]/10 transition-colors">Masuk E-Learning</a>
@@ -187,7 +187,6 @@
                     </div>
                     <h3 class="font-h3 text-h3 text-primary mb-2 text-lg">Teknik Komputer &amp; Jaringan</h3>
                     <p class="font-body-md text-body-md text-on-surface-variant text-sm">Infrastruktur jaringan dan perakitan komputer.</p>
-                    <span class="mt-4 bg-secondary-container/20 text-secondary text-xs px-2 py-1 rounded-full font-semibold">Akreditasi A</span>
                 </div>
                 <!-- Card 2 -->
                 <div class="bg-surface p-6 rounded-lg border border-[#EFE6DE] shadow-sm hover:shadow-md hover:bg-surface-container transition-all flex flex-col items-center text-center group cursor-pointer">
@@ -283,5 +282,24 @@
     </div>
 </footer>
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navLinks = document.querySelectorAll('#main-nav .nav-link');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                // Remove active classes from all links
+                navLinks.forEach(l => {
+                    l.classList.remove('text-[#F5A623]', 'border-[#F5A623]');
+                    l.classList.add('text-white/90', 'border-transparent');
+                });
+                
+                // Add active classes to the clicked link
+                this.classList.remove('text-white/90', 'border-transparent');
+                this.classList.add('text-[#F5A623]', 'border-[#F5A623]');
+            });
+        });
+    });
+</script>
 </body>
 </html>

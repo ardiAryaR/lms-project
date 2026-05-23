@@ -38,7 +38,7 @@
                     <div class="relative">
                         <input class="w-full bg-surface-container-low border-0 border-b-2 border-primary/20 text-on-surface focus:ring-0 focus:border-secondary-container transition-soft py-2.5 px-3.5 text-sm"
                                id="email" name="email" placeholder="Masukkan email atau username"
-                               type="email" value="{{ old('email') }}" autocomplete="email"/>
+                               type="email" value="{{ old('email') }}" autocomplete="email" required/>
                     </div>
                 </div>
 
@@ -52,12 +52,24 @@
                     <div class="relative">
                         <input class="w-full bg-surface-container-low border-0 border-b-2 border-primary/20 text-on-surface focus:ring-0 focus:border-secondary-container transition-soft py-2.5 px-3.5 pr-12 text-sm"
                                id="password" name="password" placeholder="Masukkan password"
-                               type="password" autocomplete="current-password"/>
+                               type="password" autocomplete="current-password" required minlength="8"/>
                         <button class="absolute inset-y-0 right-0 px-3 flex items-center text-on-surface-variant hover:text-primary transition-soft"
                                 type="button" onclick="togglePassword()">
                             <span class="material-symbols-outlined text-[20px]" id="eye-icon">visibility</span>
                         </button>
                     </div>
+                </div>
+
+                {{-- Mock CAPTCHA UI (Hidden by default, shown after failed attempts) --}}
+                <div id="captcha-container" class="hidden">
+                    <label class="block text-sm font-semibold text-primary mb-2">Verifikasi Keamanan</label>
+                    <div class="flex items-center gap-4 bg-surface-container-low p-3 rounded-lg border border-primary/20">
+                        <div class="bg-surface-container-high px-4 py-2 font-mono text-lg font-bold tracking-widest select-none rounded decoration-line-through text-on-surface">
+                            7W3XY
+                        </div>
+                        <input type="text" id="captcha" name="captcha" placeholder="Masukkan kode di samping" class="w-full bg-transparent border-0 border-b-2 border-primary/20 text-on-surface focus:ring-0 focus:border-secondary-container transition-soft py-1 px-2 text-sm">
+                    </div>
+                    <p class="text-xs text-error mt-1 hidden" id="captcha-error">Kode verifikasi salah.</p>
                 </div>
 
                 {{-- Submit --}}
@@ -96,5 +108,40 @@ function togglePassword() {
         icon.textContent = 'visibility';
     }
 }
+
+// Simulasi logika CAPTCHA untuk frontend
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    // Jika ada session error (misalnya dari backend)
+    const hasErrors = {{ $errors->any() ? 'true' : 'false' }};
+    let failedAttempts = localStorage.getItem('failed_login_attempts') || 0;
+    
+    if (hasErrors) {
+        failedAttempts++;
+        localStorage.setItem('failed_login_attempts', failedAttempts);
+    }
+    
+    const captchaContainer = document.getElementById('captcha-container');
+    const captchaInput = document.getElementById('captcha');
+    
+    // Munculkan CAPTCHA jika gagal >= 3 kali
+    if (failedAttempts >= 3) {
+        captchaContainer.classList.remove('hidden');
+        captchaInput.setAttribute('required', 'required');
+    }
+    
+    form.addEventListener('submit', function(e) {
+        if (failedAttempts >= 3) {
+            // Simulasi validasi captcha hardcoded '7W3XY' untuk demo frontend
+            if (captchaInput.value.toUpperCase() !== '7W3XY') {
+                e.preventDefault();
+                document.getElementById('captcha-error').classList.remove('hidden');
+            } else {
+                // Reset jika berhasil login (meski form akan tetap submit ke backend)
+                localStorage.removeItem('failed_login_attempts');
+            }
+        }
+    });
+});
 </script>
 @endpush
