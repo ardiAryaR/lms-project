@@ -24,10 +24,40 @@
             @endif
             <form class="space-y-2.5" method="POST" action="{{ route('register') }}">
                 @csrf
+                {{-- Role Selection --}}
+                <div>
+                    <label class="block text-sm font-semibold text-primary mb-2">Daftar Sebagai</label>
+                    <div class="flex gap-4">
+                        <label class="flex-1 cursor-pointer">
+                            <input type="radio" name="role" value="murid" class="peer sr-only" {{ old('role', 'murid') === 'murid' ? 'checked' : '' }} onchange="toggleIdentifier()" />
+                            <div class="w-full text-center py-2.5 rounded-lg border-2 border-primary/20 bg-surface-container-low text-on-surface-variant text-sm font-semibold peer-checked:border-secondary-container peer-checked:bg-secondary-container/20 peer-checked:text-primary transition-soft flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined" style="font-size:18px">school</span> Murid
+                            </div>
+                        </label>
+                        <label class="flex-1 cursor-pointer">
+                            <input type="radio" name="role" value="guru" class="peer sr-only" {{ old('role') === 'guru' ? 'checked' : '' }} onchange="toggleIdentifier()" />
+                            <div class="w-full text-center py-2.5 rounded-lg border-2 border-primary/20 bg-surface-container-low text-on-surface-variant text-sm font-semibold peer-checked:border-secondary-container peer-checked:bg-secondary-container/20 peer-checked:text-primary transition-soft flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined" style="font-size:18px">person</span> Guru
+                            </div>
+                        </label>
+                    </div>
+                </div>
                 <div>
                     <label class="block text-sm font-semibold text-primary mb-1" for="name">Nama Lengkap</label>
                     <input class="w-full bg-surface-container-low border-0 border-b-2 border-primary/20 text-on-surface focus:ring-0 focus:border-secondary-container transition-soft py-2 px-3 text-sm"
                            id="name" name="name" placeholder="Masukkan nama lengkap" type="text" value="{{ old('name') }}" required/>
+                </div>
+                {{-- NIS Field (for Murid) --}}
+                <div id="nis-field">
+                    <label class="block text-sm font-semibold text-primary mb-1" for="nis">NIS (Nomor Induk Siswa)</label>
+                    <input class="w-full bg-surface-container-low border-0 border-b-2 border-primary/20 text-on-surface focus:ring-0 focus:border-secondary-container transition-soft py-2 px-3 text-sm"
+                           id="nis" name="nis" placeholder="Masukkan NIS" type="number" value="{{ old('nis') }}" required/>
+                </div>
+                {{-- NRG Field (for Guru) --}}
+                <div id="nrg-field" style="display: none;">
+                    <label class="block text-sm font-semibold text-primary mb-1" for="nrg">NRG (Nomor Registrasi Guru)</label>
+                    <input class="w-full bg-surface-container-low border-0 border-b-2 border-primary/20 text-on-surface focus:ring-0 focus:border-secondary-container transition-soft py-2 px-3 text-sm"
+                           id="nrg" name="nrg" placeholder="Masukkan NRG" type="number" value="{{ old('nrg') }}"/>
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-primary mb-1" for="email">Email</label>
@@ -60,3 +90,30 @@
     </div>
 </div>
 @endsection
+
+<script>
+    function toggleIdentifier() {
+        const role = document.querySelector('input[name="role"]:checked')?.value;
+        const nisField = document.getElementById('nis-field');
+        const nisInput = document.getElementById('nis');
+        const nrgField = document.getElementById('nrg-field');
+        const nrgInput = document.getElementById('nrg');
+        
+        if (role === 'guru') {
+            nisField.style.display = 'none';
+            nisInput.removeAttribute('required');
+            
+            nrgField.style.display = 'block';
+            nrgInput.setAttribute('required', 'required');
+        } else {
+            nisField.style.display = 'block';
+            nisInput.setAttribute('required', 'required');
+            
+            nrgField.style.display = 'none';
+            nrgInput.removeAttribute('required');
+        }
+    }
+
+    // Panggil saat pertama kali load agar validasi menyesuaikan pilihan default
+    document.addEventListener('DOMContentLoaded', toggleIdentifier);
+</script>

@@ -8,7 +8,6 @@
     .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background-color: var(--color-outline-variant); border-radius: 10px; }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <div class="flex-1 overflow-hidden flex gap-4 w-full h-[calc(100vh-120px)] -mt-2">
     <!-- LEFT PANEL: Task Details -->
@@ -76,10 +75,6 @@
                     <p class="font-bold text-xs text-on-surface">Belum diserahkan</p>
                 </div>
             </div>
-            <div class="text-right">
-                <p class="font-bold text-[10px] text-on-surface-variant">Nilai</p>
-                <p class="font-bold text-xs text-outline">-</p>
-            </div>
         </div>
 
         <div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-outline-variant/30 flex-1 flex flex-col overflow-hidden">
@@ -109,18 +104,55 @@
             </div>
 
             <div class="mt-4 pt-3 border-t border-surface-container flex flex-col gap-3 shrink-0">
-                <div class="flex gap-3 w-full justify-end">
-                    <button onclick="simpanDraf()" class="px-4 py-2 rounded-lg border-2 border-outline-variant text-primary font-bold text-xs hover:bg-surface-container-low transition-colors">
-                        Simpan Draf
+                <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 w-full">
+                    <button type="button" id="btn-trigger-batal" class="px-6 py-2 border border-[#d6c3b8] text-[#51443c] text-sm text-center font-bold rounded-lg hover:bg-[#f8f3ed] transition-soft">
+                        Batalkan
                     </button>
-                    <button onclick="submitTugas()" class="px-5 py-2 rounded-lg bg-secondary text-on-secondary font-bold text-xs hover:bg-secondary/90 transition-colors flex items-center gap-1.5 shadow-sm">
-                        <span class="material-symbols-outlined text-[16px]">send</span>
-                        Kumpulkan
+                    <button type="button" id="btn-trigger-simpan" class="px-6 py-2 bg-[#feae2c] text-[#6b4500] text-sm font-bold rounded-lg flex items-center justify-center gap-1 hover:brightness-110 transition-soft">
+                        <span class="material-symbols-outlined" style="font-size: 18px">send</span> Kumpulkan
                     </button>
                 </div>
             </div>
         </div>
     </section>
+</div>
+
+<!-- Modal Konfirmasi Kumpulkan -->
+<div id="modal-confirm-simpan" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 hidden backdrop-blur-sm transition-opacity">
+    <div class="bg-[#fef9f3] rounded-xl shadow-2xl p-6 w-full max-w-sm border border-[#d6c3b8] text-center">
+        <span class="material-symbols-outlined text-[#feae2c] text-5xl mb-4">help</span>
+        <h3 class="text-xl font-bold text-[#50290b] mb-2" style="font-family: var(--font-serif)">Kumpulkan Tugas?</h3>
+        <p class="text-xs text-[#51443c] mb-6">Pastikan berkas sudah lengkap karena tidak bisa diubah lagi.</p>
+        <div class="flex gap-2 justify-center">
+            <button type="button" id="btn-cancel-simpan" class="px-4 py-2 rounded-lg font-bold text-xs text-[#51443c] border border-[#d6c3b8] hover:bg-[#f8f3ed] transition-colors">Periksa Lagi</button>
+            <button type="button" id="btn-confirm-simpan" class="px-4 py-2 rounded-lg font-bold text-xs bg-[#feae2c] text-[#6b4500] hover:brightness-110 transition-all">Ya, Kumpulkan</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Konfirmasi Batal -->
+<div id="modal-confirm-batal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 hidden backdrop-blur-sm transition-opacity">
+    <div class="bg-red-50 rounded-xl shadow-2xl p-6 w-full max-w-sm border border-red-200 text-center">
+        <span class="material-symbols-outlined text-red-500 text-5xl mb-4">warning</span>
+        <h3 class="text-xl font-bold text-red-700 mb-2" style="font-family: var(--font-serif)">Batalkan Pengumpulan?</h3>
+        <p class="text-xs text-red-600/80 mb-6">Semua data yang telah Anda isikan akan hilang. Apakah Anda yakin?</p>
+        <div class="flex gap-2 justify-center">
+            <button type="button" id="btn-cancel-batal" class="px-4 py-2 rounded-lg font-bold text-xs text-red-700 border border-red-200 hover:bg-red-100 transition-colors">Kembali</button>
+            <button type="button" id="btn-confirm-batal" class="px-4 py-2 rounded-lg font-bold text-xs bg-red-500 text-white hover:bg-red-600 transition-all shadow-md hover:shadow-lg">Ya, Batalkan</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Success (Popup Hijau) -->
+<div id="toast-success" class="fixed top-5 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-3 bg-green-100 border border-green-300 text-green-800 px-6 py-3 rounded-lg shadow-lg opacity-0 invisible transition-all duration-300 transform -translate-y-4">
+    <span class="material-symbols-outlined">check_circle</span>
+    <span class="font-bold text-sm">Tugas berhasil dikumpulkan!</span>
+</div>
+
+<!-- Toast Batal (Popup Merah) -->
+<div id="toast-batal" class="fixed top-5 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-3 bg-red-100 border border-red-300 text-red-800 px-6 py-3 rounded-lg shadow-lg opacity-0 invisible transition-all duration-300 transform -translate-y-4">
+    <span class="material-symbols-outlined">cancel</span>
+    <span class="font-bold text-sm">Pengumpulan dibatalkan!</span>
 </div>
 
 @push('scripts')
@@ -135,61 +167,57 @@
         }
     }
 
-    function submitTugas() {
-        const fileInput = document.getElementById('file-upload');
-        if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-            document.getElementById('file-error').classList.remove('hidden');
-            return;
-        }
-        
-        Swal.fire({
-            title: 'Kumpulkan Tugas?',
-            text: "Pastikan berkas sudah lengkap karena tidak bisa diubah lagi.",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#50290b',
-            cancelButtonColor: '#ba1a1a',
-            confirmButtonText: 'Ya, Kumpulkan',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: 'Berhasil!',
-                    text: 'Tugas telah dikumpulkan.',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    window.location.href = "{{ route('siswa.mapel.detail') }}?tab=tugas";
-                });
-            }
-        });
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+        const btnTriggerSimpan = document.getElementById('btn-trigger-simpan');
+        const modalSimpan = document.getElementById('modal-confirm-simpan');
+        const btnCancelSimpan = document.getElementById('btn-cancel-simpan');
+        const btnConfirmSimpan = document.getElementById('btn-confirm-simpan');
+        const toastSuccess = document.getElementById('toast-success');
 
-    function simpanDraf() {
-        Swal.fire({
-            title: 'Simpan Draf?',
-            text: "Progres tugas akan disimpan dan dapat dilanjutkan nanti.",
-            icon: 'info',
-            showCancelButton: true,
-            confirmButtonColor: '#50290b',
-            cancelButtonColor: '#ba1a1a',
-            confirmButtonText: 'Ya, Simpan',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: 'Tersimpan!',
-                    text: 'Draf tugas berhasil disimpan.',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    window.location.href = "{{ route('siswa.mapel.detail') }}?tab=tugas";
-                });
+        const btnTriggerBatal = document.getElementById('btn-trigger-batal');
+        const modalBatal = document.getElementById('modal-confirm-batal');
+        const btnCancelBatal = document.getElementById('btn-cancel-batal');
+        const btnConfirmBatal = document.getElementById('btn-confirm-batal');
+        const toastBatal = document.getElementById('toast-batal');
+
+        function showToast(toastEl) {
+            toastEl.classList.remove('opacity-0', 'invisible', '-translate-y-4');
+            toastEl.classList.add('opacity-100', 'visible', 'translate-y-0');
+            setTimeout(() => {
+                toastEl.classList.remove('opacity-100', 'visible', 'translate-y-0');
+                toastEl.classList.add('opacity-0', 'invisible', '-translate-y-4');
+            }, 3000);
+        }
+
+        // Simpan Flow
+        btnTriggerSimpan.addEventListener('click', () => {
+            const fileInput = document.getElementById('file-upload');
+            if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+                document.getElementById('file-error').classList.remove('hidden');
+                return;
             }
+            modalSimpan.classList.remove('hidden');
         });
-    }
+        btnCancelSimpan.addEventListener('click', () => modalSimpan.classList.add('hidden'));
+        btnConfirmSimpan.addEventListener('click', () => {
+            modalSimpan.classList.add('hidden');
+            showToast(toastSuccess);
+            setTimeout(() => {
+                window.location.href = "{{ route('siswa.mapel.detail') }}?tab=tugas";
+            }, 1000);
+        });
+
+        // Batal Flow
+        btnTriggerBatal.addEventListener('click', () => modalBatal.classList.remove('hidden'));
+        btnCancelBatal.addEventListener('click', () => modalBatal.classList.add('hidden'));
+        btnConfirmBatal.addEventListener('click', () => {
+            modalBatal.classList.add('hidden');
+            showToast(toastBatal);
+            setTimeout(() => {
+                window.location.href = "{{ route('siswa.mapel.detail') }}?tab=tugas";
+            }, 1000);
+        });
+    });
 </script>
 @endpush
 @endsection

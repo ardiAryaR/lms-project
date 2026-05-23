@@ -8,7 +8,6 @@
     .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background-color: var(--color-outline-variant); border-radius: 10px; }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <div class="flex flex-col h-[calc(100vh-170px)] -mt-2">
     <!-- Custom Exam Header (Now acting as a secondary banner) -->
@@ -100,13 +99,45 @@
             <!-- Submit Panel -->
             <div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 shrink-0">
                 <p class="text-[10px] text-on-surface-variant mb-3 text-center">Pastikan semua terjawab.</p>
-                <button onclick="submitExam()" class="w-full bg-error text-on-error hover:bg-[#a01616] py-2.5 rounded-lg text-xs font-bold shadow-sm flex items-center justify-center gap-2 transition-colors">
-                    <span class="material-symbols-outlined text-[16px]">task_alt</span>
-                    Selesai & Kumpulkan
-                </button>
+                <div class="flex flex-col gap-2">
+                    <button type="button" id="btn-trigger-simpan" class="w-full bg-[#feae2c] text-[#6b4500] hover:brightness-110 py-2.5 rounded-lg text-xs font-bold shadow-sm flex items-center justify-center gap-2 transition-soft">
+                        <span class="material-symbols-outlined text-[16px]">task_alt</span> Selesai & Kumpulkan
+                    </button>
+                </div>
             </div>
         </aside>
     </div>
+</div>
+
+<!-- Modal Konfirmasi Kumpulkan -->
+<div id="modal-confirm-simpan" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 hidden backdrop-blur-sm transition-opacity">
+    <div class="bg-[#fef9f3] rounded-xl shadow-2xl p-6 w-full max-w-sm border border-[#d6c3b8] text-center">
+        <span class="material-symbols-outlined text-[#feae2c] text-5xl mb-4">help</span>
+        <h3 class="text-xl font-bold text-[#50290b] mb-2" style="font-family: var(--font-serif)">Kumpulkan Ujian?</h3>
+        <p class="text-xs text-[#51443c] mb-6">Apakah Anda yakin ingin menyelesaikan ujian ini? Jawaban tidak dapat diubah setelah dikumpulkan.</p>
+        <div class="flex gap-2 justify-center">
+            <button type="button" id="btn-cancel-simpan" class="px-4 py-2 rounded-lg font-bold text-xs text-[#51443c] border border-[#d6c3b8] hover:bg-[#f8f3ed] transition-colors">Periksa Lagi</button>
+            <button type="button" id="btn-confirm-simpan" class="px-4 py-2 rounded-lg font-bold text-xs bg-[#feae2c] text-[#6b4500] hover:brightness-110 transition-all">Ya, Kumpulkan</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Peringatan Belum Selesai -->
+<div id="modal-warning" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 hidden backdrop-blur-sm transition-opacity">
+    <div class="bg-red-50 rounded-xl shadow-2xl p-6 w-full max-w-sm border border-red-200 text-center">
+        <span class="material-symbols-outlined text-red-500 text-5xl mb-4">warning</span>
+        <h3 class="text-xl font-bold text-red-700 mb-2" style="font-family: var(--font-serif)">Belum Selesai!</h3>
+        <p id="warning-text" class="text-xs text-red-600/80 mb-6">Masih ada soal yang belum dijawab.</p>
+        <div class="flex justify-center">
+            <button type="button" onclick="document.getElementById('modal-warning').classList.add('hidden')" class="px-6 py-2 rounded-lg font-bold text-xs text-red-700 border border-red-200 hover:bg-red-100 transition-colors">Periksa Kembali</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Success (Popup Hijau) -->
+<div id="toast-success" class="fixed top-5 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-3 bg-green-100 border border-green-300 text-green-800 px-6 py-3 rounded-lg shadow-lg opacity-0 invisible transition-all duration-300 transform -translate-y-4">
+    <span class="material-symbols-outlined">check_circle</span>
+    <span class="font-bold text-sm">Ujian berhasil dikumpulkan!</span>
 </div>
 
 @push('scripts')
@@ -229,50 +260,53 @@
         });
     }
 
-    function submitExam() {
-        const unanswered = questions.filter(q => q.answer === null).length;
-        const doubtful = questions.filter(q => q.doubt).length;
+    document.addEventListener('DOMContentLoaded', function() {
+        initExam();
+
+        const btnTriggerSimpan = document.getElementById('btn-trigger-simpan');
+        const modalSimpan = document.getElementById('modal-confirm-simpan');
+        const btnCancelSimpan = document.getElementById('btn-cancel-simpan');
+        const btnConfirmSimpan = document.getElementById('btn-confirm-simpan');
+        const toastSuccess = document.getElementById('toast-success');
         
-        if (unanswered > 0 || doubtful > 0) {
-            let msg = [];
-            if (unanswered > 0) msg.push(`${unanswered} soal belum dijawab`);
-            if (doubtful > 0) msg.push(`${doubtful} soal ragu-ragu`);
-            
-            Swal.fire({
-                title: 'Belum Selesai!',
-                text: `Masih ada ${msg.join(' dan ')}. Silakan periksa kembali jawaban Anda.`,
-                icon: 'warning',
-                confirmButtonColor: '#50290b',
-                confirmButtonText: 'Periksa Kembali'
-            });
-            return;
+        const modalWarning = document.getElementById('modal-warning');
+        const warningText = document.getElementById('warning-text');
+
+        function showToast(toastEl) {
+            toastEl.classList.remove('opacity-0', 'invisible', '-translate-y-4');
+            toastEl.classList.add('opacity-100', 'visible', 'translate-y-0');
+            setTimeout(() => {
+                toastEl.classList.remove('opacity-100', 'visible', 'translate-y-0');
+                toastEl.classList.add('opacity-0', 'invisible', '-translate-y-4');
+            }, 3000);
         }
 
-        Swal.fire({
-            title: 'Kumpulkan Ujian?',
-            text: "Apakah Anda yakin ingin menyelesaikan ujian ini?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#50290b',
-            cancelButtonColor: '#ba1a1a',
-            confirmButtonText: 'Ya, Kumpulkan',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: 'Berhasil!',
-                    text: 'Ujian telah berhasil dikumpulkan.',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    window.location.href = "{{ route('siswa.mapel.detail') }}?tab=tugas";
-                });
+        // Simpan Flow
+        btnTriggerSimpan.addEventListener('click', () => {
+            const unanswered = questions.filter(q => q.answer === null).length;
+            const doubtful = questions.filter(q => q.doubt).length;
+            
+            if (unanswered > 0 || doubtful > 0) {
+                let msg = [];
+                if (unanswered > 0) msg.push(`${unanswered} soal belum dijawab`);
+                if (doubtful > 0) msg.push(`${doubtful} soal ragu-ragu`);
+                
+                warningText.innerText = `Masih ada ${msg.join(' dan ')}. Silakan periksa kembali jawaban Anda.`;
+                modalWarning.classList.remove('hidden');
+                return;
             }
+            modalSimpan.classList.remove('hidden');
         });
-    }
-
-    document.addEventListener('DOMContentLoaded', initExam);
+        
+        btnCancelSimpan.addEventListener('click', () => modalSimpan.classList.add('hidden'));
+        btnConfirmSimpan.addEventListener('click', () => {
+            modalSimpan.classList.add('hidden');
+            showToast(toastSuccess);
+            setTimeout(() => {
+                window.location.href = "{{ route('siswa.mapel.detail') }}?tab=tugas";
+            }, 1000);
+        });
+    });
 </script>
 @endpush
 @endsection

@@ -5,38 +5,42 @@
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4 mt-4">
     <div>
         <h2 class="font-bold text-2xl text-primary" style="font-family: var(--font-serif)">Nilai &amp; Rekap</h2>
-        <p class="text-on-surface-variant text-sm mt-1">Kelola dan evaluasi hasil belajar siswa semester ini.</p>
+        <p class="text-on-surface-variant text-sm mt-1">Kelola dan evaluasi hasil belajar siswa.</p>
     </div>
 </div>
 
 <!-- Filter Section -->
-<section class="bg-white rounded-xl p-4 shadow-sm border border-outline-variant/30 mb-4">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="flex flex-col">
-            <label class="font-bold text-sm text-primary mb-1">Kelas</label>
-            <select id="filterKelas" class="bg-surface-container-low border-b-2 border-primary border-t-0 border-l-0 border-r-0 rounded-t-md px-3 py-1.5 focus:ring-0 focus:border-secondary-container text-sm text-on-surface transition-colors">
-                <option value="">Semua Kelas</option>
-                <option value="X RPL 1">X RPL 1</option>
-                <option value="X RPL 2">X RPL 2</option>
-                <option value="XI TKJ 1">XI TKJ 1</option>
-            </select>
+<section class="bg-white rounded-xl shadow-sm border border-outline-variant/30 mb-4 z-20 relative">
+    <div class="p-4 border-b border-surface-variant bg-surface-container-low flex flex-col md:flex-row gap-3 justify-end">
+        {{-- Filter Kelas --}}
+        <div class="relative w-full md:w-auto md:min-w-[200px] shrink-0">
+            <input type="hidden" id="filterKelas" value="">
+            <button type="button" onclick="toggleDropdown('kelas')" class="w-full bg-surface border border-outline-variant/50 rounded-xl pl-10 pr-10 py-2 text-sm font-medium text-on-surface text-left focus:outline-none focus:border-secondary transition-soft hover:border-secondary/50">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">school</span>
+                <span id="filterKelasLabel">Semua Kelas</span>
+                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">expand_more</span>
+            </button>
+            <div id="dropdownKelas" class="hidden absolute z-20 mt-2 w-full md:min-w-[200px] bg-surface rounded-xl border border-outline-variant/30 shadow-xl overflow-hidden">
+                <button type="button" onclick="selectDropdown('kelas','','Semua Kelas')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Semua Kelas</button>
+                <button type="button" onclick="selectDropdown('kelas','X RPL 1','X RPL 1')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">X RPL 1</button>
+                <button type="button" onclick="selectDropdown('kelas','X RPL 2','X RPL 2')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">X RPL 2</button>
+                <button type="button" onclick="selectDropdown('kelas','XI TKJ 1','XI TKJ 1')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">XI TKJ 1</button>
+            </div>
         </div>
-        <div class="flex flex-col">
-            <label class="font-bold text-sm text-primary mb-1">Mata Pelajaran</label>
-            <select id="filterMapel" class="bg-surface-container-low border-b-2 border-primary border-t-0 border-l-0 border-r-0 rounded-t-md px-3 py-1.5 focus:ring-0 focus:border-secondary-container text-sm text-on-surface transition-colors">
-                <option value="">Semua Mapel</option>
-                <option value="Pemrograman Dasar">Pemrograman Dasar</option>
-                <option value="Basis Data">Basis Data</option>
-                <option value="Sistem Komputer">Sistem Komputer</option>
-            </select>
-        </div>
-        <div class="flex flex-col">
-            <label class="font-bold text-sm text-primary mb-1">Semester</label>
-            <select id="filterSemester" class="bg-surface-container-low border-b-2 border-primary border-t-0 border-l-0 border-r-0 rounded-t-md px-3 py-1.5 focus:ring-0 focus:border-secondary-container text-sm text-on-surface transition-colors">
-                <option value="">Semua Semester</option>
-                <option value="Ganjil 2023/2024">Ganjil 2023/2024</option>
-                <option value="Genap 2023/2024">Genap 2023/2024</option>
-            </select>
+        {{-- Filter Mata Pelajaran --}}
+        <div class="relative w-full md:w-auto md:min-w-[200px] shrink-0">
+            <input type="hidden" id="filterMapel" value="">
+            <button type="button" onclick="toggleDropdown('mapel')" class="w-full bg-surface border border-outline-variant/50 rounded-xl pl-10 pr-10 py-2 text-sm font-medium text-on-surface text-left focus:outline-none focus:border-secondary transition-soft hover:border-secondary/50">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">menu_book</span>
+                <span id="filterMapelLabel">Semua Mapel</span>
+                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">expand_more</span>
+            </button>
+            <div id="dropdownMapel" class="hidden absolute z-20 mt-2 w-full md:min-w-[200px] bg-surface rounded-xl border border-outline-variant/30 shadow-xl overflow-hidden">
+                <button type="button" onclick="selectDropdown('mapel','','Semua Mapel')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Semua Mapel</button>
+                <button type="button" onclick="selectDropdown('mapel','Pemrograman Dasar','Pemrograman Dasar')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Pemrograman Dasar</button>
+                <button type="button" onclick="selectDropdown('mapel','Basis Data','Basis Data')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Basis Data</button>
+                <button type="button" onclick="selectDropdown('mapel','Sistem Komputer','Sistem Komputer')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Sistem Komputer</button>
+            </div>
         </div>
     </div>
 </section>
@@ -90,7 +94,7 @@
                     <th class="py-2 px-4 w-12">No</th>
                     <th class="py-2 px-4">Nama Siswa</th>
                     <th class="py-2 px-4">Kelas</th>
-                    <th class="py-2 px-4">Semester</th>
+
                     <th class="py-2 px-4">Mata Pelajaran</th>
                     <th class="py-2 px-4 text-center">Tugas</th>
                     <th class="py-2 px-4 text-center">Kuis</th>
@@ -104,7 +108,7 @@
                     <td class="py-2 px-4 text-on-surface-variant">1</td>
                     <td class="py-2 px-4 font-semibold text-primary student-name">Ahmad Fajri</td>
                     <td class="py-2 px-4 student-kelas">X RPL 1</td>
-                    <td class="py-2 px-4 student-semester">Ganjil 2023/2024</td>
+
                     <td class="py-2 px-4 student-mapel">Pemrograman Dasar</td>
                     <td class="py-2 px-4 text-center">85</td>
                     <td class="py-2 px-4 text-center">80</td>
@@ -120,7 +124,7 @@
                     <td class="py-2 px-4 text-on-surface-variant">2</td>
                     <td class="py-2 px-4 font-semibold text-primary student-name">Budi Santoso</td>
                     <td class="py-2 px-4 student-kelas">X RPL 1</td>
-                    <td class="py-2 px-4 student-semester">Ganjil 2023/2024</td>
+
                     <td class="py-2 px-4 student-mapel">Pemrograman Dasar</td>
                     <td class="py-2 px-4 text-center">78</td>
                     <td class="py-2 px-4 text-center">75</td>
@@ -136,7 +140,7 @@
                     <td class="py-2 px-4 text-on-surface-variant">3</td>
                     <td class="py-2 px-4 font-semibold text-primary student-name">Citra Lestari</td>
                     <td class="py-2 px-4 student-kelas">X RPL 2</td>
-                    <td class="py-2 px-4 student-semester">Ganjil 2023/2024</td>
+
                     <td class="py-2 px-4 student-mapel">Basis Data</td>
                     <td class="py-2 px-4 text-center">92</td>
                     <td class="py-2 px-4 text-center">95</td>
@@ -152,7 +156,7 @@
                     <td class="py-2 px-4 text-on-surface-variant">4</td>
                     <td class="py-2 px-4 font-semibold text-primary student-name">Dina Oktavia</td>
                     <td class="py-2 px-4 student-kelas">XI TKJ 1</td>
-                    <td class="py-2 px-4 student-semester">Ganjil 2023/2024</td>
+
                     <td class="py-2 px-4 student-mapel">Sistem Komputer</td>
                     <td class="py-2 px-4 text-center">70</td>
                     <td class="py-2 px-4 text-center">65</td>
@@ -168,7 +172,7 @@
                     <td class="py-2 px-4 text-on-surface-variant">5</td>
                     <td class="py-2 px-4 font-semibold text-primary student-name">Eka Putra</td>
                     <td class="py-2 px-4 student-kelas">XI TKJ 1</td>
-                    <td class="py-2 px-4 student-semester">Ganjil 2023/2024</td>
+
                     <td class="py-2 px-4 student-mapel">Sistem Komputer</td>
                     <td class="py-2 px-4 text-center">88</td>
                     <td class="py-2 px-4 text-center">85</td>
@@ -204,27 +208,23 @@
         const searchInput = document.getElementById('searchInput');
         const filterKelas = document.getElementById('filterKelas');
         const filterMapel = document.getElementById('filterMapel');
-        const filterSemester = document.getElementById('filterSemester');
         const rows = document.querySelectorAll('.grade-row');
 
         function applyFilters() {
             const query = searchInput.value.toLowerCase();
             const kelasVal = filterKelas.value;
             const mapelVal = filterMapel.value;
-            const semesterVal = filterSemester.value;
 
             rows.forEach(row => {
                 const name = (row.querySelector('.student-name')?.textContent || '').toLowerCase();
                 const kelas = row.querySelector('.student-kelas')?.textContent || '';
                 const mapel = row.querySelector('.student-mapel')?.textContent || '';
-                const semester = row.querySelector('.student-semester')?.textContent || '';
 
                 const matchName = name.includes(query);
                 const matchKelas = kelasVal === '' || kelas === kelasVal;
                 const matchMapel = mapelVal === '' || mapel === mapelVal;
-                const matchSemester = semesterVal === '' || semester === semesterVal;
 
-                if (matchName && matchKelas && matchMapel && matchSemester) {
+                if (matchName && matchKelas && matchMapel) {
                     row.style.display = '';
                 } else {
                     row.style.display = 'none';
@@ -233,9 +233,41 @@
         }
 
         searchInput.addEventListener('keyup', applyFilters);
-        filterKelas.addEventListener('change', applyFilters);
-        filterMapel.addEventListener('change', applyFilters);
-        filterSemester.addEventListener('change', applyFilters);
+        // Expose functions globally for the onclick handlers
+        window.toggleDropdown = function(type) {
+            const targetId = type === 'kelas' ? 'dropdownKelas' : 'dropdownMapel';
+            const target = document.getElementById(targetId);
+            const otherId = type === 'kelas' ? 'dropdownMapel' : 'dropdownKelas';
+            const other = document.getElementById(otherId);
+            if (other && !other.classList.contains('hidden')) {
+                other.classList.add('hidden');
+            }
+            target.classList.toggle('hidden');
+        };
+
+        window.selectDropdown = function(type, value, label) {
+            if (type === 'kelas') {
+                filterKelas.value = value;
+                document.getElementById('filterKelasLabel').textContent = label;
+                document.getElementById('dropdownKelas').classList.add('hidden');
+            } else {
+                filterMapel.value = value;
+                document.getElementById('filterMapelLabel').textContent = label;
+                document.getElementById('dropdownMapel').classList.add('hidden');
+            }
+            applyFilters();
+        };
+
+        document.addEventListener('click', function(event) {
+            const kelasWrapper = document.getElementById('dropdownKelas');
+            const mapelWrapper = document.getElementById('dropdownMapel');
+            if (!event.target.closest('[onclick="toggleDropdown(\'kelas\')"]') && kelasWrapper && !kelasWrapper.classList.contains('hidden')) {
+                kelasWrapper.classList.add('hidden');
+            }
+            if (!event.target.closest('[onclick="toggleDropdown(\'mapel\')"]') && mapelWrapper && !mapelWrapper.classList.contains('hidden')) {
+                mapelWrapper.classList.add('hidden');
+            }
+        });
     });
 </script>
 

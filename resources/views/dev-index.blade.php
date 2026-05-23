@@ -32,7 +32,7 @@
         }
         h1 { font-size: 2rem; font-weight: 700; color: #f8fafc; margin-bottom: 0.5rem; }
         .subtitle { color: #94a3b8; font-size: 0.9rem; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem; }
         .card {
             background: #1e293b;
             border: 1px solid #334155;
@@ -67,6 +67,7 @@
         .card-btn:hover { opacity: 0.85; }
         .btn-guru { background: #7c3aed; color: white; }
         .btn-siswa { background: #0ea5e9; color: white; }
+        .btn-admin { background: #10b981; color: white; }
         .divider { border: none; border-top: 1px solid #1e293b; margin: 1.5rem 0; }
         .links-section { background: #1e293b; border: 1px solid #334155; border-radius: 1rem; padding: 1.5rem; }
         .links-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #64748b; margin-bottom: 1rem; }
@@ -86,7 +87,8 @@
         .link-item:hover { background: #273549; color: #e2e8f0; border-color: #475569; }
         .link-dot-guru { width: 7px; height: 7px; border-radius: 50%; background: #7c3aed; flex-shrink: 0; }
         .link-dot-siswa { width: 7px; height: 7px; border-radius: 50%; background: #0ea5e9; flex-shrink: 0; }
-        .link-dot-auth { width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0; }
+        .link-dot-admin { width: 7px; height: 7px; border-radius: 50%; background: #10b981; flex-shrink: 0; }
+        .link-dot-auth { width: 7px; height: 7px; border-radius: 50%; background: #f59e0b; flex-shrink: 0; }
         .warning {
             background: #431407;
             border: 1px solid #9a3412;
@@ -124,6 +126,12 @@
                 <div class="card-desc">Login otomatis sebagai siswa dan langsung masuk ke dashboard siswa.</div>
                 <a href="{{ route('dev.siswa') }}" class="card-btn btn-siswa">→ Masuk sebagai Siswa</a>
             </div>
+            <div class="card">
+                <span class="card-icon">🛡️</span>
+                <div class="card-title">Portal Admin</div>
+                <div class="card-desc">Login otomatis sebagai admin dan langsung masuk ke admin panel.</div>
+                <a href="{{ route('dev.admin') }}" class="card-btn btn-admin">→ Masuk sebagai Admin</a>
+            </div>
         </div>
 
         {{-- All Page Links --}}
@@ -135,6 +143,11 @@
                 <a href="{{ route('register') }}" class="link-item"><span class="link-dot-auth"></span>Register</a>
                 <a href="{{ route('password.request') }}" class="link-item"><span class="link-dot-auth"></span>Lupa Password</a>
                 <a href="{{ route('verification.notice') }}" class="link-item"><span class="link-dot-auth"></span>Verifikasi Email</a>
+
+                {{-- Admin --}}
+                <a href="{{ route('dev.admin') }}" class="link-item"><span class="link-dot-admin"></span>Admin: Dashboard</a>
+                <a href="{{ route('admin.akun') }}" class="link-item"><span class="link-dot-admin"></span>Admin: Manajemen Akun</a>
+                <a href="{{ route('admin.aktivitas') }}" class="link-item"><span class="link-dot-admin"></span>Admin: Laporan Aktivitas</a>
 
                 {{-- Guru --}}
                 <a href="{{ route('dev.guru') }}" class="link-item"><span class="link-dot-guru"></span>Guru: Dashboard</a>

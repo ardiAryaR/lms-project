@@ -45,32 +45,44 @@
 <!-- Filters -->
 <div class="flex flex-col gap-3 mb-4">
     <!-- Search and Dropdowns -->
-    <div class="flex flex-wrap items-center gap-3">
-        <!-- Search Name -->
-        <div class="relative w-full max-w-xs">
-            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
-            <input id="searchName" class="w-full pl-9 pr-3 py-1.5 bg-surface-container border-b-2 border-primary/30 focus:border-primary rounded-t-lg text-sm text-on-surface focus:outline-none transition-colors" placeholder="Cari nama siswa..." type="text"/>
-        </div>
-        
-        <!-- Tipe Tugas Dropdown -->
-        <div class="relative">
-            <select id="filterType" class="appearance-none bg-surface-container border-b-2 border-primary/30 focus:border-primary px-3 py-1.5 pr-8 rounded-t-lg text-sm text-on-surface focus:outline-none transition-colors cursor-pointer w-36">
-                <option value="all">Semua Tipe</option>
-                <option value="tugas">Tugas</option>
-                <option value="kuis">Kuis</option>
-                <option value="ujian">Ujian</option>
-            </select>
-            <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-primary text-sm">expand_more</span>
-        </div>
+    <div class="bg-surface rounded-xl border border-outline-variant/30 shadow-sm overflow-visible relative z-20">
+        <div class="p-4 bg-surface-container-low flex flex-col md:flex-row gap-4 items-center">
+            {{-- Search Input --}}
+            <div class="relative flex-1 w-full group">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-secondary pointer-events-none transition-soft" style="font-size: 20px">search</span>
+                <input id="searchName" class="w-full bg-surface border-2 border-outline-variant/50 rounded-xl pl-10 pr-4 py-2.5 text-sm text-on-surface focus:outline-none focus:border-secondary focus:ring-0 transition-soft hover:border-secondary/50 placeholder-on-surface-variant/50" placeholder="Cari nama siswa..." type="text"/>
+            </div>
+            
+            {{-- Tipe Tugas Dropdown --}}
+            <div class="relative w-full md:w-auto md:min-w-[170px] shrink-0">
+                <input type="hidden" id="filterType" value="all">
+                <button type="button" onclick="toggleDropdown('type')" class="w-full bg-surface border-2 border-outline-variant/50 rounded-xl pl-10 pr-10 py-2.5 text-sm font-medium text-on-surface text-left focus:outline-none focus:border-secondary focus:ring-0 transition-soft hover:border-secondary/50">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">category</span>
+                    <span id="filterTypeLabel">Semua Tipe</span>
+                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">expand_more</span>
+                </button>
+                <div id="dropdownType" class="hidden absolute z-20 mt-2 w-full md:min-w-[170px] bg-surface rounded-xl border border-outline-variant/30 shadow-xl overflow-hidden">
+                    <button type="button" onclick="selectDropdown('type','all','Semua Tipe')" class="w-full text-left px-4 py-2.5 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Semua Tipe</button>
+                    <button type="button" onclick="selectDropdown('type','tugas','Tugas')" class="w-full text-left px-4 py-2.5 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Tugas</button>
+                    <button type="button" onclick="selectDropdown('type','kuis','Kuis')" class="w-full text-left px-4 py-2.5 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Kuis</button>
+                    <button type="button" onclick="selectDropdown('type','ujian','Ujian')" class="w-full text-left px-4 py-2.5 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Ujian</button>
+                </div>
+            </div>
 
-        <!-- Status Penilaian Dropdown -->
-        <div class="relative">
-            <select id="filterGrade" class="appearance-none bg-surface-container border-b-2 border-primary/30 focus:border-primary px-3 py-1.5 pr-8 rounded-t-lg text-sm text-on-surface focus:outline-none transition-colors cursor-pointer w-40">
-                <option value="all">Semua Penilaian</option>
-                <option value="belum">Belum Dinilai</option>
-                <option value="sudah">Sudah Dinilai</option>
-            </select>
-            <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-primary text-sm">expand_more</span>
+            {{-- Status Penilaian Dropdown --}}
+            <div class="relative w-full md:w-auto md:min-w-[200px] shrink-0">
+                <input type="hidden" id="filterGrade" value="all">
+                <button type="button" onclick="toggleDropdown('grade')" class="w-full bg-surface border-2 border-outline-variant/50 rounded-xl pl-10 pr-10 py-2.5 text-sm font-medium text-on-surface text-left focus:outline-none focus:border-secondary focus:ring-0 transition-soft hover:border-secondary/50">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">fact_check</span>
+                    <span id="filterGradeLabel">Semua Penilaian</span>
+                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">expand_more</span>
+                </button>
+                <div id="dropdownGrade" class="hidden absolute z-20 mt-2 w-full md:min-w-[200px] bg-surface rounded-xl border border-outline-variant/30 shadow-xl overflow-hidden">
+                    <button type="button" onclick="selectDropdown('grade','all','Semua Penilaian')" class="w-full text-left px-4 py-2.5 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Semua Penilaian</button>
+                    <button type="button" onclick="selectDropdown('grade','belum','Belum Dinilai')" class="w-full text-left px-4 py-2.5 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Belum Dinilai</button>
+                    <button type="button" onclick="selectDropdown('grade','sudah','Sudah Dinilai')" class="w-full text-left px-4 py-2.5 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Sudah Dinilai</button>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -236,8 +248,42 @@
 
         // Event listeners for other filters
         searchInput.addEventListener('input', applyFilters);
-        filterType.addEventListener('change', applyFilters);
-        filterGrade.addEventListener('change', applyFilters);
+
+        // Make functions globally available
+        window.toggleDropdown = function(type) {
+            const targetId = type === 'type' ? 'dropdownType' : 'dropdownGrade';
+            const target = document.getElementById(targetId);
+            const otherId = type === 'type' ? 'dropdownGrade' : 'dropdownType';
+            const other = document.getElementById(otherId);
+            if (other && !other.classList.contains('hidden')) {
+                other.classList.add('hidden');
+            }
+            target.classList.toggle('hidden');
+        };
+
+        window.selectDropdown = function(type, value, label) {
+            if (type === 'type') {
+                filterType.value = value;
+                document.getElementById('filterTypeLabel').textContent = label;
+                document.getElementById('dropdownType').classList.add('hidden');
+            } else {
+                filterGrade.value = value;
+                document.getElementById('filterGradeLabel').textContent = label;
+                document.getElementById('dropdownGrade').classList.add('hidden');
+            }
+            applyFilters();
+        };
+
+        document.addEventListener('click', function(event) {
+            const typeWrapper = document.getElementById('dropdownType');
+            const gradeWrapper = document.getElementById('dropdownGrade');
+            if (!event.target.closest('[onclick="toggleDropdown(\'type\')"]') && typeWrapper && !typeWrapper.classList.contains('hidden')) {
+                typeWrapper.classList.add('hidden');
+            }
+            if (!event.target.closest('[onclick="toggleDropdown(\'grade\')"]') && gradeWrapper && !gradeWrapper.classList.contains('hidden')) {
+                gradeWrapper.classList.add('hidden');
+            }
+        });
 
         function applyFilters() {
             const searchVal = searchInput.value.toLowerCase();
