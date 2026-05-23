@@ -26,15 +26,15 @@
             <p class="text-sm text-on-surface-variant mt-2">Semester Ganjil 2023</p>
         </div>
     </div>
-    <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-error-container hover:bg-error-container/20 transition-soft group relative overflow-hidden">
-        <div class="absolute -right-4 -top-4 w-24 h-24 bg-error opacity-5 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+    <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-red-200 hover:bg-red-50/30 transition-soft group relative overflow-hidden">
+        <div class="absolute -right-4 -top-4 w-24 h-24 bg-red-400 opacity-5 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
         <div class="flex justify-between items-start mb-4 relative z-10">
-            <div class="p-3 bg-error-container rounded-lg text-error"><span class="material-symbols-outlined">assignment_late</span></div>
-            <span class="bg-error text-on-error text-xs font-bold px-2 py-1 rounded-full animate-pulse">Perlu Perhatian</span>
+            <div class="p-3 bg-red-50 rounded-lg text-red-500"><span class="material-symbols-outlined">assignment_late</span></div>
+            <span class="bg-red-400 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse">Perlu Perhatian</span>
         </div>
         <div class="relative z-10">
             <p class="text-on-surface-variant text-xs font-bold uppercase tracking-wider mb-1">Belum Dinilai</p>
-            <h3 class="font-bold text-4xl text-error">42</h3>
+            <h3 class="font-bold text-4xl text-red-500">42</h3>
             <p class="text-sm text-on-surface-variant mt-2">Tugas &amp; Kuis</p>
         </div>
     </div>

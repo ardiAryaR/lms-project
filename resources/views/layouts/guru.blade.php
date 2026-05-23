@@ -215,7 +215,31 @@
         </button>
         {{-- Page Title --}}
         <div class="hidden md:block font-bold text-xl text-on-primary" style="font-family: var(--font-serif)">
-            @yield('page-title', 'Dashboard')
+            @hasSection('page-title')
+                @yield('page-title')
+            @else
+                @if(request()->routeIs('guru.dashboard'))
+                    Dashboard
+                @elseif(request()->routeIs('guru.kelas*'))
+                    Kelas Saya
+                @elseif(request()->routeIs('guru.materi*'))
+                    Materi Pelajaran
+                @elseif(request()->routeIs('guru.tugas*'))
+                    Tugas
+                @elseif(request()->routeIs('guru.kuis*'))
+                    Kuis
+                @elseif(request()->routeIs('guru.ujian*'))
+                    Ujian
+                @elseif(request()->routeIs('guru.nilai*'))
+                    Nilai & Rekap
+                @elseif(request()->routeIs('guru.monitor*'))
+                    Monitor Siswa
+                @elseif(request()->routeIs('guru.notifikasi*'))
+                    Notifikasi
+                @else
+                    Dashboard
+                @endif
+            @endif
         </div>
         <div class="md:hidden font-bold text-lg text-on-primary">SMK MH 1</div>
 

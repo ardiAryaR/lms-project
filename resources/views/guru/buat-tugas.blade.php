@@ -1,4 +1,4 @@
-﻿@extends('layouts.guru')
+@extends('layouts.guru')
 @php
 $isEdit = request('mode') === 'edit';
 $selectedKelas = array_filter(explode('|', request('kelas', '')));
@@ -7,14 +7,6 @@ $selectedKelas = array_filter(explode('|', request('kelas', '')));
 @section('content')
 <div class="bg-surface bg-batik">
     <div class="max-w-[1200px] mx-auto min-h-[calc(100vh-100px)] py-4">
-        <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-xs text-on-surface-variant mb-4">
-            <a class="hover:text-primary transition-colors" href="{{ route('guru.dashboard') }}">Dashboard</a>
-            <span class="material-symbols-outlined text-sm">chevron_right</span>
-            <a class="hover:text-primary transition-colors" href="{{ route('guru.tugas') }}">Tugas</a>
-            <span class="material-symbols-outlined text-sm">chevron_right</span>
-            <span class="text-primary font-bold">Buat Tugas Baru</span>
-        </nav>
-
         <header class="mb-6">
             <h1 class="font-bold text-3xl text-primary mb-1" style="font-family: var(--font-serif)">{{ $isEdit ? 'Edit Tugas' : 'Buat Tugas Baru' }}</h1>
             <p class="text-sm text-on-surface-variant max-w-2xl">
@@ -26,7 +18,6 @@ $selectedKelas = array_filter(explode('|', request('kelas', '')));
             <div class="col-span-12 lg:col-span-8 space-y-4">
                 <div class="bg-surface-container-lowest p-5 rounded-xl shadow-ambient border border-outline-variant/30">
                     <div class="flex items-center gap-2 mb-4">
-                        <span class="material-symbols-outlined text-secondary text-xl" style="font-variation-settings: 'FILL' 1;">info</span>
                         <h2 class="text-xl font-bold text-primary" style="font-family: var(--font-serif)">Dasar &amp; Konten</h2>
                     </div>
                     <div class="space-y-4">
@@ -180,23 +171,13 @@ $selectedKelas = array_filter(explode('|', request('kelas', '')));
                         <div class="space-y-2">
                             <label class="status-publikasi-label flex items-center justify-between p-2.5 border-2 border-secondary bg-secondary/5 rounded-lg cursor-pointer transition-all">
                                 <div class="flex items-center gap-2">
-                                    <span class="material-symbols-outlined icon text-secondary text-[20px]">drafts</span>
+                                    <span class="material-symbols-outlined icon text-secondary text-[20px]">publish</span>
                                     <div>
-                                        <p class="title font-bold text-sm text-secondary">Simpan Draft</p>
-                                        <p class="subtitle text-[11px] text-secondary/70">Belum terlihat oleh siswa.</p>
+                                        <p class="title font-bold text-sm text-secondary">Terbitkan (Publish)</p>
+                                        <p class="subtitle text-[11px] text-secondary/70">Segera aktif di portal siswa.</p>
                                     </div>
                                 </div>
-                                <input checked class="text-secondary focus:ring-secondary w-4 h-4" name="status" id="status-draft" value="draft" type="radio"/>
-                            </label>
-                            <label class="status-publikasi-label flex items-center justify-between p-2.5 border-2 border-transparent hover:border-outline-variant rounded-lg cursor-pointer transition-all">
-                                <div class="flex items-center gap-2">
-                                    <span class="material-symbols-outlined icon text-on-surface-variant text-[20px]">publish</span>
-                                    <div>
-                                        <p class="title font-bold text-sm text-on-surface">Terbitkan (Publish)</p>
-                                        <p class="subtitle text-[11px] text-on-surface-variant/70">Segera aktif di portal siswa.</p>
-                                    </div>
-                                </div>
-                                <input class="text-secondary focus:ring-secondary w-4 h-4" name="status" id="status-publish" value="publish" type="radio"/>
+                                <input checked class="text-secondary focus:ring-secondary w-4 h-4" name="status" id="status-publish" value="publish" type="radio"/>
                             </label>
                             <label class="status-publikasi-label flex items-center justify-between p-2.5 border-2 border-transparent hover:border-outline-variant rounded-lg cursor-pointer transition-all">
                                 <div class="flex items-center gap-2">
@@ -224,13 +205,11 @@ $selectedKelas = array_filter(explode('|', request('kelas', '')));
                     </div>
 
                     <div class="flex flex-col gap-2 pt-2">
-                        <button id="btn-trigger-simpan" class="w-full bg-secondary-container text-on-secondary-container py-3 px-4 rounded-lg font-bold text-sm shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2" type="button">
-                            <span class="material-symbols-outlined text-[20px]">save</span>
-                            Simpan Tugas
+                        <button type="button" id="btn-trigger-simpan" class="px-6 py-2 bg-[#feae2c] text-[#6b4500] text-sm font-bold rounded-lg flex items-center justify-center gap-1 hover:brightness-110 transition-soft w-full">
+                            <span class="material-symbols-outlined" style="font-size: 18px">save</span> {{ $isEdit ? 'Simpan Perubahan' : 'Simpan Tugas' }}
                         </button>
-                        <button id="btn-trigger-batal" class="w-full border-2 border-primary text-primary py-3 px-4 rounded-lg font-bold text-sm hover:bg-primary/5 transition-all flex items-center justify-center gap-2" type="button">
-                            <span class="material-symbols-outlined text-[20px]">close</span>
-                            Batalkan
+                        <button type="button" id="btn-trigger-batal" class="px-6 py-2 border border-[#d6c3b8] text-[#51443c] text-sm text-center font-bold rounded-lg hover:bg-[#f8f3ed] transition-soft w-full">
+                            Batal
                         </button>
                     </div>
                 </div>
@@ -241,26 +220,26 @@ $selectedKelas = array_filter(explode('|', request('kelas', '')));
 
 <!-- Modal Konfirmasi Simpan -->
 <div id="modal-confirm-simpan" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 hidden backdrop-blur-sm transition-opacity">
-    <div class="bg-surface-container-lowest rounded-xl shadow-2xl p-6 w-full max-w-sm border border-outline-variant/30 text-center">
-        <span class="material-symbols-outlined text-secondary text-5xl mb-4">help</span>
-        <h3 class="text-xl font-bold text-primary mb-2" style="font-family: var(--font-serif)">Simpan Tugas?</h3>
-        <p class="text-xs text-on-surface-variant mb-6">Apakah Anda yakin data tugas sudah benar dan siap disimpan?</p>
+    <div class="bg-[#fef9f3] rounded-xl shadow-2xl p-6 w-full max-w-sm border border-[#d6c3b8] text-center">
+        <span class="material-symbols-outlined text-[#feae2c] text-5xl mb-4">help</span>
+        <h3 class="text-xl font-bold text-[#50290b] mb-2" style="font-family: var(--font-serif)">Simpan Tugas?</h3>
+        <p class="text-xs text-[#51443c] mb-6">Apakah Anda yakin data tugas sudah benar dan siap disimpan?</p>
         <div class="flex gap-2 justify-center">
-            <button type="button" id="btn-cancel-simpan" class="px-4 py-2 rounded-lg font-bold text-xs text-on-surface border border-outline-variant hover:bg-surface-container transition-colors">Periksa Lagi</button>
-            <button type="button" id="btn-confirm-simpan" class="px-4 py-2 rounded-lg font-bold text-xs bg-secondary-container text-on-secondary-container hover:shadow-md transition-all">Ya, Simpan</button>
+            <button type="button" id="btn-cancel-simpan" class="px-4 py-2 rounded-lg font-bold text-xs text-[#51443c] border border-[#d6c3b8] hover:bg-[#f8f3ed] transition-colors">Periksa Lagi</button>
+            <button type="button" id="btn-confirm-simpan" class="px-4 py-2 rounded-lg font-bold text-xs bg-[#feae2c] text-[#6b4500] hover:brightness-110 transition-all">Ya, Simpan</button>
         </div>
     </div>
 </div>
 
 <!-- Modal Konfirmasi Batal -->
 <div id="modal-confirm-batal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 hidden backdrop-blur-sm transition-opacity">
-    <div class="bg-surface-container-lowest rounded-xl shadow-2xl p-6 w-full max-w-sm border border-outline-variant/30 text-center">
-        <span class="material-symbols-outlined text-error text-5xl mb-4 text-red-500">warning</span>
-        <h3 class="text-xl font-bold text-primary mb-2" style="font-family: var(--font-serif)">Batalkan Pembuatan?</h3>
-        <p class="text-xs text-on-surface-variant mb-6">Semua data yang telah Anda isikan akan hilang. Apakah Anda yakin?</p>
+    <div class="bg-red-50 rounded-xl shadow-2xl p-6 w-full max-w-sm border border-red-200 text-center">
+        <span class="material-symbols-outlined text-red-500 text-5xl mb-4">warning</span>
+        <h3 class="text-xl font-bold text-red-700 mb-2" style="font-family: var(--font-serif)">Batalkan Pembuatan?</h3>
+        <p class="text-xs text-red-600/80 mb-6">Semua data yang telah Anda isikan akan hilang. Apakah Anda yakin?</p>
         <div class="flex gap-2 justify-center">
-            <button type="button" id="btn-cancel-batal" class="px-4 py-2 rounded-lg font-bold text-xs text-on-surface border border-outline-variant hover:bg-surface-container transition-colors">Kembali</button>
-            <button type="button" id="btn-confirm-batal" class="px-4 py-2 rounded-lg font-bold text-xs bg-red-100 text-red-700 hover:bg-red-200 transition-all border border-red-200">Ya, Batalkan</button>
+            <button type="button" id="btn-cancel-batal" class="px-4 py-2 rounded-lg font-bold text-xs text-red-700 border border-red-200 hover:bg-red-100 transition-colors">Kembali</button>
+            <button type="button" id="btn-confirm-batal" class="px-4 py-2 rounded-lg font-bold text-xs bg-red-500 text-white hover:bg-red-600 transition-all shadow-md hover:shadow-lg">Ya, Batalkan</button>
         </div>
     </div>
 </div>
@@ -268,7 +247,13 @@ $selectedKelas = array_filter(explode('|', request('kelas', '')));
 <!-- Toast Success (Popup Hijau) -->
 <div id="toast-success" class="fixed top-5 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-3 bg-green-100 border border-green-300 text-green-800 px-6 py-3 rounded-lg shadow-lg opacity-0 invisible transition-all duration-300 transform -translate-y-4">
     <span class="material-symbols-outlined">check_circle</span>
-    <span class="font-bold text-sm">Tugas berhasil dibuat!</span>
+    <span class="font-bold text-sm">Tugas berhasil disimpan!</span>
+</div>
+
+<!-- Toast Batal (Popup Merah) -->
+<div id="toast-batal" class="fixed top-5 left-1/2 -translate-x-1/2 z-[70] flex items-center gap-3 bg-red-100 border border-red-300 text-red-800 px-6 py-3 rounded-lg shadow-lg opacity-0 invisible transition-all duration-300 transform -translate-y-4">
+    <span class="material-symbols-outlined">cancel</span>
+    <span class="font-bold text-sm">Pembuatan dibatalkan!</span>
 </div>
 
 <!-- Modal Popup Terjadwal -->
@@ -295,7 +280,6 @@ $selectedKelas = array_filter(explode('|', request('kelas', '')));
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // --- STATUS PUBLIKASI ---
-    const radioDraft = document.getElementById('status-draft');
     const radioPublish = document.getElementById('status-publish');
     const radioTerjadwal = document.getElementById('status-terjadwal');
     const modal = document.getElementById('modal-terjadwal');
@@ -307,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const errorMessage = document.getElementById('modal-error');
     const radioPublikasis = document.querySelectorAll('input[name="status"]');
     
-    let previousStatus = 'draft';
+    let previousStatus = 'publish';
 
     // Logika active styling untuk Status Publikasi
     function updateStatusPublikasiStyle() {
@@ -360,14 +344,12 @@ document.addEventListener('DOMContentLoaded', function() {
         errorMessage.classList.add('hidden');
     }
 
-    [radioDraft, radioPublish].forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.checked) {
-                previousStatus = this.value;
-                hiddenScheduledInput.value = '';
-                scheduledDisplay.classList.add('hidden');
-            }
-        });
+    radioPublish.addEventListener('change', function() {
+        if (this.checked) {
+            previousStatus = this.value;
+            hiddenScheduledInput.value = '';
+            scheduledDisplay.classList.add('hidden');
+        }
     });
 
     radioTerjadwal.addEventListener('change', function() {
@@ -378,8 +360,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     btnCancel.addEventListener('click', function() {
         hideModal();
-        if (previousStatus === 'draft') radioDraft.checked = true;
-        else radioPublish.checked = true;
+        if (previousStatus === 'publish') radioPublish.checked = true;
+        else radioTerjadwal.checked = true;
         updateStatusPublikasiStyle();
     });
 
@@ -525,6 +507,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnCancelBatal = document.getElementById('btn-cancel-batal');
     const btnConfirmBatal = document.getElementById('btn-confirm-batal');
     const toastSuccess = document.getElementById('toast-success');
+    const toastBatal = document.getElementById('toast-batal');
 
     // --- VALIDASI FORM ---
     const judulInput = document.getElementById('judul-tugas');
@@ -700,8 +683,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     btnConfirmBatal.addEventListener('click', () => {
-        // Redirect tanpa simpan (Batal murni)
-        window.location.href = "{{ route('guru.tugas') }}";
+        modalConfirmBatal.classList.add('hidden');
+        toastBatal.classList.remove('invisible', 'opacity-0', '-translate-y-4');
+        toastBatal.classList.add('opacity-100', 'translate-y-0');
+        setTimeout(() => {
+            window.location.href = "{{ route('guru.tugas') }}";
+        }, 1500);
     });
 
     btnConfirmSimpan.addEventListener('click', () => {

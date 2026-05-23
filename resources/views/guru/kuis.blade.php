@@ -26,24 +26,36 @@ $statusList = collect($kuis)->pluck('status')->unique()->values();
     </div>
 
     <div class="bg-surface rounded-xl border border-outline-variant/30 shadow-sm overflow-hidden">
-        <div class="p-4 border-b border-surface-variant bg-surface-container-low flex flex-wrap gap-3">
-            <div class="relative">
-                <select id="filter-kelas" class="appearance-none bg-surface border border-outline-variant rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-secondary pr-9">
-                    <option value="">Semua Kelas</option>
+        <div class="p-4 border-b border-surface-variant bg-surface-container-low flex flex-col md:flex-row gap-3 justify-end">
+            {{-- Filter Kelas --}}
+            <div class="relative w-full md:w-auto md:min-w-[200px] shrink-0">
+                <input type="hidden" id="filterKelas" value="Semua">
+                <button type="button" onclick="toggleDropdown('kelas')" class="w-full bg-surface border border-outline-variant/50 rounded-xl pl-10 pr-10 py-2 text-sm font-medium text-on-surface text-left focus:outline-none focus:border-secondary transition-soft hover:border-secondary/50">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">school</span>
+                    <span id="filterKelasLabel">Semua Kelas</span>
+                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">expand_more</span>
+                </button>
+                <div id="dropdownKelas" class="hidden absolute z-20 mt-2 w-full md:min-w-[200px] bg-surface rounded-xl border border-outline-variant/30 shadow-xl overflow-hidden">
+                    <button type="button" onclick="selectDropdown('kelas','Semua','Semua Kelas')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Semua Kelas</button>
                     @foreach($kelasList as $kelas)
-                    <option value="{{ $kelas }}">{{ $kelas }}</option>
+                    <button type="button" onclick="selectDropdown('kelas','{{ $kelas }}','{{ $kelas }}')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">{{ $kelas }}</button>
                     @endforeach
-                </select>
-                <span class="material-symbols-outlined pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant">expand_more</span>
+                </div>
             </div>
-            <div class="relative">
-                <select id="filter-status" class="appearance-none bg-surface border border-outline-variant rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-secondary pr-9">
-                    <option value="">Semua Status</option>
+            {{-- Filter Status --}}
+            <div class="relative w-full md:w-auto md:min-w-[170px] shrink-0">
+                <input type="hidden" id="filterStatus" value="Semua">
+                <button type="button" onclick="toggleDropdown('status')" class="w-full bg-surface border border-outline-variant/50 rounded-xl pl-10 pr-10 py-2 text-sm font-medium text-on-surface text-left focus:outline-none focus:border-secondary transition-soft hover:border-secondary/50">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">inventory_2</span>
+                    <span id="filterStatusLabel">Semua Status</span>
+                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">expand_more</span>
+                </button>
+                <div id="dropdownStatus" class="hidden absolute z-20 mt-2 w-full md:min-w-[170px] bg-surface rounded-xl border border-outline-variant/30 shadow-xl overflow-hidden">
+                    <button type="button" onclick="selectDropdown('status','Semua','Semua Status')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Semua Status</button>
                     @foreach($statusList as $status)
-                    <option value="{{ $status }}">{{ ucfirst($status) }}</option>
+                    <button type="button" onclick="selectDropdown('status','{{ $status }}','{{ ucfirst($status) }}')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">{{ ucfirst($status) }}</button>
                     @endforeach
-                </select>
-                <span class="material-symbols-outlined pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant">expand_more</span>
+                </div>
             </div>
         </div>
         <div class="grid grid-cols-12 gap-4 bg-surface-container-low border-b border-surface-variant px-4 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wider">
@@ -69,7 +81,7 @@ $statusList = collect($kuis)->pluck('status')->unique()->values();
                 <span class="px-3 py-1 rounded-full text-xs font-bold
                     {{ $k['status']==='aktif' ? 'bg-amber-100 text-amber-700' : '' }}
                     {{ $k['status']==='selesai' ? 'bg-green-100 text-green-700' : '' }}
-                    {{ $k['status']==='draft' ? 'bg-gray-100 text-gray-700' : '' }}
+                    {{ $k['status']==='terjadwal' ? 'bg-blue-100 text-blue-700' : '' }}
                     {{ $k['status']==='close' ? 'bg-red-100 text-red-700' : '' }}
                     {{ $k['status']==='archived' ? 'bg-slate-100 text-slate-700' : '' }}">
                     {{ ucfirst($k['status']) }}
@@ -87,24 +99,58 @@ $statusList = collect($kuis)->pluck('status')->unique()->values();
 @endsection
 @push('scripts')
 <script>
-    const statusFilter = document.getElementById('filter-status');
-    const kelasFilter = document.getElementById('filter-kelas');
+    const filterStatusInput = document.getElementById('filterStatus');
+    const filterKelasInput = document.getElementById('filterKelas');
     const rows = document.querySelectorAll('div[data-status][data-kelas]');
 
-    function applyFilters() {
-        const status = statusFilter.value;
-        const kelas = kelasFilter.value;
+    function filterKuis() {
+        const status = filterStatusInput.value;
+        const kelas = filterKelasInput.value;
 
         rows.forEach(row => {
             const rowStatus = row.getAttribute('data-status');
             const rowKelas = row.getAttribute('data-kelas');
-            const statusMatch = !status || rowStatus === status;
-            const kelasMatch = !kelas || rowKelas === kelas;
+            const statusMatch = status === 'Semua' || rowStatus === status;
+            const kelasMatch = kelas === 'Semua' || rowKelas === kelas;
             row.classList.toggle('hidden', !(statusMatch && kelasMatch));
         });
     }
 
-    statusFilter.addEventListener('change', applyFilters);
-    kelasFilter.addEventListener('change', applyFilters);
+    function toggleDropdown(type) {
+        const targetId = type === 'kelas' ? 'dropdownKelas' : 'dropdownStatus';
+        const target = document.getElementById(targetId);
+        const otherId = type === 'kelas' ? 'dropdownStatus' : 'dropdownKelas';
+        const other = document.getElementById(otherId);
+        if (other && !other.classList.contains('hidden')) {
+            other.classList.add('hidden');
+        }
+        target.classList.toggle('hidden');
+    }
+
+    function selectDropdown(type, value, label) {
+        if (type === 'kelas') {
+            document.getElementById('filterKelas').value = value;
+            document.getElementById('filterKelasLabel').textContent = label;
+            document.getElementById('dropdownKelas').classList.add('hidden');
+        } else {
+            document.getElementById('filterStatus').value = value;
+            document.getElementById('filterStatusLabel').textContent = label;
+            document.getElementById('dropdownStatus').classList.add('hidden');
+        }
+        filterKuis();
+    }
+
+    document.addEventListener('click', function (event) {
+        const kelasWrapper = document.getElementById('dropdownKelas');
+        const statusWrapper = document.getElementById('dropdownStatus');
+        if (!event.target.closest('[onclick="toggleDropdown(\'kelas\')"]') && kelasWrapper && !kelasWrapper.classList.contains('hidden')) {
+            kelasWrapper.classList.add('hidden');
+        }
+        if (!event.target.closest('[onclick="toggleDropdown(\'status\')"]') && statusWrapper && !statusWrapper.classList.contains('hidden')) {
+            statusWrapper.classList.add('hidden');
+        }
+    });
+
+    filterKuis();
 </script>
 @endpush

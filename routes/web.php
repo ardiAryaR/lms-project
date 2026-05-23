@@ -44,6 +44,19 @@ if (app()->environment('local')) {
         return redirect()->route('siswa.dashboard');
     })->name('dev.siswa');
 
+    // Masuk sebagai Admin (buat user dummy admin)
+    Route::get('/dev/admin', function () {
+        $user = User::firstOrCreate(
+            ['email' => 'admin@smkmandalahayu.sch.id'],
+            [
+                'name'     => 'Administrator',
+                'password' => bcrypt('password'),
+            ]
+        );
+        Auth::login($user);
+        return redirect()->route('admin.dashboard');
+    })->name('dev.admin');
+
     // Halaman index semua shortcut
     Route::get('/dev', function () {
         return response()->view('dev-index');
@@ -122,4 +135,16 @@ Route::prefix('siswa')->name('siswa.')->middleware(['auth'])->group(function () 
 
     // Notifikasi
     Route::get('/notifikasi', fn() => view('siswa.notifikasi'))->name('notifikasi');
+});
+
+// ─── Admin Routes (Protected) ─────────────────────────────────
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+    // Dashboard
+    Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
+
+    // Manajemen Akun
+    Route::get('/akun', fn() => view('admin.manajemen-akun'))->name('akun');
+    
+    // Laporan Aktivitas
+    Route::get('/aktivitas', fn() => view('admin.laporan-aktivitas'))->name('aktivitas');
 });

@@ -92,8 +92,6 @@
                     <p class="text-on-surface-variant text-[11px] flex flex-wrap items-center gap-2 mt-1 font-bold">
                         <span class="material-symbols-outlined text-[12px]">calendar_month</span> Diunggah: 12 Okt 2023
                         <span class="mx-1">•</span>
-                        <span class="material-symbols-outlined text-[12px]">database</span> 4.2 MB
-                        <span class="mx-1">•</span>
                         <span class="text-secondary flex items-center gap-1"><span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">check_circle</span> Selesai</span>
                     </p>
                 </div>
@@ -112,8 +110,6 @@
                     <p class="text-on-surface-variant text-[11px] flex flex-wrap items-center gap-2 mt-1 font-bold">
                         <span class="material-symbols-outlined text-[12px]">calendar_month</span> Diunggah: 18 Okt 2023
                         <span class="mx-1">•</span>
-                        <span class="material-symbols-outlined text-[12px]">database</span> 5.1 MB
-                        <span class="mx-1">•</span>
                         <span class="text-secondary flex items-center gap-1"><span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">check_circle</span> Selesai</span>
                     </p>
                 </div>
@@ -131,8 +127,6 @@
                     <h4 class="font-bold text-sm text-on-surface">Modul 03: Dasar JavaScript &amp; DOM Manipulation</h4>
                     <p class="text-on-surface-variant text-[11px] flex flex-wrap items-center gap-2 mt-1 font-bold">
                         <span class="material-symbols-outlined text-[12px]">calendar_month</span> Diunggah: 25 Okt 2023
-                        <span class="mx-1">•</span>
-                        <span class="material-symbols-outlined text-[12px]">database</span> 3.8 MB
                     </p>
                 </div>
                 <button type="button" class="p-2 rounded-full bg-surface-container hover:bg-secondary-container transition-colors flex-shrink-0" onclick="event.preventDefault(); alert('Download Started')">
@@ -145,13 +139,21 @@
         <div class="hidden space-y-4" id="content-tugas">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 border-b border-surface-container pb-4">
                 <h3 class="font-bold text-lg text-primary" style="font-family: var(--font-serif)">Daftar Tugas</h3>
-                <div class="flex items-center gap-2">
-                    <span class="text-xs text-on-surface-variant font-bold">Urutkan:</span>
-                    <select id="filter-tugas" onchange="filterTugas()" class="text-xs border-outline-variant rounded-lg focus:ring-secondary focus:border-secondary py-1.5 pl-3 pr-8 bg-surface">
-                        <option value="semua">Semua Tugas</option>
-                        <option value="belum">Belum Dikerjakan</option>
-                        <option value="sudah">Sudah Dikerjakan</option>
-                    </select>
+                <div class="flex items-center gap-4 w-full sm:w-auto">
+                    <span class="text-xs text-on-surface-variant font-bold hidden sm:inline">Urutkan:</span>
+                    {{-- Custom Select Urutkan --}}
+                    <div class="relative w-full sm:w-48">
+                        <input type="hidden" id="filter-tugas" value="semua">
+                        <button type="button" onclick="toggleDropdownUrutkan()" class="w-full bg-surface border border-outline-variant/50 rounded-xl px-4 py-2 text-sm text-left text-on-surface hover:bg-surface-variant/50 transition-soft focus:outline-none focus:border-secondary flex items-center justify-between">
+                            <span id="filterTugasLabel" class="block truncate mr-6">Semua Tugas</span>
+                            <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none transition-soft" style="font-size: 20px">expand_more</span>
+                        </button>
+                        <div id="dropdownUrutkan" class="hidden absolute right-0 z-20 mt-2 w-full sm:min-w-[170px] bg-surface rounded-xl border border-outline-variant/30 shadow-xl overflow-hidden">
+                            <button type="button" onclick="selectDropdownUrutkan('semua','Semua Tugas')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Semua Tugas</button>
+                            <button type="button" onclick="selectDropdownUrutkan('belum','Belum Dikerjakan')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Belum Dikerjakan</button>
+                            <button type="button" onclick="selectDropdownUrutkan('sudah','Sudah Dikerjakan')" class="w-full text-left px-4 py-2 text-sm text-on-surface hover:bg-surface-variant/60 transition-soft">Sudah Dikerjakan</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -223,35 +225,56 @@
         <div class="hidden space-y-4" id="content-pengumuman">
             <h3 class="font-bold text-lg text-primary mb-4" style="font-family: var(--font-serif)">Pengumuman Terkini</h3>
             
-            <div class="relative bg-secondary-container/10 p-5 rounded-xl border-l-4 border-secondary">
-                <span class="material-symbols-outlined absolute top-4 right-4 text-3xl text-secondary opacity-20 hidden sm:block">campaign</span>
-                <div class="flex items-center gap-2 mb-3">
-                    <div class="w-8 h-8 rounded-full bg-surface flex items-center justify-center border border-secondary text-secondary">
-                        <span class="material-symbols-outlined text-[16px]">person</span>
+            <div class="group flex items-start gap-3 p-3 rounded-lg bg-surface-container-lowest border border-outline-variant/50 shadow-sm hover:shadow-md transition-all relative" id="pengumuman-1">
+                <div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary rounded-l-lg"></div>
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary-container/20 flex items-center justify-center text-on-secondary-container border border-secondary-container">
+                    <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">campaign</span>
+                </div>
+                <div class="flex-1 min-w-0 pr-6">
+                    <div class="flex justify-between items-start mb-0.5">
+                        <h3 class="text-xs text-primary font-bold truncate">Bpk. Budi Santoso</h3>
+                        <span class="badge-new text-[9px] text-secondary font-bold flex items-center gap-1 uppercase tracking-wider bg-secondary-fixed/20 px-1.5 py-0.5 rounded border border-secondary/20 whitespace-nowrap">
+                            <span class="w-1.5 h-1.5 rounded-full bg-secondary inline-block"></span> Baru
+                        </span>
                     </div>
-                    <div>
-                        <p class="font-bold text-xs text-on-secondary-container">Bpk. Budi Santoso</p>
-                        <p class="text-[10px] text-on-secondary-container/70 font-bold">2 hari yang lalu</p>
+                    <p class="text-[11px] text-on-surface leading-snug mb-1.5">Halo semuanya, untuk pertemuan minggu depan kita akan mengadakan sesi live coding di Laboratorium Komputer 2. Harap pastikan laptop masing-masing sudah terpasang <strong>Visual Studio Code</strong> dan ekstensi <strong>Live Server</strong>. Jangan lupa kerjakan tugas portofolio tepat waktu!</p>
+                    <p class="text-[9px] text-on-surface-variant font-bold flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[12px]">schedule</span> 2 hari yang lalu
+                    </p>
+                </div>
+                
+                <div class="absolute top-2 right-2">
+                    <button onclick="toggleMenuPengumuman(1)" class="p-1 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors focus:outline-none">
+                        <span class="material-symbols-outlined text-[16px]">more_vert</span>
+                    </button>
+                    <div id="menu-pengumuman-1" class="hidden absolute right-0 top-full mt-1 w-28 bg-surface-container-lowest border border-outline-variant/30 shadow-lg rounded-lg py-1 z-10">
+                        <button onclick="markReadPengumuman(1)" class="w-full text-left px-3 py-1.5 text-[10px] font-bold text-on-surface hover:bg-surface-container transition-colors">Tandai Dibaca</button>
                     </div>
                 </div>
-                <p class="text-xs text-on-surface leading-relaxed">
-                    Halo semuanya, untuk pertemuan minggu depan kita akan mengadakan sesi live coding di Laboratorium Komputer 2. Harap pastikan laptop masing-masing sudah terpasang <strong>Visual Studio Code</strong> dan ekstensi <strong>Live Server</strong>. Jangan lupa kerjakan tugas portofolio tepat waktu!
-                </p>
             </div>
             
-            <div class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/30">
-                <div class="flex items-center gap-2 mb-3">
-                    <div class="w-8 h-8 rounded-full bg-surface flex items-center justify-center border border-outline text-outline">
-                        <span class="material-symbols-outlined text-[16px]">person</span>
+            <div class="group flex items-start gap-3 p-3 rounded-lg bg-surface-container border border-outline-variant/30 opacity-80 hover:opacity-100 transition-all relative" id="pengumuman-2">
+                <div class="flex-shrink-0 w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant border border-outline-variant/50">
+                    <span class="material-symbols-outlined text-[16px]">campaign</span>
+                </div>
+                <div class="flex-1 min-w-0 pr-6">
+                    <div class="flex justify-between items-start mb-0.5">
+                        <h3 class="text-xs text-on-surface font-bold truncate">Bpk. Budi Santoso</h3>
                     </div>
-                    <div>
-                        <p class="font-bold text-xs text-on-surface">Bpk. Budi Santoso</p>
-                        <p class="text-[10px] text-on-surface-variant font-bold">1 minggu yang lalu</p>
+                    <p class="text-[11px] text-on-surface-variant leading-snug mb-1.5">Daftar nilai Kuis 1 sudah saya unggah. Bagi siswa yang nilainya di bawah KKM (75), silakan hubungi saya untuk jadwal remedial di hari Jumat pukul 14.00.</p>
+                    <p class="text-[9px] text-on-surface-variant font-bold flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[12px]">schedule</span> 1 minggu yang lalu
+                    </p>
+                </div>
+                
+                <div class="absolute top-2 right-2">
+                    <button onclick="toggleMenuPengumuman(2)" class="p-1 rounded-full text-on-surface-variant hover:bg-surface-container hover:text-primary transition-colors focus:outline-none">
+                        <span class="material-symbols-outlined text-[16px]">more_vert</span>
+                    </button>
+                    <div id="menu-pengumuman-2" class="hidden absolute right-0 top-full mt-1 w-28 bg-surface-container-lowest border border-outline-variant/30 shadow-lg rounded-lg py-1 z-10">
+                        <button onclick="markReadPengumuman(2)" class="w-full text-left px-3 py-1.5 text-[10px] font-bold text-on-surface hover:bg-surface-container transition-colors">Tandai Dibaca</button>
                     </div>
                 </div>
-                <p class="text-xs text-on-surface-variant leading-relaxed">
-                    Daftar nilai Kuis 1 sudah saya unggah. Bagi siswa yang nilainya di bawah KKM (75), silakan hubungi saya untuk jadwal remedial di hari Jumat pukul 14.00.
-                </p>
             </div>
         </div>
     </div>
@@ -284,15 +307,79 @@
 </script>
 <script>
     function filterTugas() {
-        const val = document.getElementById('filter-tugas').value;
+        const filterVal = document.getElementById('filter-tugas').value;
         const cards = document.querySelectorAll('.tugas-card');
+        
         cards.forEach(card => {
-            if (val === 'semua' || card.getAttribute('data-status') === val) {
+            if(filterVal === 'semua' || card.getAttribute('data-status') === filterVal) {
                 card.style.display = 'block';
             } else {
                 card.style.display = 'none';
             }
         });
+    }
+
+    function toggleDropdownUrutkan() {
+        document.getElementById('dropdownUrutkan').classList.toggle('hidden');
+    }
+
+    function selectDropdownUrutkan(value, label) {
+        document.getElementById('filter-tugas').value = value;
+        document.getElementById('filterTugasLabel').textContent = label;
+        document.getElementById('dropdownUrutkan').classList.add('hidden');
+        filterTugas();
+    }
+
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('dropdownUrutkan');
+        const btn = document.getElementById('filterTugasLabel');
+        if (dropdown && btn && !btn.parentElement.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.add('hidden');
+        }
+        
+        // Tutup menu pengumuman jika diklik di luar
+        for (let i = 1; i <= 2; i++) {
+            const menu = document.getElementById('menu-pengumuman-' + i);
+            if (menu && !menu.contains(event.target) && !event.target.closest(`button[onclick="toggleMenuPengumuman(${i})"]`)) {
+                menu.classList.add('hidden');
+            }
+        }
+    });
+
+    function toggleMenuPengumuman(id) {
+        const menu = document.getElementById('menu-pengumuman-' + id);
+        if (menu.classList.contains('hidden')) {
+            // Tutup semua menu lain dulu
+            for (let i = 1; i <= 2; i++) {
+                const otherMenu = document.getElementById('menu-pengumuman-' + i);
+                if (otherMenu) otherMenu.classList.add('hidden');
+            }
+            menu.classList.remove('hidden');
+        } else {
+            menu.classList.add('hidden');
+        }
+    }
+
+    function markReadPengumuman(id) {
+        // Implementasi nyata: panggil API untuk tandai dibaca
+        document.getElementById('menu-pengumuman-' + id).classList.add('hidden');
+        const card = document.getElementById('pengumuman-' + id);
+        
+        // Hapus styling "baru"
+        const badge = card.querySelector('.badge-new');
+        if (badge) badge.remove();
+        
+        const accent = card.querySelector('.w-1.bg-secondary');
+        if (accent) accent.remove();
+        
+        card.classList.remove('bg-surface-container-lowest', 'shadow-sm');
+        card.classList.add('bg-surface-container', 'opacity-80');
+        
+        const iconContainer = card.querySelector('.flex-shrink-0');
+        if (iconContainer) {
+            iconContainer.className = 'flex-shrink-0 w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant border border-outline-variant/50';
+            iconContainer.innerHTML = '<span class="material-symbols-outlined text-[16px]">campaign</span>';
+        }
     }
 </script>
 @endpush
