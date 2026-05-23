@@ -32,7 +32,7 @@
             <div class="w-[1px] h-6 bg-outline-variant hidden md:block"></div>
             <div class="bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
                 <span class="material-symbols-outlined text-[16px]">timer</span>
-                <span class="font-bold text-sm tracking-widest">00:25:12</span>
+                <span id="quiz-timer" class="font-bold text-sm tracking-widest">00:25:12</span>
             </div>
         </div>
     </div>
@@ -262,6 +262,31 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         initExam();
+
+        // Timer Logic
+        const timerEl = document.getElementById('quiz-timer');
+        let totalSeconds = 25 * 60 + 12; // 25 menit 12 detik
+        
+        function updateQuizTimer() {
+            if (totalSeconds <= 0) {
+                timerEl.innerText = "00:00:00";
+                // Auto submit when time is up
+                document.getElementById('modal-confirm-simpan').classList.remove('hidden');
+                return;
+            }
+            
+            const h = Math.floor(totalSeconds / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            const s = totalSeconds % 60;
+            
+            const format = (val) => val.toString().padStart(2, '0');
+            timerEl.innerText = `${format(h)}:${format(m)}:${format(s)}`;
+            
+            totalSeconds--;
+            setTimeout(updateQuizTimer, 1000);
+        }
+        
+        updateQuizTimer();
 
         const btnTriggerSimpan = document.getElementById('btn-trigger-simpan');
         const modalSimpan = document.getElementById('modal-confirm-simpan');

@@ -61,6 +61,11 @@ if (app()->environment('local')) {
     Route::get('/dev', function () {
         return response()->view('dev-index');
     })->name('dev.index');
+
+    // Cek langsung halaman verifikasi email tanpa login
+    Route::get('/dev/verify-email', function () {
+        return view('auth.verify-email');
+    })->name('dev.verify-email');
 }
 
 // ─── Guru Routes (Protected) ──────────────────────────────────

@@ -142,7 +142,7 @@
                 <a href="{{ route('login') }}" class="link-item"><span class="link-dot-auth"></span>Login</a>
                 <a href="{{ route('register') }}" class="link-item"><span class="link-dot-auth"></span>Register</a>
                 <a href="{{ route('password.request') }}" class="link-item"><span class="link-dot-auth"></span>Lupa Password</a>
-                <a href="{{ route('verification.notice') }}" class="link-item"><span class="link-dot-auth"></span>Verifikasi Email</a>
+                <a href="{{ route('dev.verify-email') }}" class="link-item"><span class="link-dot-auth"></span>Verifikasi Email (Dev)</a>
 
                 {{-- Admin --}}
                 <a href="{{ route('dev.admin') }}" class="link-item"><span class="link-dot-admin"></span>Admin: Dashboard</a>
