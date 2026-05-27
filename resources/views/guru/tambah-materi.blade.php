@@ -62,7 +62,7 @@
     </div>
     <div class="lg:col-span-4 space-y-4">
         <div class="bg-surface-container-lowest rounded-2xl p-5 shadow-ambient border border-outline-variant/30">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-primary mb-3">Status Publikasi</h3>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-primary mb-3" style="font-family: var(--font-serif)">Status Publikasi</h3>
             <div class="space-y-2">
                 @foreach([['terjadwal','Terjadwal','Materi dijadwalkan untuk dipublikasikan'],['published','Publikasikan','Siswa dapat langsung mengakses'],['archived','Arsip','Materi lama tidak untuk siswa']] as [$val,$label,$desc])
                 <label class="relative flex items-center p-3 rounded-xl border-2 border-outline-variant/30 hover:bg-surface-container transition-soft cursor-pointer group has-[:checked]:border-secondary has-[:checked]:bg-secondary/5">

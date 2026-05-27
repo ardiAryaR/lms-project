@@ -20,7 +20,7 @@
 <!-- Subject Grid -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="class-grid">
     <!-- Card 1 -->
-    <article class="class-card bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-sm hover:shadow-md overflow-hidden flex flex-col group hover:-translate-y-1 transition-transform duration-300" data-status="aktif">
+    <article class="class-card bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-sm hover:shadow-md overflow-hidden flex flex-col group hover:-translate-y-1 transition-soft" data-status="aktif">
         <div class="h-20 bg-primary-container relative overflow-hidden flex items-center justify-center">
             <!-- Abstract pattern background -->
             <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary-container to-transparent"></div>
@@ -56,7 +56,7 @@
         </div>
     </article>
     <!-- Card 2 -->
-    <article class="class-card bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-sm hover:shadow-md overflow-hidden flex flex-col group hover:-translate-y-1 transition-transform duration-300" data-status="aktif">
+    <article class="class-card bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-sm hover:shadow-md overflow-hidden flex flex-col group hover:-translate-y-1 transition-soft" data-status="aktif">
         <div class="h-20 bg-tertiary-container relative overflow-hidden flex items-center justify-center">
             <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-tertiary-fixed to-transparent"></div>
             <span class="material-symbols-outlined text-3xl text-tertiary-fixed relative z-10" style="font-variation-settings: 'FILL' 1;">database</span>
@@ -91,7 +91,7 @@
         </div>
     </article>
     <!-- Card 3 (Non-Aktif) -->
-    <article class="class-card bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-sm hover:shadow-md overflow-hidden flex flex-col group hover:-translate-y-1 transition-transform duration-300" data-status="non-aktif">
+    <article class="class-card bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-sm hover:shadow-md overflow-hidden flex flex-col group hover:-translate-y-1 transition-soft" data-status="non-aktif">
         <div class="h-20 bg-primary relative overflow-hidden flex items-center justify-center">
             <div class="absolute inset-0 opacity-10 bg-[linear-gradient(45deg,_var(--tw-gradient-stops))] from-white to-transparent"></div>
             <span class="material-symbols-outlined text-3xl text-on-primary relative z-10" style="font-variation-settings: 'FILL' 1;">language</span>

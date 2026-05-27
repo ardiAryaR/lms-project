@@ -181,7 +181,7 @@
 
                 <!-- Score Circle -->
                 <div class="text-center mb-3 flex-shrink-0">
-                    <div class="inline-flex flex-col items-center justify-center w-20 h-20 rounded-full border-[6px] border-secondary-container bg-white shadow-inner score-circle transition-transform duration-200">
+                    <div class="inline-flex flex-col items-center justify-center w-20 h-20 rounded-full border-[6px] border-secondary-container bg-white shadow-inner score-circle transition-soft">
                         <span class="text-2xl font-bold text-primary leading-none" id="totalScore">68</span>
                         <span class="text-[9px] text-on-surface-variant font-bold border-t border-outline-variant pt-0.5 mt-0.5 w-10">/ 100</span>
                     </div>

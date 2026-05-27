@@ -36,7 +36,7 @@ $selectedKelas = array_filter(explode('|', request('kelas', '')));
                             
                             <button type="button" id="btn-dropdown-kelas" class="w-full flex items-center justify-between bg-surface-container-low border-0 border-b-2 border-primary py-2 px-3 text-sm text-left hover:bg-surface-container transition-colors">
                                 <span id="dropdown-kelas-text" class="text-on-surface truncate">Pilih kelas...</span>
-                                <span class="material-symbols-outlined text-on-surface-variant transition-transform duration-200" id="dropdown-kelas-icon">expand_more</span>
+                                <span class="material-symbols-outlined text-on-surface-variant transition-soft" id="dropdown-kelas-icon">expand_more</span>
                             </button>
 
                             <div id="dropdown-kelas-menu" class="absolute z-10 w-full mt-1 bg-surface border border-outline-variant/30 rounded-lg shadow-lg opacity-0 invisible pointer-events-none transform -translate-y-2 transition-all duration-200 origin-top">
