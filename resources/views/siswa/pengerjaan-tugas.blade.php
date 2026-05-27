@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="p-5 overflow-y-auto flex-1 custom-scrollbar">
-            <h3 class="font-bold text-sm text-primary mb-3">Deskripsi Tugas</h3>
+            <h3 class="font-bold text-sm text-primary mb-3" style="font-family: var(--font-serif)">Deskripsi Tugas</h3>
             <div class="prose max-w-none text-[11px] text-on-surface-variant space-y-2">
                 <p>Gunakan HTML dan CSS murni tanpa framework untuk membuat halaman portofolio sederhana.</p>
                 <p class="font-bold text-on-surface mt-3">Kriteria Penilaian:</p>
@@ -78,7 +78,7 @@
         </div>
 
         <div class="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-outline-variant/30 flex-1 flex flex-col overflow-hidden">
-            <h3 class="font-bold text-sm text-primary mb-3">Area Pengumpulan</h3>
+            <h3 class="font-bold text-sm text-primary mb-3" style="font-family: var(--font-serif)">Area Pengumpulan</h3>
             
             <div class="flex-1 overflow-y-auto custom-scrollbar flex flex-col pr-1 gap-3">
                 <div class="shrink-0">

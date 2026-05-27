@@ -21,7 +21,7 @@
     <div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/30 shadow-sm hover:shadow-md transition-soft flex items-center gap-4">
         <div class="p-2 bg-primary-fixed rounded-lg text-primary"><span class="material-symbols-outlined text-lg">menu_book</span></div>
         <div>
-            <h3 class="text-on-surface-variant text-xs mb-0.5">Mata Pelajaran Aktif</h3>
+            <h3 class="text-on-surface-variant text-xs mb-0.5" style="font-family: var(--font-serif)">Mata Pelajaran Aktif</h3>
             <p class="font-bold text-2xl text-primary">12</p>
         </div>
     </div>
@@ -29,21 +29,21 @@
         <div class="absolute top-2 right-2"><span class="bg-red-400 text-white px-1.5 py-0.5 rounded text-[8px] font-bold uppercase">Mendesak</span></div>
         <div class="p-2 bg-red-50 rounded-lg text-red-500"><span class="material-symbols-outlined text-lg">assignment_late</span></div>
         <div>
-            <h3 class="text-on-surface-variant text-xs mb-0.5">Tugas Belum Dikerjakan</h3>
+            <h3 class="text-on-surface-variant text-xs mb-0.5" style="font-family: var(--font-serif)">Tugas Belum Dikerjakan</h3>
             <p class="font-bold text-2xl text-red-500">3</p>
         </div>
     </div>
     <div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/30 shadow-sm hover:shadow-md transition-soft flex items-center gap-4">
         <div class="p-2 bg-secondary-container rounded-lg text-on-secondary-container"><span class="material-symbols-outlined text-lg">schedule</span></div>
         <div>
-            <h3 class="text-on-surface-variant text-xs mb-0.5">Tugas Mendekati Deadline</h3>
+            <h3 class="text-on-surface-variant text-xs mb-0.5" style="font-family: var(--font-serif)">Tugas Mendekati Deadline</h3>
             <p class="font-bold text-2xl text-primary">2</p>
         </div>
     </div>
     <div class="bg-surface-container-lowest rounded-xl p-4 border border-outline-variant/30 shadow-sm hover:shadow-md transition-soft flex items-center gap-4">
         <div class="p-2 bg-tertiary-fixed rounded-lg text-on-tertiary-fixed-variant"><span class="material-symbols-outlined text-lg">grade</span></div>
         <div>
-            <h3 class="text-on-surface-variant text-xs mb-0.5">Rata-rata Nilai</h3>
+            <h3 class="text-on-surface-variant text-xs mb-0.5" style="font-family: var(--font-serif)">Rata-rata Nilai</h3>
             <p class="font-bold text-2xl text-primary">88.5</p>
         </div>
     </div>

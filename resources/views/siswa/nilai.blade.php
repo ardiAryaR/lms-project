@@ -20,7 +20,7 @@
     <!-- Summary Stats Section -->
     <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- IPK Card -->
-        <div class="bg-primary text-on-primary p-5 rounded-xl shadow-sm relative overflow-hidden group hover:-translate-y-0.5 transition-transform duration-300">
+        <div class="bg-primary text-on-primary p-5 rounded-xl shadow-sm relative overflow-hidden group hover:-translate-y-0.5 transition-soft">
             <div class="relative z-10">
                 <p class="text-[11px] uppercase tracking-widest text-on-primary/60 mb-1 font-bold">Rata-rata Semester</p>
                 <h3 class="text-4xl font-bold leading-none mb-2" style="font-family: var(--font-serif)">88.5</h3>
@@ -33,7 +33,7 @@
         </div>
 
         <!-- Progress Ring Cards -->
-        <div class="bg-primary-container text-on-primary p-5 rounded-xl shadow-sm relative overflow-hidden group hover:-translate-y-0.5 transition-transform duration-300">
+        <div class="bg-primary-container text-on-primary p-5 rounded-xl shadow-sm relative overflow-hidden group hover:-translate-y-0.5 transition-soft">
             <div class="relative z-10 h-full flex flex-col justify-between">
                 <div>
                     <p class="text-[11px] uppercase tracking-widest text-on-primary/60 mb-1 font-bold">Tugas Terkumpul</p>

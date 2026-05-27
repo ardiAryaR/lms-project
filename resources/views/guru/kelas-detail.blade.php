@@ -188,7 +188,7 @@
                                 <span class="material-symbols-outlined">picture_as_pdf</span>
                             </div>
                             <div>
-                                <h3 class="font-bold text-primary text-sm md:text-base">Modul 1 - Pengenalan Jaringan Dasar</h3>
+                                <h3 class="font-bold text-primary text-sm md:text-base" style="font-family: var(--font-serif)">Modul 1 - Pengenalan Jaringan Dasar</h3>
                                 <p class="text-xs text-on-surface-variant">Diunggah 12 Jul 2023 • PDF • 2.4 MB</p>
                             </div>
                         </div>
@@ -200,7 +200,7 @@
                                 <span class="material-symbols-outlined">play_circle</span>
                             </div>
                             <div>
-                                <h3 class="font-bold text-primary text-sm md:text-base">Video: Cara Crimping Kabel UTP</h3>
+                                <h3 class="font-bold text-primary text-sm md:text-base" style="font-family: var(--font-serif)">Video: Cara Crimping Kabel UTP</h3>
                                 <p class="text-xs text-on-surface-variant">Diunggah 14 Jul 2023 • MP4 • 45 MB</p>
                             </div>
                         </div>
@@ -225,7 +225,7 @@
                                     <span class="material-symbols-outlined">assignment</span>
                                 </div>
                                 <div>
-                                    <h3 class="font-bold text-primary text-sm md:text-base">Tugas 1 - Crimping Kabel Straight</h3>
+                                    <h3 class="font-bold text-primary text-sm md:text-base" style="font-family: var(--font-serif)">Tugas 1 - Crimping Kabel Straight</h3>
                                     <p class="text-xs text-on-surface-variant">Tenggat: 15 Jul 2023, 23:59</p>
                                 </div>
                             </div>
@@ -243,7 +243,7 @@
                                     <span class="material-symbols-outlined">assignment_turned_in</span>
                                 </div>
                                 <div>
-                                    <h3 class="font-bold text-primary text-sm md:text-base">Tugas Pendahuluan Sejarah Komputer</h3>
+                                    <h3 class="font-bold text-primary text-sm md:text-base" style="font-family: var(--font-serif)">Tugas Pendahuluan Sejarah Komputer</h3>
                                     <p class="text-xs text-on-surface-variant">Tenggat: 10 Jul 2023, 23:59</p>
                                 </div>
                             </div>
@@ -271,7 +271,7 @@
                                 <span class="material-symbols-outlined">quiz</span>
                             </div>
                             <div>
-                                <h3 class="font-bold text-primary text-sm md:text-base">Kuis 1 - Jaringan Dasar</h3>
+                                <h3 class="font-bold text-primary text-sm md:text-base" style="font-family: var(--font-serif)">Kuis 1 - Jaringan Dasar</h3>
                                 <p class="text-xs text-on-surface-variant">Durasi: 30 Menit • 20 Soal Pilihan Ganda</p>
                             </div>
                         </div>
@@ -293,7 +293,7 @@
                                 <span class="material-symbols-outlined">edit_calendar</span>
                             </div>
                             <div>
-                                <h3 class="font-bold text-primary text-sm md:text-base">UTS - Semester Ganjil</h3>
+                                <h3 class="font-bold text-primary text-sm md:text-base" style="font-family: var(--font-serif)">UTS - Semester Ganjil</h3>
                                 <p class="text-xs text-on-surface-variant">Jadwal: 20 Okt 2023, 08:00 - 10:00</p>
                             </div>
                         </div>
@@ -315,7 +315,7 @@
                                 <span class="material-symbols-outlined">campaign</span>
                             </div>
                             <div class="flex-1">
-                                <h3 class="font-bold text-primary text-sm md:text-base" id="pengumuman-title-1">Jadwal Praktikum Tambahan</h3>
+                                <h3 class="font-bold text-primary text-sm md:text-base" id="pengumuman-title-1" style="font-family: var(--font-serif)">Jadwal Praktikum Tambahan</h3>
                                 <p class="text-xs text-on-surface-variant">Diposting: 15 Sep 2023 oleh Bpk. Ahmad</p>
                             </div>
                             <div class="relative">

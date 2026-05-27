@@ -71,7 +71,7 @@ $materi = [
              onclick="window.location.href='{{ route('guru.materi.tambah') }}?edit=true&judul={{ urlencode($m['judul']) }}'">
             
             <div class="h-36 bg-primary-container flex items-center justify-center relative">
-                <span class="material-symbols-outlined text-5xl text-on-primary-container opacity-50 group-hover:scale-110 transition-transform duration-300">{{ $m['icon'] }}</span>
+                <span class="material-symbols-outlined text-5xl text-on-primary-container opacity-50 group-hover:scale-110 transition-soft">{{ $m['icon'] }}</span>
                 <span class="absolute top-3 right-3 bg-white/90 text-primary text-xs font-bold px-2 py-1 rounded shadow-sm">{{ $m['tipe'] }}</span>
                 
                 {{-- Status Badge --}}
@@ -103,10 +103,10 @@ $materi = [
                 
                 {{-- Actions --}}
                 <div class="flex gap-2 mt-5 pt-4 border-t border-outline-variant/30" onclick="event.stopPropagation()">
-                    <a href="{{ route('guru.materi.tambah') }}?edit=true&judul={{ urlencode($m['judul']) }}" class="flex-1 text-center py-2 border border-secondary text-secondary text-xs font-bold rounded-lg hover:bg-secondary hover:text-on-secondary transition-colors duration-200 flex items-center justify-center gap-1">
+                    <a href="{{ route('guru.materi.tambah') }}?edit=true&judul={{ urlencode($m['judul']) }}" class="flex-1 text-center py-2 border border-secondary text-secondary text-xs font-bold rounded-lg hover:bg-secondary hover:text-on-secondary transition-soft flex items-center justify-center gap-1">
                         <span class="material-symbols-outlined" style="font-size: 16px">edit</span> Edit
                     </a>
-                    <button onclick="confirmDelete('{{ $m['judul'] }}')" class="flex-1 py-2 border border-error text-error text-xs font-bold rounded-lg hover:bg-error hover:text-white transition-colors duration-200 flex items-center justify-center gap-1 group/btn">
+                    <button onclick="confirmDelete('{{ $m['judul'] }}')" class="flex-1 py-2 border border-error text-error text-xs font-bold rounded-lg hover:bg-error hover:text-white transition-soft flex items-center justify-center gap-1 group/btn">
                         <span class="material-symbols-outlined group-hover/btn:animate-bounce" style="font-size: 16px">delete</span> Hapus
                     </button>
                 </div>
@@ -120,18 +120,18 @@ $materi = [
         <div class="w-16 h-16 bg-surface-variant rounded-full flex items-center justify-center mx-auto mb-4">
             <span class="material-symbols-outlined text-3xl text-on-surface-variant">search_off</span>
         </div>
-        <h3 class="text-lg font-bold text-on-surface">Materi tidak ditemukan</h3>
+        <h3 class="text-lg font-bold text-on-surface" style="font-family: var(--font-serif)">Materi tidak ditemukan</h3>
         <p class="text-on-surface-variant text-sm mt-1">Coba sesuaikan kata kunci atau filter pencarian Anda.</p>
     </div>
 </div>
 
 {{-- Delete Confirmation Modal --}}
-<div id="deleteModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
-    <div class="bg-surface rounded-2xl shadow-xl w-full max-w-sm p-6 transform scale-95 transition-transform duration-300" id="deleteModalContent">
+<div id="deleteModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-soft">
+    <div class="bg-surface rounded-2xl shadow-xl w-full max-w-sm p-6 transform scale-95 transition-soft" id="deleteModalContent">
         <div class="w-12 h-12 rounded-full bg-error/10 flex items-center justify-center mb-4 mx-auto">
             <span class="material-symbols-outlined text-error text-2xl">warning</span>
         </div>
-        <h3 class="text-xl font-bold text-center text-on-surface mb-2">Hapus Materi?</h3>
+        <h3 class="text-xl font-bold text-center text-on-surface mb-2" style="font-family: var(--font-serif)">Hapus Materi?</h3>
         <p class="text-center text-on-surface-variant text-sm mb-6">
             Anda yakin ingin menghapus materi <br/><strong id="deleteTargetName" class="text-on-surface"></strong>?<br/>
             Tindakan ini tidak dapat dibatalkan.

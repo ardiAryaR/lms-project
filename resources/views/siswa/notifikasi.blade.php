@@ -20,7 +20,7 @@
             </div>
             <div class="flex-1 min-w-0 pr-6">
                 <div class="flex justify-between items-start mb-0.5">
-                    <h3 class="text-xs text-primary font-bold truncate">Tugas Baru: Proyek Akhir Semester</h3>
+                    <h3 class="text-xs text-primary font-bold truncate" style="font-family: var(--font-serif)">Tugas Baru: Proyek Akhir Semester</h3>
                     <span class="badge-new text-[9px] text-secondary font-bold flex items-center gap-1 uppercase tracking-wider bg-secondary-fixed/20 px-1.5 py-0.5 rounded border border-secondary/20 whitespace-nowrap">
                         <span class="w-1.5 h-1.5 rounded-full bg-secondary inline-block"></span> Baru
                     </span>
@@ -50,7 +50,7 @@
             </div>
             <div class="flex-1 min-w-0 pr-6">
                 <div class="flex justify-between items-start mb-0.5">
-                    <h3 class="text-xs text-primary font-bold truncate">Nilai Dirilis: Ulangan Harian Fisika</h3>
+                    <h3 class="text-xs text-primary font-bold truncate" style="font-family: var(--font-serif)">Nilai Dirilis: Ulangan Harian Fisika</h3>
                     <span class="badge-new text-[9px] text-secondary font-bold flex items-center gap-1 uppercase tracking-wider bg-secondary-fixed/20 px-1.5 py-0.5 rounded border border-secondary/20 whitespace-nowrap">
                         <span class="w-1.5 h-1.5 rounded-full bg-secondary inline-block"></span> Baru
                     </span>
@@ -79,7 +79,7 @@
             </div>
             <div class="flex-1 min-w-0 pr-6">
                 <div class="flex justify-between items-start mb-0.5">
-                    <h3 class="text-xs text-on-surface font-bold truncate">Materi Baru: Sejarah Indonesia</h3>
+                    <h3 class="text-xs text-on-surface font-bold truncate" style="font-family: var(--font-serif)">Materi Baru: Sejarah Indonesia</h3>
                 </div>
                 <p class="text-[11px] text-on-surface-variant leading-snug mb-1.5 line-clamp-2">Bapak Ahmad telah mengunggah Modul 4: Masa Kolonialisme. Harap pelajari materi ini sebelum sesi tatap muka berikutnya.</p>
                 <p class="text-[9px] text-on-surface-variant font-bold flex items-center gap-1">
@@ -105,7 +105,7 @@
             </div>
             <div class="flex-1 min-w-0 pr-6">
                 <div class="flex justify-between items-start mb-0.5">
-                    <h3 class="text-xs text-on-surface font-bold truncate">Deadline Kuis Bahasa Inggris</h3>
+                    <h3 class="text-xs text-on-surface font-bold truncate" style="font-family: var(--font-serif)">Deadline Kuis Bahasa Inggris</h3>
                 </div>
                 <p class="text-[11px] text-on-surface-variant leading-snug mb-1.5 line-clamp-2">Jangan lupa, batas waktu pengerjaan Kuis Bahasa Inggris adalah besok pukul 23:59 WIB. Segera selesaikan sebelum terlambat.</p>
                 <p class="text-[9px] text-on-surface-variant font-bold flex items-center gap-1">
@@ -131,7 +131,7 @@
             </div>
             <div class="flex-1 min-w-0 pr-6">
                 <div class="flex justify-between items-start mb-0.5">
-                    <h3 class="text-xs text-on-surface font-bold truncate">Pengumuman: Libur Nasional</h3>
+                    <h3 class="text-xs text-on-surface font-bold truncate" style="font-family: var(--font-serif)">Pengumuman: Libur Nasional</h3>
                 </div>
                 <p class="text-[11px] text-on-surface-variant leading-snug mb-1.5 line-clamp-2">Pemberitahuan bahwa kegiatan belajar mengajar diliburkan pada hari Rabu mendatang sehubungan dengan hari libur nasional.</p>
                 <p class="text-[9px] text-on-surface-variant font-bold flex items-center gap-1">
@@ -157,7 +157,7 @@
             </div>
             <div class="flex-1 min-w-0 pr-6">
                 <div class="flex justify-between items-start mb-0.5">
-                    <h3 class="text-xs text-on-surface font-bold truncate">Diskusi Baru: Kelas Matematika</h3>
+                    <h3 class="text-xs text-on-surface font-bold truncate" style="font-family: var(--font-serif)">Diskusi Baru: Kelas Matematika</h3>
                 </div>
                 <p class="text-[11px] text-on-surface-variant leading-snug mb-1.5 line-clamp-2">Siswa Budi mengomentari pertanyaan Anda pada forum diskusi Matematika bab Aljabar.</p>
                 <p class="text-[9px] text-on-surface-variant font-bold flex items-center gap-1">

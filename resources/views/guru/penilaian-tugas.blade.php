@@ -19,7 +19,7 @@
                 <span class="material-symbols-outlined text-on-secondary-container">help</span>
             </div>
             <div>
-                <h3 class="font-bold text-lg text-primary">Konfirmasi Simpan</h3>
+                <h3 class="font-bold text-lg text-primary" style="font-family: var(--font-serif)">Konfirmasi Simpan</h3>
             </div>
         </div>
         <p class="text-sm text-on-surface-variant mb-5">Apakah Anda yakin ingin menyimpan nilai ini?</p>

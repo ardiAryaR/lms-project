@@ -19,7 +19,7 @@
             </div>
             <div class="flex-1 min-w-0 pr-6">
                 <div class="flex justify-between items-start mb-0.5">
-                    <h3 class="text-xs text-primary font-bold truncate">Deadline Pengumpulan Tugas</h3>
+                    <h3 class="text-xs text-primary font-bold truncate" style="font-family: var(--font-serif)">Deadline Pengumpulan Tugas</h3>
                     <span class="badge-new text-[9px] text-secondary font-bold flex items-center gap-1 uppercase tracking-wider bg-secondary-fixed/20 px-1.5 py-0.5 rounded border border-secondary/20 whitespace-nowrap">
                         <span class="w-1.5 h-1.5 rounded-full bg-secondary inline-block"></span> Belum Dibaca
                     </span>
@@ -49,7 +49,7 @@
             </div>
             <div class="flex-1 min-w-0 pr-6">
                 <div class="flex justify-between items-start mb-0.5">
-                    <h3 class="text-xs text-primary font-bold truncate">Tugas Baru Dikumpulkan</h3>
+                    <h3 class="text-xs text-primary font-bold truncate" style="font-family: var(--font-serif)">Tugas Baru Dikumpulkan</h3>
                     <span class="badge-new text-[9px] text-secondary font-bold flex items-center gap-1 uppercase tracking-wider bg-secondary-fixed/20 px-1.5 py-0.5 rounded border border-secondary/20 whitespace-nowrap">
                         <span class="w-1.5 h-1.5 rounded-full bg-secondary inline-block"></span> Belum Dibaca
                     </span>
@@ -78,7 +78,7 @@
             </div>
             <div class="flex-1 min-w-0 pr-6">
                 <div class="flex justify-between items-start mb-0.5">
-                    <h3 class="text-xs text-on-surface font-bold truncate">Siswa Baru Bergabung</h3>
+                    <h3 class="text-xs text-on-surface font-bold truncate" style="font-family: var(--font-serif)">Siswa Baru Bergabung</h3>
                 </div>
                 <p class="text-[11px] text-on-surface-variant leading-snug mb-1.5 line-clamp-2">Aditya Saputra telah berhasil mendaftar dan bergabung di kelas XII TKJ 1 melalui undangan kode kelas.</p>
                 <p class="text-[9px] text-on-surface-variant font-bold flex items-center gap-1">
@@ -105,7 +105,7 @@
             </div>
             <div class="flex-1 min-w-0 pr-6">
                 <div class="flex justify-between items-start mb-0.5">
-                    <h3 class="text-xs text-primary font-bold truncate">5 Siswa Belum Dinilai</h3>
+                    <h3 class="text-xs text-primary font-bold truncate" style="font-family: var(--font-serif)">5 Siswa Belum Dinilai</h3>
                     <span class="badge-new text-[9px] text-secondary font-bold flex items-center gap-1 uppercase tracking-wider bg-secondary-fixed/20 px-1.5 py-0.5 rounded border border-secondary/20 whitespace-nowrap">
                         <span class="w-1.5 h-1.5 rounded-full bg-secondary inline-block"></span> Belum Dibaca
                     </span>
@@ -134,7 +134,7 @@
             </div>
             <div class="flex-1 min-w-0 pr-6">
                 <div class="flex justify-between items-start mb-0.5">
-                    <h3 class="text-xs text-on-surface font-bold truncate">Update Kurikulum 2024</h3>
+                    <h3 class="text-xs text-on-surface font-bold truncate" style="font-family: var(--font-serif)">Update Kurikulum 2024</h3>
                 </div>
                 <p class="text-[11px] text-on-surface-variant leading-snug mb-1.5 line-clamp-2">Panduan kurikulum terbaru untuk semester ganjil telah diunggah oleh Admin Sekolah. Silakan unduh materi pendukung.</p>
                 <p class="text-[9px] text-on-surface-variant font-bold flex items-center gap-1">
