@@ -232,7 +232,7 @@
                 </div>
                 <div class="flex-1 min-w-0 pr-6">
                     <div class="flex justify-between items-start mb-0.5">
-                        <h3 class="text-xs text-primary font-bold truncate">Bpk. Budi Santoso</h3>
+                        <h3 class="text-xs text-primary font-bold truncate" style="font-family: var(--font-serif)">Bpk. Budi Santoso</h3>
                         <span class="badge-new text-[9px] text-secondary font-bold flex items-center gap-1 uppercase tracking-wider bg-secondary-fixed/20 px-1.5 py-0.5 rounded border border-secondary/20 whitespace-nowrap">
                             <span class="w-1.5 h-1.5 rounded-full bg-secondary inline-block"></span> Baru
                         </span>
@@ -259,7 +259,7 @@
                 </div>
                 <div class="flex-1 min-w-0 pr-6">
                     <div class="flex justify-between items-start mb-0.5">
-                        <h3 class="text-xs text-on-surface font-bold truncate">Bpk. Budi Santoso</h3>
+                        <h3 class="text-xs text-on-surface font-bold truncate" style="font-family: var(--font-serif)">Bpk. Budi Santoso</h3>
                     </div>
                     <p class="text-[11px] text-on-surface-variant leading-snug mb-1.5">Daftar nilai Kuis 1 sudah saya unggah. Bagi siswa yang nilainya di bawah KKM (75), silakan hubungi saya untuk jadwal remedial di hari Jumat pukul 14.00.</p>
                     <p class="text-[9px] text-on-surface-variant font-bold flex items-center gap-1">

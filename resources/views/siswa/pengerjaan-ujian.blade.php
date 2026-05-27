@@ -17,7 +17,7 @@
                 <span class="material-symbols-outlined text-on-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">school</span>
             </div>
             <div>
-                <h1 class="font-bold text-sm text-primary">Ujian Akhir Semester</h1>
+                <h1 class="font-bold text-sm text-primary" style="font-family: var(--font-serif)">Ujian Akhir Semester</h1>
                 <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Pemrograman Web (Kelas XII)</p>
             </div>
         </div>
@@ -76,7 +76,7 @@
             <!-- Grid Panel -->
             <div class="flex-1 flex flex-col bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden">
                 <div class="p-4 border-b border-outline-variant/30 bg-surface-container-low flex justify-between items-center shrink-0">
-                    <h2 class="font-bold text-sm text-primary">Navigasi Soal</h2>
+                    <h2 class="font-bold text-sm text-primary" style="font-family: var(--font-serif)">Navigasi Soal</h2>
                 </div>
                 <div class="p-4 overflow-y-auto flex-1 custom-scrollbar">
                     <div id="grid-container" class="grid grid-cols-5 gap-2">

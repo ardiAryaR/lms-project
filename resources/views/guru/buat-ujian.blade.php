@@ -272,9 +272,9 @@
 
 <!-- Modal Confirm Delete Question -->
 <div id="deleteQuestionModal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 hidden backdrop-blur-sm transition-opacity opacity-0">
-    <div class="bg-red-50 rounded-xl shadow-2xl p-6 w-full max-w-sm border border-red-200 text-center transform scale-95 transition-transform duration-300">
+    <div class="bg-red-50 rounded-xl shadow-2xl p-6 w-full max-w-sm border border-red-200 text-center transform scale-95 transition-soft">
         <span class="material-symbols-outlined text-red-500 text-5xl mb-4">warning</span>
-        <h3 class="text-xl font-bold text-red-700 mb-2">Hapus Soal?</h3>
+        <h3 class="text-xl font-bold text-red-700 mb-2" style="font-family: var(--font-serif)">Hapus Soal?</h3>
         <p class="text-xs text-red-600/80 mb-6">Apakah Anda yakin ingin menghapus soal ini? Tindakan ini tidak dapat dibatalkan.</p>
         <div class="flex gap-2 justify-center">
             <button type="button" onclick="closeDeleteModal()" class="px-4 py-2 rounded-lg font-bold text-xs text-red-700 border border-red-200 hover:bg-red-100 transition-colors">Batal</button>
@@ -285,7 +285,7 @@
 
 <!-- Modal Confirm Action -->
 <div id="actionModal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 hidden backdrop-blur-sm transition-opacity opacity-0">
-    <div class="bg-[#fef9f3] rounded-xl shadow-2xl p-6 w-full max-w-sm border border-[#d6c3b8] text-center transform scale-95 transition-transform duration-300">
+    <div class="bg-[#fef9f3] rounded-xl shadow-2xl p-6 w-full max-w-sm border border-[#d6c3b8] text-center transform scale-95 transition-soft">
         <span class="material-symbols-outlined text-[#feae2c] text-5xl mb-4" id="actionModalIcon">help</span>
         <h3 class="text-xl font-bold text-[#50290b] mb-2" style="font-family: var(--font-serif)" id="actionModalTitle">Simpan Ujian?</h3>
         <p class="text-xs text-[#51443c] mb-6" id="actionModalDesc">Apakah Anda yakin data ujian sudah benar dan siap disimpan?</p>
@@ -339,7 +339,7 @@
         const visualNumber = document.querySelectorAll('.question-card').length + 1;
 
         const newCard = document.createElement('div');
-        newCard.className = 'question-card bg-white p-6 rounded-xl shadow-sm border border-outline-variant/20 relative group animate-in fade-in slide-in-from-bottom-4 duration-300';
+        newCard.className = 'question-card bg-white p-6 rounded-xl shadow-sm border border-outline-variant/20 relative group animate-in fade-in slide-in-from-bottom-4 transition-soft';
         newCard.innerHTML = `
             <div class="absolute -left-3 top-6 bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center font-bold question-number-label">${visualNumber}</div>
             <button type="button" class="absolute top-4 right-4 text-on-surface-variant/40 hover:text-error transition-colors" onclick="openDeleteModal(this)">
@@ -450,7 +450,7 @@
         const modalCard = modal.querySelector('div');
 
         if (action === 'cancel') {
-            modalCard.className = 'bg-red-50 rounded-xl shadow-2xl p-6 w-full max-w-sm border border-red-200 text-center transform scale-95 transition-transform duration-300';
+            modalCard.className = 'bg-red-50 rounded-xl shadow-2xl p-6 w-full max-w-sm border border-red-200 text-center transform scale-95 transition-soft';
             icon.className = 'material-symbols-outlined text-red-500 text-5xl mb-4';
             icon.textContent = 'warning';
             title.className = 'text-xl font-bold text-red-700 mb-2';
@@ -465,7 +465,7 @@
             
             document.getElementById('confirmActionBtn').addEventListener('click', confirmAction);
         } else if (action === 'save') {
-            modalCard.className = 'bg-[#fef9f3] rounded-xl shadow-2xl p-6 w-full max-w-sm border border-[#d6c3b8] text-center transform scale-95 transition-transform duration-300';
+            modalCard.className = 'bg-[#fef9f3] rounded-xl shadow-2xl p-6 w-full max-w-sm border border-[#d6c3b8] text-center transform scale-95 transition-soft';
             icon.className = 'material-symbols-outlined text-[#feae2c] text-5xl mb-4';
             icon.textContent = 'help';
             title.className = 'text-xl font-bold text-[#50290b] mb-2';
